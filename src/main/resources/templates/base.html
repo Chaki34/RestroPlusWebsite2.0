@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${pageTitle} ?: 'RESTRO+ - Food Delivery & Restaurant Management'">RESTRO+</title>
+
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/base.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/components.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/footer.css}">
+</head>
+<body>
+<!-- Layout Fragment - This is the main layout structure -->
+<div th:fragment="layout(content)">
+    <!-- Navbar -->
+    <div th:replace="~{base :: restroNav}"></div>
+
+    <!-- Main Content Area (Dynamic) -->
+    <main th:replace="${content}"></main>
+
+    <!-- Footer -->
+    <div th:replace="~{base :: siteFooter}"></div>
+</div>
+
+<!-- Navbar Fragment Definition -->
+<div th:fragment="restroNav" class="restro-navbar">
+    <div class="nav-left">
+        <div class="restro-logo">
+            <span class="logo-icon">🍽️</span>
+            <span class="logo-text">RESTRO<span class="logo-plus">+</span></span>
+        </div>
+    </div>
+
+    <div class="nav-center">
+        <form class="search-form">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text"
+                   placeholder="Search foods, restaurants, cuisines..."
+                   name="search"
+                   class="search-input"/>
+            <span class="shortcut-badge"><i class="far fa-keyboard"></i> Ctrl+K</span>
+        </form>
+    </div>
+
+    <div class="nav-right">
+        <a href="#" class="nav-icon" data-tooltip="Community">
+            <i class="fas fa-users"></i>
+            <span class="notification-badge">3</span>
+        </a>
+        <a href="#" class="nav-icon" data-tooltip="Menu">
+            <i class="fas fa-utensils"></i>
+        </a>
+        <a href="#" class="nav-icon" data-tooltip="Restaurants">
+            <i class="fas fa-store-alt"></i>
+        </a>
+        <a href="#" class="nav-icon" data-tooltip="Notifications">
+            <i class="fas fa-bell"></i>
+            <span class="notification-badge pulse">5</span>
+        </a>
+        <a href="#" class="nav-icon" data-tooltip="Help Center">
+            <i class="fas fa-question-circle"></i>
+        </a>
+        <div class="profile-badge">
+            <span class="profile-initials">AC</span>
+            <i class="fas fa-chevron-down profile-arrow"></i>
+        </div>
+    </div>
+</div>
+
+<!-- Partner Scroll Fragment -->
+<div th:fragment="partnerScroll" class="partner-scroll-container">
+    <div class="partner-scroll">
+        <div class="scroll-track">
+            <span><i class="fas fa-crown"></i> Burger King</span>
+            <span><i class="fas fa-pizza-slice"></i> Domino's Pizza</span>
+            <span><i class="fas fa-drumstick-bite"></i> KFC</span>
+            <span><i class="fas fa-leaf"></i> Subway</span>
+            <span><i class="fas fa-utensil-spoon"></i> Biryani House</span>
+            <span><i class="fas fa-fan"></i> Noodle Hub</span>
+            <span><i class="fas fa-crown"></i> Burger King</span>
+            <span><i class="fas fa-pizza-slice"></i> Domino's Pizza</span>
+            <span><i class="fas fa-drumstick-bite"></i> KFC</span>
+            <span><i class="fas fa-leaf"></i> Subway</span>
+            <span><i class="fas fa-utensil-spoon"></i> Biryani House</span>
+            <span><i class="fas fa-fan"></i> Noodle Hub</span>
+        </div>
+    </div>
+</div>
+
+<!-- Highlights Fragment -->
+<div th:fragment="restroHighlights" class="highlights-section">
+    <div class="highlights-title">
+        <span class="title-gradient">What Matters</span>
+        <span class="title-sub">Most to Our Customers</span>
+    </div>
+    <div class="highlight-grid">
+        <div class="highlight-card">
+            <div class="highlight-icon c1">💰</div>
+            <div class="highlight-text">Items Under ₹99</div>
+            <div class="highlight-desc">Budget-friendly meals</div>
+        </div>
+        <div class="highlight-card">
+            <div class="highlight-icon c2">🥗</div>
+            <div class="highlight-text">Fresh Quality</div>
+            <div class="highlight-desc">100% fresh ingredients</div>
+        </div>
+        <div class="highlight-card">
+            <div class="highlight-icon c3">⚡</div>
+            <div class="highlight-text">Lightning Delivery</div>
+            <div class="highlight-desc">30 min or less</div>
+        </div>
+        <div class="highlight-card">
+            <div class="highlight-icon c4">🎁</div>
+            <div class="highlight-text">Free Gifts</div>
+            <div class="highlight-desc">Surprise with every order</div>
+        </div>
+        <div class="highlight-card">
+            <div class="highlight-icon c5">🔥</div>
+            <div class="highlight-text">30% OFF</div>
+            <div class="highlight-desc">For premium members</div>
+        </div>
+    </div>
+</div>
+
+<!-- Food Illustration Fragment -->
+<div th:fragment="foodIllustration" class="food-illustration">
+    <h2 class="section-title">
+        <span class="title-emoji">🍕</span>
+        Delicious Foods Just for You
+        <span class="title-emoji">🥤</span>
+    </h2>
+    <p class="section-subtitle">Explore our most popular dishes loved by thousands</p>
+    <div class="food-container">
+        <div class="food" style="animation-delay:0s;">
+            <img th:src="@{/images/food/burger.png}" alt="Burger" onerror="this.src='https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200'">
+            <div class="food-label">Classic Burger</div>
+        </div>
+        <div class="food" style="animation-delay:0.2s;">
+            <img th:src="@{/images/food/pizza.png}" alt="Pizza" onerror="this.src='https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200'">
+            <div class="food-label">Margherita Pizza</div>
+        </div>
+        <div class="food" style="animation-delay:0.4s;">
+            <img th:src="@{/images/food/fries.png}" alt="Fries" onerror="this.src='https://images.unsplash.com/photo-1576107232684-1279f390859f?w=200'">
+            <div class="food-label">Crispy Fries</div>
+        </div>
+        <div class="food" style="animation-delay:0.6s;">
+            <img th:src="@{/images/food/pizza.png}" alt="Coke" onerror="this.src='https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200'">
+            <div class="food-label">Cold Drinks</div>
+        </div>
+        <div class="food" style="animation-delay:0.8s;">
+            <img th:src="@{/images/food/icecream.png}" alt="Ice Cream" onerror="this.src='https://images.unsplash.com/photo-1563805042-7684c019e1cb?w=200'">
+            <div class="food-label">Ice Cream</div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer Fragment -->
+<footer th:fragment="siteFooter" class="site-footer">
+    <div class="footer-wave">
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25"></path>
+            <path d="M0,0V15.81C13,21.25,27.93,25.67,44.24,28.45c69.76,11.5,141.39,6.74,211.93-5.5,67.07-11.6,134.23-27.33,202.41-31.23,69.5-4,137.14,11.86,205.62,19.7,64.24,7.36,129.46,1.44,193.69-6.55,35.59-4.43,70.3-11.21,105.25-18.5C1073.55,5.38,1137.88-2.63,1200,12.9V0Z" opacity=".5"></path>
+            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,117.85-4.83,176.42,2.92,49.11,6.49,98.05,16.72,147.13,23.25,36.11,4.77,72.44,4.71,108.56,0C1096.65,39.27,1149.18,28.45,1200,13.48V0Z"></path>
+        </svg>
+    </div>
+    <div class="footer-content">
+        <div class="footer-main">
+            <div class="footer-brand-section">
+                <h2 class="footer-brand">RESTRO+</h2>
+                <p class="footer-tagline">Your go-to platform for food & restaurant management</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-instagram"></i></a>
+                    <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-links-section">
+                <div class="footer-links-column">
+                    <h3>Company</h3>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-column">
+                    <h3>Support</h3>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Safety</a></li>
+                        <li><a href="#">Contact</a></li>
+                        <li><a href="#">FAQs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-contact-section">
+                <div class="contact-info">
+                    <i class="fas fa-phone-alt"></i>
+                    <div>
+                        <h4>Call Us</h4>
+                        <p>+1 234 567 89 00</p>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-envelope"></i>
+                    <div>
+                        <h4>Email Us</h4>
+                        <p>info@restroplus.com</p>
+                    </div>
+                </div>
+                <div class="contact-info">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <h4>Visit Us</h4>
+                        <p>123 Food Street, NYC</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2024 RESTRO+ by OfficeSpace Software Inc. All rights reserved.</p>
+            <div class="payment-methods">
+                <i class="fab fa-cc-visa"></i>
+                <i class="fab fa-cc-mastercard"></i>
+                <i class="fab fa-cc-amex"></i>
+                <i class="fab fa-cc-paypal"></i>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

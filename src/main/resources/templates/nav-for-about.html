@@ -1,0 +1,264 @@
+<!-- nav-fragment.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- ===========================
+            GLOBAL STYLES
+    ============================ -->
+    <style>
+        /* ---------------- NAVBAR ---------------- */
+        .restro-navbar {
+            width: 100%;
+            background: #ffffff;
+            border-bottom: 1px solid #ddd;
+            padding: 15px 40px;
+            display: flex;
+            align-items: center;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .restro-logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: red;
+            margin-right: 50px;
+        }
+
+        .restro-menu a {
+            margin-right: 35px;
+            text-decoration: none;
+            font-size: 17px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .restro-menu a:hover {
+            color: #ff6a00;
+        }
+
+        .active-menu {
+            color: #ff6a00 !important;
+            position: relative;
+            padding-bottom: 5px;
+        }
+
+        .active-menu::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            height: 3px;
+            width: 100%;
+            background: #ff6a00;
+            border-radius: 2px;
+        }
+
+        .dropdown-icon {
+            font-size: 12px;
+            margin-left: 4px;
+        }
+
+        /* ---------------- WHAT MATTERS SECTION ---------------- */
+        .highlights-section {
+            width: 100%;
+            padding: 40px;
+            background: linear-gradient(135deg, #ffe1d6, #ffd9ff, #d6e6ff);
+            border-radius: 10px;
+            margin-top: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .highlights-title {
+            font-size: 34px;
+            font-weight: 700;
+            color: #333;
+            width: 30%;
+            text-align: left;
+        }
+
+        .highlight-grid {
+            width: 70%;
+            display: flex;
+            gap: 20px;
+            justify-content: space-around;
+            align-items: center;
+            text-align: center;
+        }
+
+        .highlight-card {
+            background: #fff;
+            padding: 25px 15px;
+            border-radius: 12px;
+            border: 2px solid #f1f1f1;
+            box-shadow: 0 0 12px rgba(0,0,0,0.12);
+            transition: 0.3s;
+        }
+
+        .highlight-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.18);
+        }
+
+        .highlight-icon {
+            font-size: 42px;
+            margin-bottom: 12px;
+        }
+
+        .c1 { color: #ff5722; }
+        .c2 { color: #8e24aa; }
+        .c3 { color: #039be5; }
+        .c4 { color: #43a047; }
+        .c5 { color: #e53935; }
+
+        .highlight-text {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        /* ---------------- FOOD FLOATING ANIMATION ---------------- */
+        .food-illustration {
+            width: 100%;
+            padding: 60px 0;
+            background: linear-gradient(135deg, #ffefba, #ffffff);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .food-illustration h2 {
+            font-size: 40px;
+            font-weight: 800;
+            margin-bottom: 30px;
+            color: #333;
+            text-align: center;
+        }
+
+        .food-container {
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .food {
+            width: 170px;
+            height: 170px;
+            background: #fff;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            overflow: hidden;
+            position: relative;
+            animation: float 3.3s ease-in-out infinite;
+            transition: transform .3s ease;
+        }
+
+        .food:hover {
+            transform: scale(1.15);
+        }
+
+        .food img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0); }
+            50% { transform: translateY(-18px); }
+            100% { transform: translateY(0); }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR FRAGMENT -->
+<div th:fragment="restroNav" class="restro-navbar">
+    <div class="restro-logo">RESTRO+</div>
+
+    <div class="restro-menu">
+        <a href="#">Our Businesses</a>
+        <a href="#">Delivering For Everyone</a>
+        <a href="#">Newsroom</a>
+        <a href="#">Investor Relations <span class="dropdown-icon">▼</span></a>
+        <a href="#">Sustainability <span class="dropdown-icon">▼</span></a>
+        <a href="#">Contact Us</a>
+    </div>
+</div>
+
+
+<!-- WHAT MATTERS FRAGMENT -->
+<div th:fragment="restroHighlights" class="highlights-section">
+
+    <div class="highlights-title">What Matters</div>
+
+    <div class="highlight-grid">
+
+        <div class="highlight-card">
+            <div class="highlight-icon c1">💸</div>
+            <div class="highlight-text">Items Under ₹99</div>
+        </div>
+
+        <div class="highlight-card">
+            <div class="highlight-icon c2">🥗</div>
+            <div class="highlight-text">Fresh Quality Food</div>
+        </div>
+
+        <div class="highlight-card">
+            <div class="highlight-icon c3">⚡</div>
+            <div class="highlight-text">As Soon As Delivery</div>
+        </div>
+
+        <div class="highlight-card">
+            <div class="highlight-icon c4">🎁</div>
+            <div class="highlight-text">Free Gifts</div>
+        </div>
+
+        <div class="highlight-card">
+            <div class="highlight-icon c5">🔥</div>
+            <div class="highlight-text">30% OFF for Members</div>
+        </div>
+
+    </div>
+</div>
+
+
+<!-- FOOD ILLUSTRATION FRAGMENT -->
+<section th:fragment="foodIllustration" class="food-illustration">
+    <h2>Delicious Foods Just for You 🍕🍔🥤</h2>
+
+    <div class="food-container">
+
+        <div class="food" style="animation-delay:0s;">
+            <img src="https://i.imgur.com/3ZQ3ZQZ.png" alt="Burger">
+        </div>
+
+        <div class="food" style="animation-delay:0.4s;">
+            <img src="https://i.imgur.com/GX8YQeC.png" alt="Pizza">
+        </div>
+
+        <div class="food" style="animation-delay:0.7s;">
+            <img src="https://i.imgur.com/RnH2n4a.png" alt="Fries">
+        </div>
+
+        <div class="food" style="animation-delay:1s;">
+            <img src="https://i.imgur.com/AZfd7wQ.png" alt="Coke">
+        </div>
+
+        <div class="food" style="animation-delay:1.3s;">
+            <img src="https://i.imgur.com/mj5c12k.png" alt="Ice Cream">
+        </div>
+
+    </div>
+</section>
+
+</body>
+</html>

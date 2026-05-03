@@ -1,0 +1,78 @@
+# ===============================
+# 🔐 Sensitive Files (IMPORTANT)
+# ===============================
+
+# Ignore all properties files (DB credentials, API keys)
+*.properties
+
+# Allow sample config files
+!application-example.properties
+!application-sample.properties
+
+# Environment variables
+.env
+.env.*
+*.env
+
+# Secret configs
+secrets.properties
+config/secrets.yml
+
+# ===============================
+# 📄 Project Docs
+# ===============================
+HELP.md
+
+# ===============================
+# ⚙️ Build & Target
+# ===============================
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Maven wrapper
+.mvn/wrapper/maven-wrapper.jar
+
+# ===============================
+# 🧠 IDE / Editors
+# ===============================
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+# ===============================
+# 🗂️ Logs
+# ===============================
+*.log
+
+# ===============================
+# 🖥️ OS Files
+# ===============================
+.DS_Store
+Thumbs.db

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Driver Authentication</title>
+
+    <style>
+        body{
+            font-family:Poppins,Arial;
+            margin:0;
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            transition:.5s ease-in-out;
+        }
+
+        /* Login (orange) theme */
+        body.login-mode{
+            background:linear-gradient(to bottom,#ffb347,#ff8000);
+        }
+
+        /* Register (green) theme */
+        body.register-mode{
+            background:linear-gradient(to bottom,#a8e6cf,#56ab2f);
+        }
+
+        .auth-box{
+            width:480px;
+            background:#fff;
+            border-radius:18px;
+            padding:28px;
+            box-shadow:0 18px 36px rgba(0,0,0,.18);
+            overflow:hidden;
+        }
+
+        h2{ text-align:center; margin-top:6px; }
+
+        .role-badge{
+            display:inline-block;
+            padding:6px 12px;
+            border-radius:20px;
+            font-weight:600;
+            margin-bottom:6px;
+            background:#fff8e0;
+            border:1px solid #ffc107;
+        }
+
+        /* Tabs */
+        .tabs{
+            display:flex;
+            gap:10px;
+            margin:18px 0 12px 0;
+        }
+
+        .tab-btn{
+            flex:1;
+            padding:10px;
+            border-radius:12px;
+            border:1px solid #000;
+            cursor:pointer;
+            font-weight:600;
+            transition:.3s;
+        }
+
+        body.login-mode .tab-btn.active{
+            background:#ff8000;
+            color:white;
+            border:1px solid #ff8000;
+        }
+
+        body.register-mode .tab-btn.active{
+            background:#56ab2f;
+            color:white;
+            border:1px solid #56ab2f;
+        }
+
+        .form-wrapper{
+            display:flex;
+            width:200%;
+            transform:translateX(0);
+            transition:transform .45s ease-in-out;
+        }
+
+        .form{
+            width:50%;
+            opacity:.25;
+            pointer-events:none;
+            transform:scale(.97);
+            transition:.35s;
+        }
+
+        .form.active{
+            opacity:1;
+            pointer-events:auto;
+            transform:scale(1);
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+            border-radius:10px;
+            border:1px solid #ddd;
+            margin-top:8px;
+        }
+
+        /* Submit buttons */
+        .submit-btn{
+            width:100%;
+            margin-top:14px;
+            padding:12px;
+            border:none;
+            border-radius:30px;
+            font-weight:700;
+            cursor:pointer;
+            transition:.25s;
+        }
+
+        body.login-mode .submit-btn.login-btn{
+            background:#ff8000;
+            color:white;
+        }
+
+        body.register-mode .submit-btn.register-btn{
+            background:#56ab2f;
+            color:white;
+        }
+
+        .submit-btn:hover{
+            transform:translateY(-2px);
+            box-shadow:0 10px 22px rgba(0,0,0,.18);
+        }
+    </style>
+
+    <script>
+        function switchTab(tab){
+            const wrapper = document.querySelector(".form-wrapper");
+
+            if(tab === "login"){
+                wrapper.style.transform = "translateX(0)";
+                document.body.classList.remove("register-mode");
+                document.body.classList.add("login-mode");
+            } else {
+                wrapper.style.transform = "translateX(-50%)";
+                document.body.classList.remove("login-mode");
+                document.body.classList.add("register-mode");
+            }
+
+            document.querySelectorAll(".tab-btn").forEach(btn => btn.classList.remove("active"));
+            document.getElementById(tab+"Btn").classList.add("active");
+
+            document.querySelectorAll(".form").forEach(f => f.classList.remove("active"));
+            document.getElementById(tab).classList.add("active");
+        }
+    </script>
+</head>
+
+<body class="login-mode">
+
+<div class="auth-box">
+
+    <span class="role-badge">
+        Selected Role: <span th:text="${role}">Delivery Partner</span>
+    </span>
+
+    <h2>Driver Authentication</h2>
+
+    <div class="tabs">
+        <button id="loginBtn" class="tab-btn active" onclick="switchTab('login')">Login</button>
+        <button id="registerBtn" class="tab-btn" onclick="switchTab('register')">Register</button>
+    </div>
+
+    <div class="form-wrapper">
+        <!-- LOGIN -->
+        <div id="login" class="form active">
+            <form th:action="@{/auth/login}" method="post">
+                <input type="hidden" name="role" th:value="${role}">
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit" class="submit-btn login-btn">Login</button>
+            </form>
+        </div>
+
+        <!-- REGISTER -->
+        <div id="register" class="form">
+            <form th:action="@{/auth/register}" method="post">
+                <input type="hidden" name="role" th:value="${role}">
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Password" required>
+                <button type="submit" class="submit-btn register-btn">Create Account</button>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

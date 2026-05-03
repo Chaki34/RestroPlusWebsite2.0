@@ -1,0 +1,143 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+    color: #333;
+    line-height: 1.6;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+}
+
+.main-content {
+    min-height: calc(100vh - 400px);
+    position: relative;
+    z-index: 1;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+    border-radius: 10px;
+    border: 3px solid #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(45deg, #ff5252, #ff7043);
+}
+
+/* Animations */
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Utility Classes */
+.text-gradient {
+    background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Update for Highlights Cards */
+.highlights-section {
+    padding: 100px 5%;
+    background: var(--brand-white);
+}
+
+.highlight-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 30px;
+}
+
+.highlight-card {
+    background: var(--brand-white);
+    padding: 40px 30px;
+    border-radius: 30px;
+    text-align: center;
+    border: 1px solid #F0F0F0;
+    transition: var(--transition);
+}
+
+.highlight-card:hover {
+    transform: translateY(-15px);
+    border-color: var(--brand-yellow);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.05);
+}
+
+.highlight-icon {
+    font-size: 50px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+/* Update for Food Illustration Floating items */
+.food-illustration {
+    padding-bottom: 100px;
+    background: var(--brand-gray);
+    overflow: hidden;
+}
+
+.food-container {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    flex-wrap: wrap;
+}
+
+.food {
+    width: 200px;
+    height: 200px;
+    background: white;
+    border-radius: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.04);
+}
+
+.food img {
+    width: 80%;
+    transition: 0.5s ease;
+}
+
+.food:hover img {
+    transform: scale(1.2) rotate(10deg);
+}
+
+/* Partner Scroll - Clean Ticker */
+.partner-scroll {
+    background: var(--brand-black);
+    padding: 25px 0;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.scroll-track span {
+    color: white;
+    font-weight: 700;
+    font-size: 20px;
+    margin: 0 50px;
+    opacity: 0.6;
+    display: inline-block;
+}

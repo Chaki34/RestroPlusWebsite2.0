@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">Set Menu</title>
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"/>
+
+    <style>
+        body{
+            background: linear-gradient(180deg,#fff7ea,#ffffff);
+            min-height: 100vh;
+        }
+
+        .section-box{
+            background:#ffffff;
+            border-radius:18px;
+            border:1px solid #f2e4cf;
+            padding:18px;
+        }
+
+        .section-title{
+            font-weight:800;
+        }
+
+        .option-pill{
+            border-radius:14px;
+            border:1px solid #e5d3b8;
+            padding:10px 12px;
+            background:#fffdf7;
+            transition:.2s;
+        }
+
+        .option-pill:hover{
+            background:#ffe9bf;
+            border-color:#ffb84d;
+        }
+
+        .option-pill input{
+            transform:scale(1.2);
+            margin-right:8px;
+        }
+
+        /* ================= ADDED ================= */
+.add-item-pill{
+    border:2px dashed #ffb84d;
+    color:#ff8c00;
+    font-weight:600;
+    cursor:pointer;
+    background:#fffaf0;
+
+    display:flex;              /* FIX */
+    align-items:center;        /* vertical center */
+    justify-content:center;    /* center + icon text */
+
+    text-align:center;
+}
+
+.add-item-pill:hover{
+    background:#ffe9bf;
+}
+
+/* Text input inside custom item */
+.custom-input{
+    border:0;
+    background:transparent;
+    outline:none;
+
+    flex:1;                    /* take remaining space */
+    margin-left:12px;          /* 🔥 distance from checkbox/select */
+    text-align:center;
+}
+
+        /* ======================================== */
+    </style>
+</head>
+
+<body>
+
+
+<div class="container py-4">
+
+    <div class="text-center mb-3">
+        <h2 class="fw-bold">🍽️ Choose Menu Categories</h2>
+        <p class="text-muted">Select food sections available in your restaurant</p>
+    </div>
+
+    <form id="menuForm">
+        <input type="hidden" id="restaurantRegNo" th:value="${loggedInRegNo}">
+
+        <!-- ========================================= -->
+    <!-- STARTERS / APPETIZERS -->
+    <!-- ========================================= -->
+    <div class="section-box mb-4">
+        <h4 class="section-title mb-2">🥗 Starters / Appetizers</h4>
+        <p class="text-muted mb-2">Select appetizer items</p>
+        <div class="row g-2">
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Veg Starter
+                </label>
+            </div>
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Non-Veg Starter
+                </label>
+            </div>
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Soups
+                </label>
+            </div>
+            <!-- ADD CUSTOM ITEM -->
+            <div class="col-md-3 col-sm-4 col-6">
+                <div class="option-pill add-item-pill w-100" onclick="addCustomItem(this)">
+                    ➕ Add Custom Item
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- MAIN COURSE -->
+    <!-- ========================================= -->
+    <div class="section-box mb-4">
+        <h4 class="section-title mb-2">🍛 Main Course</h4>
+        <p class="text-muted mb-2">Select main course menu sections</p>
+
+        <div class="row g-2">
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Veg Curry
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Chicken Curry
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Paneer Dishes
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Fish / Seafood
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Dal Items
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Chinese Combo
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Thali / Meal Plate
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Tandoori Items
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Chef Special
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Seasonal Menu
+                </label>
+            </div>
+
+            <!-- ========== ADDED PLUS BUTTON ========== -->
+            <div class="col-md-3 col-sm-4 col-6">
+                <div class="option-pill add-item-pill w-100"
+                     onclick="addCustomItem(this)">
+                    ➕ Add Custom Item
+                </div>
+            </div>
+            <!-- ====================================== -->
+
+        </div>
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- FAST FOOD -->
+    <!-- ========================================= -->
+    <div class="section-box mb-4">
+        <h4 class="section-title mb-2">🍟 Fast Food</h4>
+        <p class="text-muted mb-2">Street food & quick snacks</p>
+
+        <div class="row g-2">
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Burger
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Pizza
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Sandwich
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Wrap / Roll
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Momos
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Fries & Nuggets
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Cutlet / Pakoda
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Chowmein / Noodles
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Hot Dog
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Sides & Add-ons
+                </label>
+            </div>
+
+            <!-- PLUS -->
+            <div class="col-md-3 col-sm-4 col-6">
+                <div class="option-pill add-item-pill w-100"
+                     onclick="addCustomItem(this)">
+                    ➕ Add Custom Item
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- MEALS -->
+    <!-- ========================================= -->
+    <div class="section-box mb-4">
+        <h4 class="section-title mb-2">🍱 Meal Types</h4>
+        <p class="text-muted mb-2">Full meal combinations</p>
+
+        <div class="row g-2">
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Veg Meal
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Non-Veg Meal
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Biryani Meal
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Lunch Combo
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Dinner Combo
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Family Pack Meal
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Kids Meal
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Healthy Diet Meal
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Executive Meal
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Special Occasion Meal
+                </label>
+            </div>
+
+            <!-- PLUS -->
+            <div class="col-md-3 col-sm-4 col-6">
+                <div class="option-pill add-item-pill w-100"
+                     onclick="addCustomItem(this)">
+                    ➕ Add Custom Item
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- CHEF’S SPECIAL / SIGNATURE DISHES -->
+    <!-- ========================================= -->
+    <div class="section-box mb-4">
+        <h4 class="section-title mb-2">👨‍🍳 Chef’s Special / Signature Dishes</h4>
+        <p class="text-muted mb-2">Select special items prepared by the chef</p>
+
+        <div class="row g-2">
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Chef Special Veg
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Chef Special Chicken
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Chef Special Mutton
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Chef Special Seafood
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Chef Special Biryani
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Chef Special Dessert
+                </label>
+            </div>
+
+            <!-- ========== ADDED PLUS BUTTON ========== -->
+            <div class="col-md-3 col-sm-4 col-6">
+                <div class="option-pill add-item-pill w-100"
+                     onclick="addCustomItem(this)">
+                    ➕ Add Custom Item
+                </div>
+            </div>
+            <!-- ====================================== -->
+
+        </div>
+    </div>
+
+
+    <!-- ========================================= -->
+    <!-- DESSERTS -->
+    <!-- ========================================= -->
+    <div class="section-box mb-5">
+        <h4 class="section-title mb-2">🍨 Desserts</h4>
+        <p class="text-muted mb-2">Sweet delights</p>
+
+        <div class="row g-2">
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Ice-Cream
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Cakes & Pastry
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Brownie
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Gulab Jamun
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Rasgulla
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Pudding
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Falooda
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Sundae
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Sweet Platter
+                </label>
+            </div>
+
+            <div class="col-md-3 col-sm-4 col-6">
+                <label class="option-pill w-100">
+                    <input type="checkbox"> Festival Specials
+                </label>
+            </div>
+
+            <!-- PLUS -->
+            <div class="col-md-3 col-sm-4 col-6">
+                <div class="option-pill add-item-pill w-100"
+                     onclick="addCustomItem(this)">
+                    ➕ Add Custom Item
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- SUBMIT BUTTON -->
+    <div class="text-center">
+        <button class="btn btn-warning px-4 fw-semibold">
+            Save Selected Categories
+        </button>
+    </div>
+
+</form>
+
+</div>
+<!-- ================= ADDED SCRIPT ================= -->
+
+<script>
+    function addCustomItem(btn){
+        const col = document.createElement("div");
+        col.className = "col-md-3 col-sm-4 col-6";
+
+        col.innerHTML = `
+            <label class="option-pill w-100">
+                <input type="checkbox" checked>
+                <input type="text" class="custom-input" placeholder="Enter item name">
+            </label>
+        `;
+
+        btn.parentElement.before(col);
+    }
+
+    document.getElementById("menuForm").addEventListener("submit", function(e){
+        e.preventDefault();
+
+        // 🔹 Corrected hidden input ID
+        const restaurantId = document.getElementById("restaurantRegNo").value;
+        const selectedItems = [];
+
+        document.querySelectorAll(".section-box .option-pill").forEach(pill => {
+            const checkbox = pill.querySelector("input[type='checkbox']");
+            if (checkbox && checkbox.checked) {
+                const customInput = pill.querySelector(".custom-input");
+                if (customInput && customInput.value.trim() !== "") {
+                    selectedItems.push(customInput.value.trim());
+                } else {
+                    // remove plus icon text from label
+                    const labelText = pill.textContent.replace("➕ Add Custom Item", "").trim();
+                    if(labelText) selectedItems.push(labelText);
+                }
+            }
+        });
+
+        const payload = {
+            restaurantRegNo: restaurantId,
+            categories: selectedItems
+        };
+
+        console.log("Payload sent →", payload); // debug
+
+        fetch("/restaurant/save-categories", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => alert("Categories saved successfully!"))
+        .catch(err => alert("Error saving categories"));
+    });
+</script>
+
+
+
+<!-- ============================================== -->
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
+
+

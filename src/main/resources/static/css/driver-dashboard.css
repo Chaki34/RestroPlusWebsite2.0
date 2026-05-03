@@ -1,0 +1,172 @@
+/* Dashboard CSS - Black & Red Theme */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: #121212;
+    color: #ffffff;
+}
+
+.topbar {
+    background: #1a1a1a;
+    padding: 15px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 2px solid #ff3b3b;
+}
+
+.logo {
+    font-size: 26px;
+    font-weight: 700;
+    color: #ff3b3b;
+}
+
+.logo span {
+    color: #fff;
+}
+
+nav a {
+    color: #e0e0e0;
+    margin-right: 25px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+nav a:hover {
+    color: #ff3b3b;
+}
+
+.user-box span {
+    color: #ff3b3b;
+    font-weight: 600;
+}
+
+/* Welcome Banner */
+.welcome-banner {
+    background: linear-gradient(90deg, #1a1a1a, #2c2c2c);
+    padding: 30px;
+    border-bottom: 2px solid #ff3b3b;
+}
+
+.welcome-banner h2 span {
+    color: #ff3b3b;
+}
+
+.online-btn, .offline-btn {
+    padding: 10px 22px;
+    border: none;
+    margin-right: 10px;
+    cursor: pointer;
+    border-radius: 6px;
+    font-weight: 600;
+}
+
+.online-btn {
+    background: #00c853;
+    color: #fff;
+}
+
+.offline-btn {
+    background: #ff3b3b;
+    color: #fff;
+}
+
+/* Stats Cards */
+.stats-box {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    padding: 25px 30px;
+}
+
+.card {
+    background: #1e1e1e;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #2e2e2e;
+    box-shadow: 0 0 10px rgba(255, 59, 59, 0.2);
+}
+
+.card h3 {
+    margin: 0;
+    font-size: 18px;
+    color: #ff3b3b;
+}
+
+.card .value {
+    font-size: 32px;
+    font-weight: 700;
+    margin: 10px 0;
+}
+
+.card a {
+    color: #ff3b3b;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+/* Orders Table */
+.orders-section {
+    padding: 20px 30px;
+}
+
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #1a1a1a;
+    color: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.orders-table th {
+    background: #ff3b3b;
+    padding: 12px;
+    text-align: left;
+    font-size: 16px;
+    color: #fff;
+}
+
+.orders-table td {
+    padding: 12px;
+    border-bottom: 1px solid #2c2c2c;
+}
+
+.accept {
+    color: #00e676;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.decline {
+    color: #ff3b3b;
+    cursor: pointer;
+    margin-left: 10px;
+    font-weight: 600;
+}
+
+/* Boxes */
+.menu-box, .payment-box {
+    margin: 25px 30px;
+    background: #1a1a1a;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid #2e2e2e;
+}
+
+.menu-box h3, .payment-box h3 {
+    color: #ff3b3b;
+}
+
+.menu-box button, .payment-box button {
+    background: #ff3b3b;
+    padding: 10px 20px;
+    border: none;
+    color: #fff;
+    font-weight: 600;
+    margin-top: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+}

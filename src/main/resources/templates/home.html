@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home - RESTRO+</title>
+
+    <!-- Load CSS from base -->
+    <link rel="stylesheet" th:href="@{/css/base.css}">
+    <link rel="stylesheet" th:href="@{/css/navbar.css}">
+    <link rel="stylesheet" th:href="@{/css/components.css}">
+    <link rel="stylesheet" th:href="@{/css/footer.css}">
+</head>
+
+<body>
+
+<!-- Navbar Fragment -->
+<div th:replace="~{base :: restroNav}"></div>
+
+
+<div class="home-page">
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-pattern"></div>
+
+        <div class="hero-container">
+
+            <!-- LEFT SIDE CONTENT -->
+            <div class="hero-content">
+
+                <div class="hero-badge">
+                    <span class="badge-pulse"></span>
+                    <span class="badge-text">🏆 India's Best Food Platform 2024</span>
+                </div>
+
+                <h1 class="hero-title">
+                    <span class="title-line">Welcome to</span>
+                    <span class="title-highlight">RESTRO+</span>
+                </h1>
+
+                <p class="hero-description">
+                    Discover amazing restaurants and manage your orders seamlessly.
+                    Fresh food delivered hot & fast to your doorstep.
+                </p>
+
+                <!-- CTA BUTTONS -->
+                <div class="hero-cta">
+                    <a th:href="@{/web/select-role}" class="btn-primary">
+                        <span>Order Now</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </a>
+
+                    <a href="#" class="btn-secondary">
+                        <i class="fas fa-play"></i>
+                        <span>How it Works</span>
+                    </a>
+                </div>
+
+                <!-- STATS -->
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Restaurants</span>
+                    </div>
+
+                    <div class="stat-item">
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-label">Happy Customers</span>
+                    </div>
+
+                    <div class="stat-item">
+                        <span class="stat-number">100+</span>
+                        <span class="stat-label">Cities</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- RIGHT SIDE IMAGE -->
+            <div class="hero-image">
+                <div class="image-wrapper">
+
+                    <img th:src="@{/images/burgar.png}"
+                         alt="Delicious Burger"
+                         class="floating-image"
+                         onerror="this.src='https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500'">
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+    <!-- Partner Scroll -->
+    <div th:replace="~{base :: partnerScroll}"></div>
+
+    <!-- Highlights -->
+    <div th:replace="~{base :: restroHighlights}"></div>
+
+    <!-- Food Illustration -->
+    <div th:replace="~{base :: foodIllustration}"></div>
+
+</div>
+
+
+<!-- Footer Fragment -->
+<div th:replace="~{base :: siteFooter}"></div>
+
+</body>
+</html>

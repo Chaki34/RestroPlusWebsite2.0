@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Restaurant Dashboard</title>
+    <link rel="stylesheet" href="/css/driver-dashboard.css">
+</head>
+<body>
+<header class="topbar">
+    <div class="logo">Swifty <span>Partner</span></div>
+    <nav>
+        <a href="#">Dashboard</a>
+        <a href="#">Orders</a>
+        <a href="#">Menu</a>
+        <a href="#">Payments</a>
+    </nav>
+    <div class="user-box">Hi, <span th:text="${restaurantName}">Demo Restaurant</span></div>
+</header>
+
+<section class="welcome-banner">
+    <div class="text">
+        <h2>Welcome back, <span th:text="${restaurantName}">Demo Restaurant</span>!</h2>
+        <p>Manage your restaurant orders and grow your business with Swifty.</p>
+        <button class="online-btn">Online</button>
+        <button class="offline-btn">Go Offline</button>
+    </div>
+</section>
+
+<section class="stats-box">
+    <div class="card">
+        <h3>Today's Orders</h3>
+        <p class="value" th:text="${todayOrders}">58</p>
+        <a href="#">View Details</a>
+    </div>
+
+    <div class="card">
+        <h3>Earnings Today</h3>
+        <p class="value" th:text="${earningsToday}">₹7,850</p>
+        <a href="#">View Details</a>
+    </div>
+
+    <div class="card">
+        <h3>Pending Orders</h3>
+        <p class="value" th:text="${pendingOrders}">12</p>
+    </div>
+
+    <div class="card">
+        <h3>Out for Delivery</h3>
+        <p class="value" th:text="${outForDelivery}">9</p>
+    </div>
+</section>
+
+<section class="orders-section">
+    <h2>New Orders</h2>
+    <table class="orders-table">
+        <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Items</th>
+            <th>Time</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="order : ${newOrders}">
+            <td th:text="${order.id}">#1245</td>
+            <td th:text="${order.customer}">Demo User</td>
+            <td th:text="${order.amount}">₹450</td>
+            <td th:text="${order.items}">2 Items</td>
+            <td th:text="${order.time}">12:45 PM</td>
+            <td>
+                <a class="accept">Accept</a>
+                <a class="decline">Decline</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</section>
+
+<section class="menu-box">
+    <h3>Manage Menu</h3>
+    <button>Edit Menu</button>
+</section>
+
+<section class="payment-box">
+    <h3>Payment Summary</h3>
+    <button>View Details</button>
+</section>
+
+</body>
+</html>

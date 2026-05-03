@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESTRO+ Partner Dashboard</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: #f4f6fb;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .dashboard {
+            max-width: 1440px;
+            width: 100%;
+            background: white;
+            border-radius: 36px 36px 28px 28px;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.10);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* header */
+        .header {
+            background: #0c1a2b;
+            color: white;
+            padding: 18px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid #253446;
+        }
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-box {
+            background: #ea4c3c;
+            width: 42px;
+            height: 42px;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 24px;
+            color: white;
+        }
+        .brand-name {
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+        }
+        .brand-name small {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: #98afc9;
+            margin-left: 10px;
+        }
+        .outlet-info {
+            background: #1f2f40;
+            padding: 8px 20px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95rem;
+        }
+        .outlet-info i {
+            color: #55b58b;
+        }
+
+        /* main flex row : sidebar + content */
+        .main-row {
+            display: flex;
+            min-height: 800px;
+        }
+
+        /* ---------- SIDEBAR ---------- */
+        .sidebar {
+            width: 260px;
+            background: #f9fafc;
+            border-right: 1px solid #eaeef5;
+            padding: 28px 0 0 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .nav-item {
+            padding: 14px 26px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            color: #3e4e62;
+            font-weight: 500;
+            font-size: 1rem;
+            border-left: 4px solid transparent;
+            transition: 0.2s;
+            margin: 2px 0;
+        }
+        .nav-item i {
+            width: 24px;
+            font-size: 1.3rem;
+            color: #7c8b9c;
+        }
+        .nav-item.active {
+            background: #eef2f7;
+            border-left-color: #ea4c3c;
+            color: #121f33;
+            font-weight: 600;
+        }
+        .nav-item.active i {
+            color: #ea4c3c;
+        }
+        .nav-item:not(.active):hover {
+            background: #eef2f7;
+            cursor: pointer;
+        }
+        .sidebar-footer {
+            margin-top: auto;
+            border-top: 1px solid #dee6ef;
+            padding: 20px 26px;
+        }
+
+        /* ---------- MAIN CONTENT ---------- */
+        .content {
+            flex: 1;
+            background: white;
+            padding: 30px 28px;
+        }
+        .page-title {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #152a41;
+            margin-bottom: 8px;
+        }
+        .sub-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+        .live-badge {
+            background: #ea4c3c10;
+            color: #c72e1e;
+            font-weight: 600;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            border: 1px solid #ea4c3c30;
+        }
+        .demo-hint {
+            background: #edf3ff;
+            padding: 6px 16px;
+            border-radius: 40px;
+            color: #0369a1;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* order grid */
+        .orders-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+
+        /* order card */
+        .order-card {
+            background: white;
+            border: 1px solid #eef2f8;
+            border-radius: 28px;
+            box-shadow: 0 8px 22px rgba(0,0,0,0.02);
+            overflow: hidden;
+            transition: all 0.2s;
+        }
+        .order-card:hover {
+            box-shadow: 0 15px 30px rgba(0,0,0,0.06);
+        }
+        .card-header {
+            padding: 18px 20px 12px 20px;
+            border-bottom: 1px dashed #e2e9f2;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+        .delivery-type {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .type-badge {
+            background: #0c1a2b;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            padding: 4px 12px;
+            border-radius: 40px;
+            letter-spacing: 0.3px;
+        }
+        .type-badge.self {
+            background: #00875A;
+        }
+        .resto-name {
+            font-weight: 700;
+            font-size: 1.2rem;
+            line-height: 1.3;
+        }
+        .resto-loc {
+            font-size: 0.85rem;
+            color: #546e7a;
+            margin-top: 2px;
+        }
+        .order-meta {
+            text-align: right;
+        }
+        .order-id {
+            font-family: monospace;
+            background: #f2f5f9;
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.8rem;
+            color: #2b4b6f;
+        }
+        .cust-order {
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-top: 5px;
+            color: #1f2a3f;
+        }
+
+        /* timeline */
+        .timeline {
+            padding: 16px 20px 8px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fafcff;
+        }
+        .timeline-step {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #64748b;
+            gap: 4px;
+        }
+        .timeline-step .time {
+            font-weight: 600;
+            color: #1f2a40;
+        }
+        .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 10px;
+            background: #cbd5e1;
+        }
+        .dot.filled {
+            background: #2e7d32;
+            box-shadow: 0 0 0 3px #c8f0c8;
+        }
+
+        /* bill row */
+        .bill-row {
+            padding: 12px 20px;
+            background: #f9fbfe;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-top: 1px solid #e9eef4;
+            border-bottom: 1px solid #e9eef4;
+        }
+        .bill-amount {
+            font-weight: 800;
+            font-size: 1.4rem;
+            color: #0c1a2b;
+        }
+        .bill-actions {
+            display: flex;
+            gap: 15px;
+        }
+        .bill-actions button {
+            background: none;
+            border: 1px solid #d7e0e9;
+            padding: 6px 16px;
+            border-radius: 40px;
+            font-weight: 500;
+            color: #2a4059;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: default;
+        }
+        .ready-tag {
+            background: #f0f7f0;
+            color: #1e7b48;
+            font-size: 0.85rem;
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* delivery partner section */
+        .delivery-section {
+            padding: 18px 20px;
+            background: white;
+        }
+        .section-title {
+            font-weight: 600;
+            color: #435e7a;
+            font-size: 0.9rem;
+            margin-bottom: 14px;
+            letter-spacing: 0.3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .partner-card {
+            background: #f1f5fb;
+            border-radius: 20px;
+            padding: 14px 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .partner-info {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .partner-avatar {
+            width: 44px;
+            height: 44px;
+            background: #0c1a2b;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+        .partner-detail h4 {
+            font-weight: 700;
+        }
+        .partner-detail .eta {
+            font-size: 0.8rem;
+            color: #317159;
+            font-weight: 600;
+        }
+        .partner-actions {
+            display: flex;
+            gap: 15px;
+        }
+        .partner-actions button {
+            background: white;
+            border: 1px solid #cbd6e4;
+            padding: 8px 14px;
+            border-radius: 40px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            cursor: default;
+        }
+
+        .address-block {
+            margin-top: 15px;
+            background: #f1f5fb;
+            border-radius: 20px;
+            padding: 16px;
+            font-size: 0.95rem;
+            display: flex;
+            gap: 14px;
+        }
+
+        /* cashier / extra */
+        .cashier-row {
+            padding: 16px 20px 20px 20px;
+            border-top: 1px solid #eef2f8;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cash-bill {
+            font-weight: 800;
+            font-size: 1.4rem;
+        }
+
+        /* demo dynamic list (delivery boys) */
+        .delivery-boys-panel {
+            background: #fafbfe;
+            border-radius: 26px;
+            padding: 20px 24px;
+            margin-top: 40px;
+            border: 1px solid #e2eaf3;
+        }
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+        .delivery-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .boy-item {
+            background: white;
+            border-radius: 60px;
+            padding: 8px 16px 8px 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+            border: 1px solid #eef2f8;
+        }
+        .boy-avatar {
+            width: 38px;
+            height: 38px;
+            background: #0c1a2b;
+            border-radius: 40px;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        .badge-order {
+            background: #ea4c3c;
+            color: white;
+            border-radius: 40px;
+            padding: 2px 10px;
+            font-size: 0.75rem;
+            font-weight: 700;
+        }
+
+        /* responsive */
+        @media (max-width: 950px) {
+            .main-row { flex-direction: column; }
+            .sidebar { width: 100%; border-right: none; border-bottom: 1px solid #dee6ef; padding: 10px 0; flex-direction: row; overflow-x: auto; }
+            .nav-item { border-left: none; border-bottom: 3px solid transparent; }
+        }
+    </style>
+</head>
+<body>
+<div class="dashboard">
+    <!-- header -->
+    <div class="header">
+        <div class="logo-wrap">
+            <div class="logo-box">R+</div>
+            <div class="brand-name">RESTRO+ <small>partner</small></div>
+        </div>
+        <div class="outlet-info">
+            <i class="fas fa-store-alt"></i> Kebab & Curry · Sector 43 <i class="fas fa-chevron-down" style="font-size: 12px; margin-left: 6px;"></i>
+        </div>
+    </div>
+
+    <!-- main row (sidebar + content) THYMELEAF INTEGRATED -->
+    <div class="main-row">
+        <!-- SIDEBAR (static for demo) -->
+        <div class="sidebar">
+            <div class="nav-item active"><i class="fas fa-shopping-bag"></i> Orders</div>
+            <div class="nav-item"><i class="fas fa-utensils"></i> Menu</div>
+            <div class="nav-item"><i class="fas fa-history"></i> Order history</div>
+            <div class="nav-item"><i class="fas fa-chart-line"></i> Insights</div>
+            <div class="nav-item"><i class="fas fa-bullhorn"></i> Campaigns</div>
+            <div class="nav-item"><i class="fas fa-wallet"></i> Payout</div>
+            <div class="nav-item"><i class="fas fa-info-circle"></i> Outlet info</div>
+            <div class="nav-item"><i class="fas fa-headset"></i> Help centre</div>
+            <div class="sidebar-footer">
+                <div class="nav-item" style="padding-left: 26px;"><i class="fas fa-sign-out-alt"></i> Logout</div>
+            </div>
+        </div>
+
+        <!-- MAIN CONTENT (dynamic thymeleaf fields) -->
+        <div class="content" th:fragment="content">
+            <div class="sub-header">
+                <h1 class="page-title">Active orders · <span th:text="${orders?.size() ?: 2}">2</span></h1>
+                <span class="demo-hint"><i class="fas fa-flask"></i> demo data · dynamic fields</span>
+            </div>
+
+            <!-- ORDERS GRID : dynamic using thymeleaf iteration with fallback demo orders -->
+            <div class="orders-grid" th:if="${orders != null and !orders.isEmpty()}">
+                <div class="order-card" th:each="order : ${orders}">
+                    <!-- header with dynamic binding -->
+                    <div class="card-header">
+                        <div>
+                            <div class="delivery-type">
+                                <span class="type-badge" th:text="${order.deliveryType}" th:classappend="${order.deliveryType == 'SELF DELIVERY' ? 'self' : ''}">ZOMATO DELIVERY</span>
+                            </div>
+                            <div class="resto-name" th:text="${order.restaurantName}">Kebab & Curry</div>
+                            <div class="resto-loc" th:text="${order.restaurantAddress}">Sector 43, Gurgaon</div>
+                        </div>
+                        <div class="order-meta">
+                            <span class="order-id" th:text="'ID: ' + ${order.orderId}">ID: 174404 0262</span>
+                            <div class="cust-order" th:text="${order.customerName} + '''s ' + ${order.customerOrderCount} + 'th order'">Rahul's 3rd order</div>
+                        </div>
+                    </div>
+
+                    <!-- timeline -->
+                    <div class="timeline">
+                        <div class="timeline-step"><span class="time" th:text="${order.placedTime}">2:00 pm</span><span class="dot filled"></span>Placed</div>
+                        <div class="timeline-step"><span class="time" th:text="${order.acceptedTime}">2:02 pm</span><span class="dot filled"></span>Accepted</div>
+                        <div class="timeline-step"><span>—</span><span class="dot" th:classappend="${order.status == 'ready' ? 'filled' : ''}"></span>Ready</div>
+                    </div>
+
+                    <!-- bill row dynamic -->
+                    <div class="bill-row">
+                        <span class="bill-amount" th:text="'₹' + ${order.billAmount}">₹850</span>
+                        <div class="bill-actions">
+                            <button><i class="fas fa-print"></i> Print</button>
+                            <span class="ready-tag"><i class="fas fa-check-circle"></i> <span th:text="'ready (' + ${order.readyTime} + ')'">ready (12.24)</span></span>
+                        </div>
+                    </div>
+
+                    <!-- delivery partner dynamic section -->
+                    <div class="delivery-section">
+                        <div class="section-title"><i class="fas fa-motorcycle"></i> DELIVERY PARTNER</div>
+                        <div class="partner-card" th:if="${order.deliveryPartner != null}">
+                            <div class="partner-info">
+                                <div class="partner-avatar" th:text="${#strings.substring(order.deliveryPartner.name, 0, 1)}">R</div>
+                                <div class="partner-detail">
+                                    <h4 th:text="${order.deliveryPartner.name}">Raghav</h4>
+                                    <span class="eta" th:text="'Arriving in ' + ${order.deliveryPartner.eta} + ' mins'">Arriving in 8 mins</span>
+                                </div>
+                            </div>
+                            <div class="partner-actions">
+                                <button><i class="fas fa-map-marker-alt"></i> Track</button>
+                                <button><i class="fas fa-phone-alt"></i> Call</button>
+                            </div>
+                        </div>
+                        <!-- static fallback if no partner (just for demo) -->
+                        <div class="partner-card" th:if="${order.deliveryPartner == null}">
+                            <div class="partner-info">
+                                <div class="partner-avatar">?</div>
+                                <div>Looking for partner</div>
+                            </div>
+                        </div>
+
+                        <!-- delivery address dynamic -->
+                        <div class="address-block">
+                            <i class="fas fa-map-pin" style="color:#ea4c3c;"></i>
+                            <span th:text="${order.deliveryAddress}">A-22, One Horizon Centre, Golf Course Road, DLF Phase 5, Sector 43</span>
+                        </div>
+                    </div>
+
+                    <!-- cashier extra (only if cash bill different) -->
+                    <div class="cashier-row" th:if="${order.cashBill != null}">
+                        <div><i class="fas fa-cash-register"></i> Cashier details</div>
+                        <span class="cash-bill" th:text="'₹' + ${order.cashBill}">₹1160</span>
+                        <button style="background:none; border:1px solid #d7e0e9; padding:6px 16px; border-radius:40px;">Print bill</button>
+                        <span class="ready-tag" th:text="'ready (' + ${order.cashReadyTime} + ')'">ready (10.12)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- if orders list is empty we show demo static cards (demo thymeleaf integration) -->
+            <div class="orders-grid" th:if="${orders == null or orders.isEmpty()}">
+                <!-- ############ DEMO STATIC CARD 1 ############ -->
+                <div class="order-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="delivery-type"><span class="type-badge">ZOMATO DELIVERY</span></div>
+                            <div class="resto-name">Kebab & Curry</div>
+                            <div class="resto-loc">Sector 43, Gurgaon</div>
+                        </div>
+                        <div class="order-meta">
+                            <span class="order-id">ID: 174404 0262</span>
+                            <div class="cust-order">Rahul's 3rd order</div>
+                        </div>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-step"><span class="time">2:00 pm</span><span class="dot filled"></span>Placed</div>
+                        <div class="timeline-step"><span class="time">2:02 pm</span><span class="dot filled"></span>Accepted</div>
+                        <div class="timeline-step"><span>—</span><span class="dot filled"></span>Ready</div>
+                    </div>
+                    <div class="bill-row">
+                        <span class="bill-amount">₹850</span>
+                        <div class="bill-actions"><button><i class="fas fa-print"></i> Print</button><span class="ready-tag"><i class="fas fa-check-circle"></i> ready (12.24)</span></div>
+                    </div>
+                    <div class="delivery-section">
+                        <div class="section-title"><i class="fas fa-motorcycle"></i> DELIVERY PARTNER</div>
+                        <div class="partner-card">
+                            <div class="partner-info">
+                                <div class="partner-avatar">R</div>
+                                <div class="partner-detail"><h4>Raghav</h4><span class="eta">Arriving in 8 mins</span></div>
+                            </div>
+                            <div class="partner-actions"><button><i class="fas fa-map-marker-alt"></i> Track</button><button><i class="fas fa-phone-alt"></i> Call</button></div>
+                        </div>
+                        <div class="address-block"><i class="fas fa-map-pin" style="color:#ea4c3c;"></i> A-22, One Horizon Centre, Golf Course Road, DLF Phase 5, Sector 43</div>
+                    </div>
+                </div>
+                <!-- ############ DEMO STATIC CARD 2 (SELF DELIVERY) ############ -->
+                <div class="order-card">
+                    <div class="card-header">
+                        <div>
+                            <div class="delivery-type"><span class="type-badge self">SELF DELIVERY</span></div>
+                            <div class="resto-name">Mexican Delights</div>
+                            <div class="resto-loc">Galleria Market, Gurgaon</div>
+                        </div>
+                        <div class="order-meta">
+                            <span class="order-id">ID: 174404 0181</span>
+                            <div class="cust-order">Sanjana's 8th order</div>
+                        </div>
+                    </div>
+                    <div class="timeline">
+                        <div class="timeline-step"><span class="time">2:15 pm</span><span class="dot filled"></span>Placed</div>
+                        <div class="timeline-step"><span class="time">2:16 pm</span><span class="dot filled"></span>Accepted</div>
+                        <div class="timeline-step"><span>—</span><span class="dot filled"></span>Ready</div>
+                    </div>
+                    <div class="bill-row">
+                        <span class="bill-amount">₹1160</span>
+                        <div class="bill-actions"><button><i class="fas fa-print"></i> Print</button><span class="ready-tag"><i class="fas fa-check-circle"></i> ready (10.12)</span></div>
+                    </div>
+                    <div class="delivery-section">
+                        <div class="section-title"><i class="fas fa-motorcycle"></i> DELIVERY PARTNER</div>
+                        <div class="partner-card">
+                            <div class="partner-info">
+                                <div class="partner-avatar">A</div>
+                                <div class="partner-detail"><h4>Arjun (self)</h4><span class="eta">At restaurant</span></div>
+                            </div>
+                            <div class="partner-actions"><button><i class="fas fa-phone-alt"></i> Call</button></div>
+                        </div>
+                        <div class="address-block"><i class="fas fa-map-pin" style="color:#ea4c3c;"></i> Shop 5, Galleria Market, DLF Phase 4</div>
+                    </div>
+                    <!-- cashier extra -->
+                    <div class="cashier-row">
+                        <div><i class="fas fa-cash-register"></i> Cashier details</div>
+                        <span class="cash-bill">₹1160</span>
+                        <button style="background:none; border:1px solid #d7e0e9; padding:6px 16px; border-radius:40px;">Print bill</button>
+                        <span class="ready-tag">ready (10.12)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ############ DYNAMIC DELIVERY BOYS SECTION (thymeleaf iteration) ############ -->
+            <div class="delivery-boys-panel">
+                <div class="panel-header">
+                    <h3><i class="fas fa-bicycle" style="margin-right: 10px;"></i> Delivery partners on shift · <span th:text="${deliveryBoys?.size() ?: 4}">4</span></h3>
+                    <span class="live-badge"><i class="fas fa-circle" style="color:#4caf50; font-size: 10px;"></i> live</span>
+                </div>
+
+                <!-- dynamic list of delivery boys (corresponding to orders) -->
+                <div class="delivery-list" th:if="${deliveryBoys != null}">
+                    <div class="boy-item" th:each="boy : ${deliveryBoys}">
+                        <div class="boy-avatar" th:text="${#strings.substring(boy.name, 0, 1)}">R</div>
+                        <span th:text="${boy.name}">Raghav</span>
+                        <span class="badge-order" th:text="${boy.activeOrders} + ' orders'">2 orders</span>
+                    </div>
+                </div>
+
+                <!-- fallback demo boys when model empty -->
+                <div class="delivery-list" th:if="${deliveryBoys == null}">
+                    <div class="boy-item"><div class="boy-avatar">R</div> Raghav <span class="badge-order">2 orders</span></div>
+                    <div class="boy-item"><div class="boy-avatar">S</div> Sunita <span class="badge-order">1 order</span></div>
+                    <div class="boy-item"><div class="boy-avatar">A</div> Arjun <span class="badge-order">1 order</span></div>
+                    <div class="boy-item"><div class="boy-avatar">K</div> Karan <span class="badge-order">3 orders</span></div>
+                    <div class="boy-item"><div class="boy-avatar">P</div> Priya <span class="badge-order">1 order</span></div>
+                </div>
+                <div style="margin-top: 16px; font-size:0.9rem; background: #f9f9fc; padding: 10px; border-radius: 60px; text-align: center; color: #2563eb;">
+                    <i class="fas fa-sync-alt"></i> dynamic fields ready · orders & partners fetched
+                </div>
+            </div>
+
+            <!-- small hint for thymeleaf demo -->
+            <div style="margin-top: 20px; background: #fef9e7; border-radius: 30px; padding: 14px 25px; border: 1px solid #ffd98c; color: #7b5e2b; display: flex; gap: 10px; align-items: center;">
+                <i class="fas fa-th-large"></i>
+                <span><strong>Thymeleaf dynamic binding</strong> · order list, delivery partners, and bill fields are ready for real data. Use [[${order.field}]] syntax.</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- tiny script to simulate dynamic feel (no backend, but class updates) -->
+<script>
+    (function() {
+        // just for visual demo: update some timestamps to look live
+        const times = document.querySelectorAll('.time');
+        const now = new Date();
+        const hours = now.getHours().toString().padStart(2,'0');
+        const mins = (now.getMinutes()-2).toString().padStart(2,'0');
+        if (times.length > 0) {
+            times[0].innerText = hours + ':' + mins;   // placed
+        }
+    })();
+</script>
+</body>
+</html>
