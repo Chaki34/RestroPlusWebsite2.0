@@ -4,6 +4,7 @@ package com.RestroPlusWebsite_20.Controllers;
 
 
 
+import com.RestroPlusWebsite_20.Entities.MenuCategory;
 import com.RestroPlusWebsite_20.Entities.UserEntity;
 import com.RestroPlusWebsite_20.Entities.resturentEntity;
 import com.RestroPlusWebsite_20.repos.MenuCategoryRepository;
@@ -16,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -76,17 +78,36 @@ public class DashboardController {
         String imageUrl = "/images/default.jpg";
 
         if (regNo != null) {
-            // Fetch restaurant by registration number
-            Optional<resturentEntity> restOpt = resturnetRepository.findByResturentRegistrationNo(regNo);
+
+            // Fetch restaurant
+            Optional<resturentEntity> restOpt =
+                    resturnetRepository.findByResturentRegistrationNo(regNo);
 
             if (restOpt.isPresent()) {
+
                 resturentEntity rest = restOpt.get();
+
+                // ADD THIS
+                model.addAttribute("restaurant", rest);
+
                 userName = rest.getResturentname();
-                imageUrl = rest.getImageUrl() != null ? rest.getImageUrl() : "/images/default.jpg";
+
+                imageUrl = rest.getImageUrl() != null
+                        ? rest.getImageUrl()
+                        : "/images/default.jpg";
+
+                // FETCH CATEGORIES
+                List<MenuCategory> categories =
+                        menuCategoryRepository
+                                .findByRestaurant_ResturentRegistrationNo(regNo);
+
+                model.addAttribute("categories", categories);
             }
         }
 
-        model.addAttribute("userName", userName); // ✅ this is important
+        model.addAttribute("userName", userName);
+        model.addAttribute("imageUrl", imageUrl);
+
         return "restro-dashboard";
     }
 

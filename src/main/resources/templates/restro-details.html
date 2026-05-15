@@ -170,6 +170,15 @@
                 ← Back to Dashboard
             </a>
         </div>
+
+        <div class="mt-4">
+            <button type="button"
+                    class="btn btn-modern w-100 py-2"
+                    data-bs-toggle="modal"
+                    data-bs-target="#menuModal">
+                🍽️ VIEW MENU CARD
+            </button>
+        </div>
     </div>
 
     <!-- CATEGORY SHOWCASE -->
@@ -186,8 +195,13 @@
 
                 <div class="cat-card bg-white">
 
-                    <img th:src="@{'https://images.unsplash.com/photo-1504674900247-0877df9cc836'}"
-                         class="w-100">
+                    <!-- CATEGORY IMAGE WITH FALLBACK -->
+                    <img class="w-100"
+                         th:src="${cat.imageUrl != null and !#strings.isEmpty(cat.imageUrl)}
+                         ? ${cat.imageUrl}
+                         : 'https://images.unsplash.com/photo-1504674900247-0877df9cc836'"
+                         onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1504674900247-0877df9cc836';"
+                         alt="Category Image">
 
                     <div class="p-3 text-center">
                         <h6 class="fw-semibold mb-0"
@@ -196,8 +210,10 @@
                     </div>
 
                 </div>
+
             </div>
 
+            <!-- EMPTY STATE -->
             <div class="col-12 text-center text-muted fst-italic"
                  th:if="${#lists.isEmpty(categories)}">
                 No categories to showcase
@@ -206,6 +222,67 @@
         </div>
     </div>
 
+
+
+
+</div>
+
+<!-- MENU CARD MODAL -->
+<div class="modal fade" id="menuModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+        <div class="modal-content">
+
+            <!-- HEADER -->
+            <div class="modal-header">
+                <h5 class="modal-title fw-bold">
+                    🍽️ <span th:text="${restaurant.resturentname}"></span> Menu Card
+                </h5>
+
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- BODY -->
+            <div class="modal-body text-center">
+
+                <img class="img-fluid rounded shadow"
+                     th:src="${restaurant.menuCard != null and !#strings.isEmpty(restaurant.menuCard)}
+        ? ${restaurant.menuCard}
+        : 'https://images.unsplash.com/photo-1551218808-94e220e084d2'"
+                     onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1551218808-94e220e084d2';"
+                     alt="Menu Card">
+
+                <p class="text-muted mt-3">
+                    Scan or view full menu card of this restaurant
+                </p>
+
+            </div>
+
+            <!-- FOOTER -->
+            <div class="modal-footer justify-content-between">
+
+                <a th:if="${restaurant.menuCard != null}"
+                   th:href="${restaurant.menuCard}"
+                   class="btn btn-success"
+                   download>
+                    ⬇ Download Menu
+                </a>
+
+                <a th:if="${restaurant.menuCard == null}"
+                   href="#"
+                   class="btn btn-secondary disabled">
+                    No Menu Available
+                </a>
+
+                <button class="btn btn-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>

@@ -74,6 +74,8 @@ public class resturentEntity {
     private String type;           // e.g., Italian, Fast Food
     private double rating;
 
+    private String menuCard;
+
     // NEW FIELDS FOR DISPLAY
 
     public String getImageUrl() {
@@ -112,6 +114,14 @@ public class resturentEntity {
         this.imageUrl = imageUrl;
     }
 
+
+    public String getMenuCard() {
+        return menuCard;
+    }
+
+    public void setMenuCard(String menuCard) {
+        this.menuCard = menuCard;
+    }
 
 }
 

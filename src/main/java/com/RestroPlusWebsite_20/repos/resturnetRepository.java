@@ -8,4 +8,6 @@ import java.util.Optional;
 public interface resturnetRepository extends JpaRepository<resturentEntity, Long> {
     Optional<resturentEntity> findByResturentRegistrationNo(String resturentRegistrationNo);
     boolean existsByResturentRegistrationNo(String resturentRegistrationNo);
+
+    resturentEntity findByOwnername(String ownername);
 }
