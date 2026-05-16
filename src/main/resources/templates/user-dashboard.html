@@ -562,11 +562,18 @@
         <h1 class="display-5 fw-800 mb-2">Craving something <span class="text-warning">Delicious?</span></h1>
         <p class="opacity-75">Healthy, fast and fresh food delivered to your doorstep.</p>
 
-        <div class="search-pill">
+        <form th:action="@{/search}" method="get" class="search-pill">
+
             <i class="bi bi-search ms-3 text-muted"></i>
-            <input type="text" placeholder="Search pizza, burgers, sushi..." th:value="${searchQuery}">
-            <button class="btn-search">Search</button>
-        </div>
+
+            <input type="text"
+                   name="query"
+                   placeholder="Search pizza, burgers, sushi..."
+                   th:value="${searchQuery}">
+
+            <button type="submit" class="btn-search">Search</button>
+
+        </form>
     </div>
 
     <!-- CATEGORIES -->

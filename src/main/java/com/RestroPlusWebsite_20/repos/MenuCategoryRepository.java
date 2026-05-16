@@ -20,4 +20,8 @@ public interface MenuCategoryRepository extends JpaRepository<MenuCategory, Long
     List<MenuCategory> findByRestaurantId(Long restaurantId);
 
     void deleteByRestaurant(resturentEntity restaurant);
+
+    List<MenuCategory> findByCategoryName(String categoryName);
+
+    List<MenuCategory> findByCategoryNameContainingIgnoreCase(String name);
 }
