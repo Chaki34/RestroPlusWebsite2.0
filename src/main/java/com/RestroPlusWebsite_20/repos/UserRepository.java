@@ -13,4 +13,6 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
     Optional<UserEntity> findByPhoneno(Long phoneno);
 
     boolean existsByPhoneno(Long phoneno);
+
+
 }

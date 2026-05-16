@@ -1,0 +1,435 @@
+<!-- ================= LOCATION FRAGMENT ================= -->
+<!-- Put this in fragments/location-track.html -->
+
+<div th:fragment="locationFragment">
+
+    <!-- LOCATION SCREEN -->
+    <div id="location-screen">
+
+        <div class="location-card">
+
+            <div class="location-icon">
+                <i class="bi bi-geo-alt-fill"></i>
+            </div>
+
+            <h2>Detecting Your Location</h2>
+
+            <p id="location-status">
+                Please allow location access...
+            </p>
+
+            <div class="detect-loader"></div>
+
+            <button class="manual-btn" onclick="openManualLocation()">
+                Set Location Manually
+            </button>
+
+            <!-- MANUAL LOCATION -->
+            <div id="manual-location-box" style="display:none;">
+
+                <input type="text"
+                       id="manualLocationInput"
+                       placeholder="Enter city / area name">
+
+                <button onclick="setManualLocation()">
+                    Continue
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- CSS -->
+    <style>
+
+        #location-screen{
+            position: fixed;
+            inset: 0;
+            background: #0f0f0f;
+            z-index: 10000;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            overflow: hidden;
+        }
+
+        #location-screen::before{
+            content:"";
+            position:absolute;
+            inset:-40%;
+
+            background:
+                radial-gradient(circle at 20% 20%, #00ff99 0%, transparent 25%),
+                radial-gradient(circle at 80% 30%, #ff7b00 0%, transparent 25%),
+                radial-gradient(circle at 50% 80%, #00c3ff 0%, transparent 25%),
+                radial-gradient(circle at 70% 70%, #ff00aa 0%, transparent 25%);
+
+            filter: blur(100px);
+            animation: rotateBg 15s linear infinite;
+            opacity: 0.7;
+        }
+
+        @keyframes rotateBg{
+            from{
+                transform: rotate(0deg);
+            }
+            to{
+                transform: rotate(360deg);
+            }
+        }
+
+        .location-card{
+            position: relative;
+            z-index: 2;
+
+            width: 90%;
+            max-width: 420px;
+
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.1);
+
+            backdrop-filter: blur(20px);
+
+            padding: 40px;
+            border-radius: 30px;
+
+            text-align: center;
+            color: white;
+        }
+
+        .location-icon{
+            width: 90px;
+            height: 90px;
+
+            margin: auto;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border-radius: 50%;
+
+            background: linear-gradient(135deg,#00ff99,#00c3ff);
+
+            font-size: 40px;
+
+            margin-bottom: 20px;
+        }
+
+        .detect-loader{
+            width: 60px;
+            height: 60px;
+
+            border: 5px solid rgba(255,255,255,0.2);
+            border-top: 5px solid #00ff99;
+
+            border-radius: 50%;
+
+            margin: 25px auto;
+
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin{
+            100%{
+                transform: rotate(360deg);
+            }
+        }
+
+        .manual-btn{
+            border:none;
+            padding:12px 20px;
+            border-radius:15px;
+
+            background: linear-gradient(135deg,#ff7b00,#ffae00);
+
+            color:white;
+            font-weight:700;
+
+            margin-top:15px;
+        }
+
+        #manual-location-box{
+            margin-top:20px;
+        }
+
+        #manual-location-box input{
+            width:100%;
+            padding:14px;
+
+            border:none;
+            border-radius:14px;
+
+            margin-bottom:10px;
+        }
+
+        #manual-location-box button{
+            width:100%;
+
+            border:none;
+            padding:14px;
+
+            border-radius:14px;
+
+            background:#00c853;
+            color:white;
+            font-weight:700;
+        }
+
+    </style>
+
+    <!-- JAVASCRIPT -->
+    <script>
+
+        document.addEventListener("DOMContentLoaded", () => {
+
+            const savedLocation =
+                localStorage.getItem("userLocation");
+
+            // SHOW SAVED LOCATION FIRST
+            if(savedLocation){
+
+                updateNavbarLocation(savedLocation);
+
+            }
+
+            // START DETECTION
+            detectLocation();
+
+        });
+
+
+
+        // DETECT LOCATION
+        async function detectLocation(){
+
+            const statusText =
+                document.getElementById("location-status");
+
+            statusText.innerText =
+                "Fetching your exact area...";
+
+            if(!navigator.geolocation){
+
+                statusText.innerText =
+                    "Geolocation not supported.";
+
+                return;
+            }
+
+            navigator.geolocation.getCurrentPosition(
+
+                async (position) => {
+
+                    const lat = position.coords.latitude;
+                    const lon = position.coords.longitude;
+
+                    try{
+
+                        statusText.innerText =
+                            "Finding nearby area...";
+
+                        const response = await fetch(
+                            `https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}&zoom=18&addressdetails=1`
+                        );
+
+                        const data = await response.json();
+
+                        console.log(data);
+
+                        // =========================
+                        // PRIORITY AREA DETECTION
+                        // =========================
+
+                        const address = data.address;
+
+                        const exactLocation =
+
+                            address.suburb ||
+                            address.neighbourhood ||
+                            address.hamlet ||
+                            address.quarter ||
+                            address.residential ||
+                            address.village ||
+                            address.town ||
+                            address.city_district ||
+                            address.city ||
+                            address.county ||
+                            address.state;
+
+                        // Example:
+                        // Pailan Park, Bishnupur
+
+                        let finalLocation = exactLocation;
+
+                        // ADD CITY/TOWN ALSO
+                        const secondPart =
+                            address.city ||
+                            address.town ||
+                            address.village ||
+                            address.state_district;
+
+                        if(
+                            secondPart &&
+                            secondPart !== exactLocation
+                        ){
+
+                            finalLocation =
+                                exactLocation + ", " + secondPart;
+
+                        }
+
+                        // UPDATE STATUS
+                        statusText.innerText =
+                            "Location detected successfully";
+
+                        // SAVE LOCAL
+                        localStorage.setItem(
+                            "userLocation",
+                            finalLocation
+                        );
+
+                        // UPDATE NAVBAR
+                        updateNavbarLocation(finalLocation);
+
+                        // SAVE BACKEND
+                        await fetch("/api/location/update", {
+
+                            method: "POST",
+
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+
+                            body: JSON.stringify({
+
+                                city: finalLocation,
+                                latitude: lat,
+                                longitude: lon
+
+                            })
+
+                        });
+
+                        // HIDE SCREEN
+                        setTimeout(() => {
+
+                            document.getElementById(
+                                "location-screen"
+                            ).style.display = "none";
+
+                        }, 1200);
+
+                    }
+                    catch(error){
+
+                        console.log(error);
+
+                        statusText.innerText =
+                            "Unable to fetch exact location.";
+
+                    }
+
+                },
+
+                (error) => {
+
+                    console.log(error);
+
+                    document.getElementById(
+                        "location-status"
+                    ).innerText =
+                        "Location permission denied.";
+
+                },
+
+                {
+                    enableHighAccuracy: true,
+                    timeout: 10000,
+                    maximumAge: 0
+                }
+
+            );
+
+        }
+
+
+
+        // UPDATE NAVBAR
+        function updateNavbarLocation(city){
+
+            const locationText =
+                document.getElementById("navbar-location");
+
+            if(locationText){
+
+                locationText.innerText = city;
+
+            }
+
+        }
+
+
+
+        // OPEN MANUAL LOCATION
+        function openManualLocation(){
+
+            document.getElementById(
+                "manual-location-box"
+            ).style.display = "block";
+
+        }
+
+
+
+        // SET MANUAL LOCATION
+        async function setManualLocation(){
+
+            const city =
+                document.getElementById(
+                    "manualLocationInput"
+                ).value;
+
+            if(city.trim() === "") return;
+
+            // SAVE LOCAL
+            localStorage.setItem(
+                "userLocation",
+                city
+            );
+
+            // UPDATE NAVBAR
+            updateNavbarLocation(city);
+
+            // SAVE DB
+            await fetch("/api/location/update", {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+
+                    city: city,
+                    latitude: null,
+                    longitude: null
+
+                })
+
+            });
+
+            // HIDE SCREEN
+            document.getElementById(
+                "location-screen"
+            ).style.display = "none";
+        }
+
+    </script>
+
+</div>

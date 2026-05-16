@@ -34,7 +34,17 @@ public class UserEntity {
 
     private String role;
 
-    // Default constructor
+	@Column(name = "city")
+	private String city;
+
+	@Column(name = "latitude")
+	private Double latitude;
+
+	@Column(name = "longitude")
+	private Double longitude;
+
+
+	// Default constructor
     public UserEntity() {}
 
     // Parameterized constructor
@@ -44,6 +54,9 @@ public class UserEntity {
         this.phoneno = phoneno;
         this.password = password;
         this.role = role;
+		this.city = city;
+		this.latitude = latitude;
+		this.longitude = longitude;
     }
 
 	public Long getId() {
@@ -86,7 +99,31 @@ public class UserEntity {
 		this.role = role;
 	}
 
-	
+	public String getCity() {
+		return city;
+	}
+
+	public void setCity(String city) {
+		this.city = city;
+	}
+
+	public Double getLatitude() {
+		return latitude;
+	}
+
+	public void setLatitude(Double latitude) {
+		this.latitude = latitude;
+	}
+
+	public Double getLongitude() {
+		return longitude;
+	}
+
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
+	}
+
+
 }
 
 

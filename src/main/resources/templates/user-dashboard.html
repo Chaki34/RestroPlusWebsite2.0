@@ -518,6 +518,9 @@
 </head>
 <body>
 
+
+<div th:replace="location-track :: locationFragment"></div>
+
 <!-- LOADING SCREEN -->
 <div id="loader-wrapper">
     <div class="loader-logo">RESTRO+</div>
@@ -531,9 +534,16 @@
     <!-- TOP NAVIGATION -->
     <div class="top-nav">
         <div class="location-box">
+
             <i class="bi bi-geo-alt-fill text-success me-2"></i>
-            <span class="fw-bold" th:text="${city} ?: 'Pick Location'">New York, USA</span>
+
+            <span id="navbar-location"
+                  class="fw-bold"
+                  th:text="${city} ?: 'Pick Location'">
+    </span>
+
             <i class="bi bi-chevron-down ms-2 small"></i>
+
         </div>
 
         <div class="d-flex align-items-center gap-3">
