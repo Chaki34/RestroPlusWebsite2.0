@@ -1,110 +1,241 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head>
     <meta charset="UTF-8">
-    <title>Home - RESTRO+</title>
-
-    <!-- Load CSS from base -->
-    <link rel="stylesheet" th:href="@{/css/base.css}">
-    <link rel="stylesheet" th:href="@{/css/navbar.css}">
-    <link rel="stylesheet" th:href="@{/css/components.css}">
-    <link rel="stylesheet" th:href="@{/css/footer.css}">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RESTRO+ - Food Delivery</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" th:href="@{/css/home.css}">
 </head>
-
 <body>
 
-<!-- Navbar Fragment -->
-<div th:replace="~{base :: restroNav}"></div>
-
-
-<div class="home-page">
-
-    <!-- Hero Section -->
-    <section class="hero-section">
-        <div class="hero-pattern"></div>
-
-        <div class="hero-container">
-
-            <!-- LEFT SIDE CONTENT -->
-            <div class="hero-content">
-
-                <div class="hero-badge">
-                    <span class="badge-pulse"></span>
-                    <span class="badge-text">🏆 India's Best Food Platform 2024</span>
-                </div>
-
-                <h1 class="hero-title">
-                    <span class="title-line">Welcome to</span>
-                    <span class="title-highlight">RESTRO+</span>
-                </h1>
-
-                <p class="hero-description">
-                    Discover amazing restaurants and manage your orders seamlessly.
-                    Fresh food delivered hot & fast to your doorstep.
-                </p>
-
-                <!-- CTA BUTTONS -->
-                <div class="hero-cta">
-                    <a th:href="@{/web/select-role}" class="btn-primary">
-                        <span>Order Now</span>
-                        <i class="fas fa-arrow-right"></i>
-                    </a>
-
-                    <a href="#" class="btn-secondary">
-                        <i class="fas fa-play"></i>
-                        <span>How it Works</span>
-                    </a>
-                </div>
-
-                <!-- STATS -->
-                <div class="hero-stats">
-                    <div class="stat-item">
-                        <span class="stat-number">500+</span>
-                        <span class="stat-label">Restaurants</span>
-                    </div>
-
-                    <div class="stat-item">
-                        <span class="stat-number">50K+</span>
-                        <span class="stat-label">Happy Customers</span>
-                    </div>
-
-                    <div class="stat-item">
-                        <span class="stat-number">100+</span>
-                        <span class="stat-label">Cities</span>
-                    </div>
-                </div>
-
-            </div>
-
-            <!-- RIGHT SIDE IMAGE -->
-            <div class="hero-image">
-                <div class="image-wrapper">
-
-                    <img th:src="@{/images/burgar.png}"
-                         alt="Delicious Burger"
-                         class="floating-image"
-                         onerror="this.src='https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500'">
-                </div>
-
-            </div>
-
+<!-- NAVBAR: Sticky Deliveroo Style -->
+<nav class="navbar">
+    <div class="nav-container">
+        <div class="logo">RESTRO<span>+</span></div>
+        <div class="nav-actions">
+            <a th:href="@{/web/select-role}" class="nav-btn btn-white"><i class="fas fa-home"></i> Log in / Sign up</a>
+            <a href="#" class="nav-btn btn-white"><i class="fas fa-bars"></i> Menu</a>
         </div>
-    </section>
-    <!-- Partner Scroll -->
-    <div th:replace="~{base :: partnerScroll}"></div>
+    </div>
+</nav>
 
-    <!-- Highlights -->
-    <div th:replace="~{base :: restroHighlights}"></div>
+<!-- HERO: Exact Diagonal Split & Postcode Card -->
+<section class="hero">
+    <div class="hero-diagonal-bg"></div>
+    <div class="hero-container">
+        <div class="hero-card">
+            <h1>Restaurants, takeaways, supermarkets and shops. Delivered.</h1>
+            <p>Enter a postcode to see what we deliver:</p>
+            <div class="search-input-group">
+                <i class="fas fa-location-arrow"></i>
+                <input type="text" placeholder="e.g. EC4R 3TE">
+                <button class="search-btn">Search</button>
+            </div>
+            <div class="login-link">
+                <a href="#">Log in</a> for your recent addresses.
+            </div>
+        </div>
+        <div class="hero-images">
+            <img th:src="@{/images/home-biriyani.png}" class="hero-main-img" alt="Food">
+        </div>
+    </div>
+</section>
 
-    <!-- Food Illustration -->
-    <div th:replace="~{base :: foodIllustration}"></div>
-
+<!-- MARQUEE: Infinite Logo Loop -->
+<div class="marquee-wrapper">
+    <div class="marquee-track">
+        <span><i class="fas fa-crown"></i> BURGER KING</span>
+        <span><i class="fas fa-pizza-slice"></i> DOMINO'S</span>
+        <span><i class="fas fa-drumstick-bite"></i> KFC</span>
+        <span><i class="fas fa-leaf"></i> SUBWAY</span>
+        <span><i class="fas fa-utensils"></i> WAGAMAMA</span>
+        <span><i class="fas fa-crown"></i> BURGER KING</span>
+        <span><i class="fas fa-pizza-slice"></i> DOMINO'S</span>
+        <span><i class="fas fa-drumstick-bite"></i> KFC</span>
+        <span><i class="fas fa-leaf"></i> SUBWAY</span>
+        <span><i class="fas fa-utensils"></i> WAGAMAMA</span>
+    </div>
 </div>
+<!-- POPULAR DISHES: Circular Illustration Section -->
+<section class="dishes-section">
+    <h2 class="section-heading">Delicious Foods Just for You</h2>
 
+    <div class="dishes-scroll">
 
-<!-- Footer Fragment -->
-<div th:replace="~{base :: siteFooter}"></div>
+        <div class="dish-item">
+            <div class="dish-img-circle"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=200"></div>
+            <p>Burgers</p>
+        </div>
+
+        <div class="dish-item">
+            <div class="dish-img-circle"><img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=200"></div>
+            <p>Pizza</p>
+        </div>
+
+        <div class="dish-item">
+            <div class="dish-img-circle"><img src="https://images.unsplash.com/photo-1576107232684-1279f390859f?w=200"></div>
+            <p>Fries</p>
+        </div>
+
+        <div class="dish-item">
+            <div class="dish-img-circle"><img src="https://images.unsplash.com/photo-1512132411229-c30391241dd8?w=200"></div>
+            <p>Sushi</p>
+        </div>
+
+        <div class="dish-item">
+            <div class="dish-img-circle"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=200"></div>
+            <p>Salads</p>
+        </div>
+
+        <div class="dish-item">
+            <div class="dish-img-circle"><img src="https://images.unsplash.com/photo-1606756790138-261d2b21cd75?w=200"></div>
+            <p>Pasta</p>
+        </div>
+
+        <div class="dish-item">
+            <div class="dish-img-circle"><img src="https://images.unsplash.com/photo-1605475123117-6c3b3d3b7b45?w=200"></div>
+            <p>Biryani</p>
+        </div>
+
+        <div class="dish-item">
+            <div class="dish-img-circle"><img src="https://images.unsplash.com/photo-1625944525533-473f1a3c1c3d?w=200"></div>
+            <p>Sandwich</p>
+        </div>
+
+        <div class="dish-item">
+            <div class="dish-img-circle"><img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=200"></div>
+            <p>Rolls</p>
+        </div>
+
+        <div class="dish-item">
+            <div class="dish-img-circle"><img src="https://images.unsplash.com/photo-1621996346565-e3dbc646d9a9?w=200"></div>
+            <p>Ice Cream</p>
+        </div>
+
+        <div class="dish-item">
+            <div class="dish-img-circle"><img src="https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=200"></div>
+            <p>Noodles</p>
+        </div>
+
+        <div class="dish-item">
+            <div class="dish-img-circle"><img src="https://images.unsplash.com/photo-1601050690597-df0568f70950?w=200"></div>
+            <p>Chicken</p>
+        </div>
+
+        <div class="dish-item">
+            <div class="dish-img-circle"><img src="https://images.unsplash.com/photo-1617196034183-421b4917c92d?w=200"></div>
+            <p>Momos</p>
+        </div>
+
+        <div class="dish-item">
+            <div class="dish-img-circle"><img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d?w=200"></div>
+            <p>Juice</p>
+        </div>
+
+        <!-- LAST CARD -->
+        <div class="dish-item">
+            <div class="dish-img-circle" style="display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:18px;background:#ff6b6b;color:white;">
+                +197
+            </div>
+            <p>More Items</p>
+        </div>
+
+    </div>
+</section>
+<!-- TRACKING SECTION: Image + App Promo -->
+<section class="track-order-section">
+    <div class="track-container">
+        <div class="track-text">
+            <h2>Track orders to your door</h2>
+            <p>Get your favourite food delivered in a flash. You’ll see when your rider’s picked up your order and follow them on the map.</p>
+            <div class="app-badges">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg">
+            </div>
+        </div>
+        <div class="track-visual">
+            <img src="https://png.pngtree.com/png-clipart/20230729/original/pngtree-gps-street-map-illustration-plan-green-vector-png-image_9368128.png" class="map-ui">
+        </div>
+    </div>
+</section>
+
+<!-- PARTNER PROMOS: 3-Column Grid -->
+<section class="promo-grid-section">
+    <div class="promo-container">
+        <div class="promo-card">
+            <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=400">
+            <h3>Partner with us</h3>
+            <p>Join thousands of restaurants already working with us.</p>
+            <button class="promo-btn">Get started</button>
+        </div>
+        <div class="promo-card">
+            <img
+                    src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=400"
+                    alt="Delivery rider on scooter representing food delivery service"
+                    loading="lazy"
+                    decoding="async"
+            >
+
+            <h3>Ride with us</h3>
+            <p>The freedom to fit work around your life. Plus perks.</p>
+
+            <button class="promo-btn">Get started</button>
+        </div>
+        <div class="promo-card">
+            <img src="https://images.unsplash.com/photo-1542744094-24638eff58bb?w=400">
+            <h3>Restro+ for Work</h3>
+            <p>From team lunches to late night snacks, we've got you.</p>
+            <button class="promo-btn">Get started</button>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER: Exact Boxed Dark Theme -->
+<footer class="footer">
+    <div class="footer-container">
+        <div class="footer-box">
+            <h3>Discover Restro+</h3>
+            <ul>
+                <li>Investors</li>
+                <li>About us</li>
+                <li>Takeaway</li>
+                <li>Newsroom</li>
+            </ul>
+        </div>
+        <div class="footer-box">
+            <h3>Legal</h3>
+            <ul>
+                <li>Terms and conditions</li>
+                <li>Privacy</li>
+                <li>Cookies</li>
+            </ul>
+        </div>
+        <div class="footer-box">
+            <h3>Help</h3>
+            <ul>
+                <li>Contact</li>
+                <li>FAQs</li>
+                <li>Cuisines</li>
+            </ul>
+        </div>
+        <div class="footer-box">
+            <h3>Take us with you</h3>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" width="135">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" width="135" style="margin-top:10px">
+        </div>
+    </div>
+    <div class="footer-social">
+        <div class="social-icons">
+            <i class="fab fa-facebook"></i>
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-instagram"></i>
+        </div>
+        <span>© 2024 RESTRO+</span>
+    </div>
+</footer>
 
 </body>
 </html>

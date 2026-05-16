@@ -38,8 +38,24 @@
             background-color: var(--bg-soft);
             color: var(--brand-black);
             overflow-x: hidden;
+
+            background-image: url('/images/bg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
         }
 
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.35); /* reduce opacity for better blur feel */
+    backdrop-filter: blur(4px);            /* main blur effect */
+    -webkit-backdrop-filter: blur(4px);     /* Safari support */
+
+    z-index: -1;
+}
         /* ==================== VIBRANT LOADING ==================== */
         #loader-wrapper {
             position: fixed;

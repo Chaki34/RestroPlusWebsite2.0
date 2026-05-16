@@ -1,370 +1,186 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      th:fragment="content">
+<html xmlns:th="http://www.thymeleaf.org" th:fragment="content">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Select Your Role - RESTRO+</title>
 
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
 
-        body{
-            font-family: Poppins, Arial;
-            background: linear-gradient(to bottom,#fde2b5,#c8ffb8);
-            margin:0;
-            padding:0;
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(to bottom, #fde2b5, #c8ffb8);
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        .wrapper{
-            max-width:960px;
-            margin:auto;
-            padding:40px 20px;
+        .wrapper {
+            max-width: 960px;
+            margin: auto;
+            padding: 40px 20px;
         }
 
-        h1{
-            text-align:center;
-            margin-top:10px;
-            font-size:32px;
-            font-weight:700;
+        h1 { text-align: center; margin-top: 10px; font-size: 32px; font-weight: 700; }
+        .subtitle { text-align: center; max-width: 620px; margin: 10px auto 25px auto; color: #444; font-size: 14px; }
+
+        /* Role Cards */
+        .role-scroll {
+            display: flex;
+            gap: 28px;
+            justify-content: center;
+            padding: 10px;
+            margin-top: 25px;
+            overflow-x: auto;
+            scroll-behavior: smooth;
+        }
+        .role-scroll::-webkit-scrollbar { height: 6px; }
+        .role-scroll::-webkit-scrollbar-thumb { background: #ffc107; border-radius: 5px; }
+
+        .role-card {
+            min-width: 220px;
+            background: #fff;
+            border-radius: 18px;
+            padding: 26px;
+            text-align: center;
+            text-decoration: none;
+            color: #000;
+            font-weight: 600;
+            box-shadow: 0 10px 26px rgba(0,0,0,.12);
+            border: 2px solid transparent;
+            transition: .3s ease;
+        }
+        .role-card p { margin-top: 6px; font-weight: 400; font-size: 13px; color: #666; }
+        .role-card:hover { border: 2px solid #ffc107; background: #fff8e0; transform: translateY(-5px); }
+
+        /* Features */
+        .features-section { margin-top: 60px; }
+        .feature-title { text-align: center; font-size: 24px; font-weight: 700; }
+        .feature-subtext { text-align: center; color: #555; margin-bottom: 20px; font-size: 14px; }
+        .role-feature-group { background: #fff; border-radius: 22px; padding: 25px; margin-top: 20px; box-shadow: 0 10px 24px rgba(0,0,0,.08); }
+        .role-header { font-size: 18px; font-weight: 700; margin-bottom: 15px; color: #333; border-left: 4px solid #ffc107; padding-left: 10px; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        .feature-card { background: #fdfaf0; border: 1px solid #ffeeba; border-radius: 14px; padding: 15px; font-size: 13px; font-weight: 500; display: flex; gap: 10px; }
+
+        /* --- LOADING OVERLAY --- */
+        #foodIntro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #fff8e0;
+            z-index: 9999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s;
         }
 
-        .subtitle{
-            text-align:center;
-            max-width:620px;
-            margin:10px auto 25px auto;
-            color:#444;
-            font-size:14px;
+        #introLogo {
+            position: relative;
+            font-size: 70px;
+            font-weight: 800;
+            color: #ff3d00;
+            z-index: 10;
+            opacity: 0;
+            transform: scale(0.8);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.1);
         }
 
-        .role-scroll{
-            display:flex;
-            gap:28px;
-            justify-content:center;
-            padding:10px;
-            margin-top:25px;
-            overflow-x:auto;
-            scroll-behavior:smooth;
+        .food {
+            position: absolute;
+            font-size: 45px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 5;
+            filter: drop-shadow(0 5px 10px rgba(0,0,0,0.1));
+            opacity: 0;
+            transition: transform 1.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.5s ease;
         }
 
-        .role-scroll::-webkit-scrollbar{
-            height:6px;
+        /* Utility class to hide overlay */
+        .fade-out {
+            opacity: 0;
+            visibility: hidden;
         }
-        .role-scroll::-webkit-scrollbar-thumb{
-            background:#ffc107;
-            border-radius:5px;
-        }
-
-        .role-card{
-            min-width:220px;
-            background:#fff;
-            border-radius:18px;
-            padding:26px;
-            text-align:center;
-            text-decoration:none;
-            color:#000;
-            font-weight:600;
-            box-shadow:0 10px 26px rgba(0,0,0,.12);
-            border:2px solid transparent;
-            transition:.2s;
-            cursor:pointer;
-        }
-
-        .role-card p{
-            margin-top:6px;
-            font-weight:400;
-        }
-
-        .role-card:hover,
-        .role-card.active{
-            border:2px solid #ffc107;
-            background:#fff8e0;
-            transform:translateY(-4px);
-        }
-
-        .features-section{
-            margin-top:60px;
-        }
-
-        .feature-title{
-            text-align:center;
-            font-size:22px;
-            margin-bottom:6px;
-            font-weight:700;
-        }
-
-        .feature-subtext{
-            text-align:center;
-            color:#555;
-            margin-bottom:18px;
-            font-size:13px;
-        }
-
-        .role-feature-group{
-            background:#ffffff;
-            border-radius:22px;
-            padding:20px;
-            margin-top:18px;
-            box-shadow:0 10px 24px rgba(0,0,0,.10);
-        }
-
-        .role-header{
-            font-size:18px;
-            font-weight:700;
-            margin-bottom:10px;
-        }
-
-        .feature-grid{
-            display:grid;
-            grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-            gap:12px;
-            margin-top:8px;
-        }
-
-        .feature-card{
-            background:#fff8e0;
-            border:1px solid #ffd76a;
-            border-radius:14px;
-            padding:12px;
-            font-size:13px;
-            font-weight:500;
-            display:flex;
-            gap:8px;
-            align-items:flex-start;
-        }
-
-        .feature-icon{
-            font-size:18px;
-        }
-
-        /* FOOD BLAST INTRO */
-
-        #foodIntro{
-            position:fixed;
-            top:0;
-            left:0;
-            width:100%;
-            height:100vh;
-            background:#fff8e0;
-            z-index:9999;
-            display:flex;
-            justify-content:center;
-            align-items:center;
-            overflow:hidden;
-        }
-
-        .food{
-            position:absolute;
-            font-size:40px;
-            opacity:0;
-        }
-
-        #introLogo{
-            position:absolute;
-            font-size:60px;
-            font-weight:800;
-            color:#ff3d00;
-            opacity:0;
-            transform:scale(0.5);
-            transition:all 1s ease;
-        }
-
     </style>
 
     <script>
-        function selectRole(card){
-            document.querySelectorAll(".role-card")
-                .forEach(c => c.classList.remove("active"));
-            card.classList.add("active");
-        }
-    </script>
+        window.addEventListener("load", function() {
+            const foods = document.querySelectorAll(".food");
+            const logo = document.getElementById("introLogo");
+            const intro = document.getElementById("foodIntro");
 
-    <script>
+            const width = window.innerWidth;
+            const height = window.innerHeight;
 
-        window.addEventListener("load", function(){
+            // Define Safe Zone: The center area (logo area) icons shouldn't land in
+            const safeZoneWidth = 350;
+            const safeZoneHeight = 200;
+            const centerX = width / 2;
+            const centerY = height / 2;
 
-            const foods=document.querySelectorAll(".food");
+            // Show Logo
+            setTimeout(() => {
+                logo.style.transition = "all 0.8s ease";
+                logo.style.opacity = "1";
+                logo.style.transform = "scale(1)";
+            }, 300);
 
-            foods.forEach(food=>{
+            // Animate Food Icons
+            foods.forEach((food, index) => {
+                // Start icons at center behind logo
+                food.style.left = "50%";
+                food.style.top = "50%";
+                food.style.marginLeft = "-25px";
+                food.style.marginTop = "-25px";
 
-                food.style.left="50%";
-                food.style.top="50%";
+                let targetX, targetY;
+                let isInsideSafeZone = true;
 
-                let x=Math.random()*window.innerWidth;
-                let y=Math.random()*window.innerHeight;
+                // Logic to find a position OUTSIDE the center text box
+                while (isInsideSafeZone) {
+                    targetX = Math.random() * (width - 60);
+                    targetY = Math.random() * (height - 60);
 
-                setTimeout(()=>{
-                    food.style.transition="all 1.5s ease";
-                    food.style.opacity="1";
-                    food.style.left=x+"px";
-                    food.style.top=y+"px";
-                    food.style.transform="rotate(360deg) scale(1.6)";
-                },200);
+                    const dx = Math.abs(targetX - centerX);
+                    const dy = Math.abs(targetY - centerY);
 
+                    if (dx > safeZoneWidth / 2 || dy > safeZoneHeight / 2) {
+                        isInsideSafeZone = false;
+                    }
+                }
+
+                // Staggered explosion effect
+                setTimeout(() => {
+                    food.style.opacity = "1";
+                    food.style.left = targetX + "px";
+                    food.style.top = targetY + "px";
+                    food.style.transform = `rotate(${Math.random() * 360}deg) scale(${1 + Math.random() * 0.5})`;
+                }, 500 + (index * 50));
             });
 
-            setTimeout(()=>{
-                const logo=document.getElementById("introLogo");
-                logo.style.opacity="1";
-                logo.style.transform="scale(1)";
-            },1200);
-
-            setTimeout(()=>{
-                document.getElementById("foodIntro").style.display="none";
-            },2600);
-
+            // Smooth exit
+            setTimeout(() => {
+                intro.classList.add("fade-out");
+            }, 2800);
         });
 
+        function selectRole(card) {
+            document.querySelectorAll(".role-card").forEach(c => c.style.borderColor = "transparent");
+            card.style.borderColor = "#ffc107";
+        }
     </script>
-
 </head>
 
 <body>
 
-<div class="wrapper">
-
-    <h1>Please select your role</h1>
-    <p class="subtitle">
-        Choose the role you want to continue with
-    </p>
-
-    <div class="role-scroll">
-
-        <a th:href="@{/auth/customer}"
-           class="role-card"
-           onclick="selectRole(this)">
-            👤 Customer
-            <p>Order & explore food</p>
-        </a>
-
-        <a th:href="@{/auth/restaurant}"
-           class="role-card"
-           onclick="selectRole(this)">
-            🍽 Restaurant Admin
-            <p>Manage menu & orders</p>
-        </a>
-
-        <a th:href="@{/auth/partner}"
-           class="role-card"
-           onclick="selectRole(this)">
-            🚚 Delivery Partner
-            <p>Deliver customer orders</p>
-        </a>
-
-    </div>
-
-    <div class="features-section">
-
-        <div class="feature-title">Why use RESTRO+?</div>
-        <div class="feature-subtext">
-            Powerful features tailored for every role in the ecosystem
-        </div>
-
-        <div class="role-feature-group">
-            <div class="role-header">👤 For Customers</div>
-
-            <div class="feature-grid">
-
-                <div class="feature-card">
-                    <span class="feature-icon">⚡</span>
-                    Instant ordering with smooth checkout experience
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">📍</span>
-                    Live order tracking & delivery updates
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">💰</span>
-                    Exclusive deals, offers & wallet savings
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">⭐</span>
-                    Verified restaurants & quality assurance
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">🔒</span>
-                    Secure payments & data protection
-                </div>
-
-            </div>
-        </div>
-
-        <div class="role-feature-group">
-            <div class="role-header">🍽 For Restaurant Owners</div>
-
-            <div class="feature-grid">
-
-                <div class="feature-card">
-                    <span class="feature-icon">📊</span>
-                    Real-time order & dashboard analytics
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">🧾</span>
-                    Easy menu & inventory management
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">🚀</span>
-                    Boost sales with promotions & offers
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">👥</span>
-                    Manage staff & delivery coordination
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">💼</span>
-                    Business growth & brand visibility
-                </div>
-
-            </div>
-        </div>
-
-        <div class="role-feature-group">
-            <div class="role-header">🚚 For Delivery Partners</div>
-
-            <div class="feature-grid">
-
-                <div class="feature-card">
-                    <span class="feature-icon">⏱</span>
-                    Smart delivery routing & scheduling
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">🗺️</span>
-                    Map navigation & pickup guidance
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">💵</span>
-                    Transparent earning & payout tracking
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">🎯</span>
-                    Priority delivery assignment system
-                </div>
-
-                <div class="feature-card">
-                    <span class="feature-icon">🏆</span>
-                    Performance rewards & incentives
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-
-</div>
-
 <div id="foodIntro">
-
     <div id="introLogo">RESTRO+</div>
-
+    <!-- Increased variety of icons -->
     <div class="food">🍔</div>
     <div class="food">🍕</div>
     <div class="food">🍟</div>
@@ -374,7 +190,72 @@
     <div class="food">🍜</div>
     <div class="food">🍣</div>
     <div class="food">🍩</div>
+    <div class="food">🍦</div>
+    <div class="food">🥤</div>
+    <div class="food">🥪</div>
+</div>
 
+<div class="wrapper">
+    <h1>Please select your role</h1>
+    <p class="subtitle">Choose the role you want to continue with to personalize your experience.</p>
+
+    <div class="role-scroll">
+        <a th:href="@{/auth/customer}" class="role-card" onclick="selectRole(this)">
+            <div style="font-size: 40px; margin-bottom: 10px;">👤</div>
+            Customer
+            <p>Order & explore food from the best restaurants.</p>
+        </a>
+
+        <a th:href="@{/auth/restaurant}" class="role-card" onclick="selectRole(this)">
+            <div style="font-size: 40px; margin-bottom: 10px;">🍽</div>
+            Restaurant Admin
+            <p>Manage your menu, orders, and business growth.</p>
+        </a>
+
+        <a th:href="@{/auth/partner}" class="role-card" onclick="selectRole(this)">
+            <div style="font-size: 40px; margin-bottom: 10px;">🚚</div>
+            Delivery Partner
+            <p>Join our fleet and earn by delivering happiness.</p>
+        </a>
+    </div>
+
+    <div class="features-section">
+        <div class="feature-title">Why use RESTRO+?</div>
+        <div class="feature-subtext">Powerful features tailored for every role in the ecosystem</div>
+
+        <!-- Customer Features -->
+        <div class="role-feature-group">
+            <div class="role-header">For Customers</div>
+            <div class="feature-grid">
+                <div class="feature-card"><span>⚡</span> Instant ordering & smooth checkout.</div>
+                <div class="feature-card"><span>📍</span> Live order tracking & updates.</div>
+                <div class="feature-card"><span>💰</span> Exclusive deals & wallet savings.</div>
+                <div class="feature-card"><span>⭐</span> Verified quality restaurants.</div>
+            </div>
+        </div>
+
+        <!-- Restaurant Features -->
+        <div class="role-feature-group">
+            <div class="role-header">For Restaurant Owners</div>
+            <div class="feature-grid">
+                <div class="feature-card"><span>📊</span> Real-time analytics dashboard.</div>
+                <div class="feature-card"><span>🧾</span> Easy menu & stock management.</div>
+                <div class="feature-card"><span>🚀</span> Built-in marketing tools.</div>
+                <div class="feature-card"><span>👥</span> Staff & shift coordination.</div>
+            </div>
+        </div>
+
+        <!-- Delivery Features -->
+        <div class="role-feature-group">
+            <div class="role-header">For Delivery Partners</div>
+            <div class="feature-grid">
+                <div class="feature-card"><span>⏱</span> Flexible working hours.</div>
+                <div class="feature-card"><span>🗺️</span> Smart AI-based navigation.</div>
+                <div class="feature-card"><span>💵</span> Weekly payouts & bonuses.</div>
+                <div class="feature-card"><span>🎯</span> Optimized delivery routes.</div>
+            </div>
+        </div>
+    </div>
 </div>
 
 </body>
