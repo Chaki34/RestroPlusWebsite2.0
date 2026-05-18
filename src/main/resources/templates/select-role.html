@@ -108,6 +108,467 @@
         }
     </style>
 
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
+
+        :root{
+            --yellow:#ffc107;
+            --bg1:#fde2b5;
+            --bg2:#c8ffb8;
+        }
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+
+        html{
+            scroll-behavior:smooth;
+            font-size:16px;
+        }
+
+        body{
+            font-family:'Poppins',sans-serif;
+            background:linear-gradient(to bottom,var(--bg1),var(--bg2));
+            overflow-x:hidden;
+            min-height:100vh;
+        }
+
+        /* =========================================================
+           WRAPPER
+        ========================================================= */
+
+        .wrapper{
+            width:100%;
+            max-width:1200px;
+            margin:auto;
+            padding:40px 20px;
+        }
+
+        /* =========================================================
+           TYPOGRAPHY
+        ========================================================= */
+
+        h1{
+            text-align:center;
+            margin-top:10px;
+            font-size:clamp(1.8rem,4vw,3rem);
+            font-weight:700;
+            line-height:1.2;
+        }
+
+        .subtitle{
+            text-align:center;
+            max-width:700px;
+            margin:12px auto 25px auto;
+            color:#444;
+            font-size:clamp(.85rem,2vw,1rem);
+            line-height:1.6;
+            padding:0 10px;
+        }
+
+        /* =========================================================
+           ROLE SCROLL
+        ========================================================= */
+
+        .role-scroll{
+            display:flex;
+            gap:28px;
+            justify-content:center;
+            padding:12px;
+            margin-top:30px;
+            overflow-x:auto;
+            scroll-behavior:smooth;
+            scrollbar-width:thin;
+        }
+
+        .role-scroll::-webkit-scrollbar{
+            height:7px;
+        }
+
+        .role-scroll::-webkit-scrollbar-thumb{
+            background:var(--yellow);
+            border-radius:20px;
+        }
+
+        /* =========================================================
+           ROLE CARD
+        ========================================================= */
+
+        .role-card{
+            min-width:240px;
+            max-width:260px;
+            flex-shrink:0;
+
+            background:#fff;
+            border-radius:22px;
+            padding:28px 22px;
+
+            text-align:center;
+            text-decoration:none;
+            color:#000;
+
+            font-weight:600;
+
+            box-shadow:0 10px 26px rgba(0,0,0,.12);
+
+            border:2px solid transparent;
+
+            transition:.35s ease;
+        }
+
+        .role-card:hover{
+            border-color:var(--yellow);
+            background:#fff8e0;
+            transform:translateY(-6px) scale(1.02);
+        }
+
+        .role-card div{
+            font-size:48px !important;
+            margin-bottom:12px !important;
+        }
+
+        .role-card p{
+            margin-top:8px;
+            font-weight:400;
+            font-size:.86rem;
+            color:#666;
+            line-height:1.5;
+        }
+
+        /* =========================================================
+           FEATURES SECTION
+        ========================================================= */
+
+        .features-section{
+            margin-top:70px;
+        }
+
+        .feature-title{
+            text-align:center;
+            font-size:clamp(1.5rem,3vw,2.2rem);
+            font-weight:700;
+        }
+
+        .feature-subtext{
+            text-align:center;
+            color:#555;
+            margin:12px auto 25px;
+            font-size:.95rem;
+            max-width:700px;
+            line-height:1.6;
+            padding:0 10px;
+        }
+
+        /* =========================================================
+           FEATURE GROUP
+        ========================================================= */
+
+        .role-feature-group{
+            background:#fff;
+            border-radius:24px;
+            padding:28px;
+            margin-top:24px;
+            box-shadow:0 10px 24px rgba(0,0,0,.08);
+        }
+
+        .role-header{
+            font-size:1.2rem;
+            font-weight:700;
+            margin-bottom:18px;
+            color:#333;
+            border-left:5px solid var(--yellow);
+            padding-left:12px;
+        }
+
+        /* =========================================================
+           FEATURE GRID
+        ========================================================= */
+
+        .feature-grid{
+            display:grid;
+            grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+            gap:18px;
+        }
+
+        .feature-card{
+            background:#fdfaf0;
+            border:1px solid #ffeeba;
+            border-radius:16px;
+            padding:18px;
+            font-size:.92rem;
+            font-weight:500;
+
+            display:flex;
+            align-items:flex-start;
+            gap:12px;
+
+            line-height:1.6;
+
+            transition:.3s ease;
+        }
+
+        .feature-card:hover{
+            transform:translateY(-4px);
+            box-shadow:0 8px 18px rgba(0,0,0,.06);
+        }
+
+        .feature-card span{
+            font-size:1.2rem;
+        }
+
+        /* =========================================================
+           LOADING OVERLAY
+        ========================================================= */
+
+        #foodIntro{
+            position:fixed;
+            inset:0;
+            width:100%;
+            height:100vh;
+            background:#fff8e0;
+            z-index:9999;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            overflow:hidden;
+
+            transition:
+                    opacity .8s ease,
+                    visibility .8s ease;
+        }
+
+        #introLogo{
+            position:relative;
+            font-size:clamp(2.5rem,8vw,5rem);
+            font-weight:800;
+            color:#ff3d00;
+
+            z-index:10;
+
+            opacity:0;
+            transform:scale(.8);
+
+            text-shadow:0 4px 15px rgba(0,0,0,.1);
+
+            text-align:center;
+            padding:0 20px;
+        }
+
+        .food{
+            position:absolute;
+
+            font-size:clamp(1.8rem,4vw,3rem);
+
+            user-select:none;
+            pointer-events:none;
+
+            z-index:5;
+
+            filter:drop-shadow(0 5px 10px rgba(0,0,0,.1));
+
+            opacity:0;
+
+            transition:
+                    transform 1.2s cubic-bezier(0.175,0.885,0.32,1.275),
+                    opacity .5s ease;
+        }
+
+        .fade-out{
+            opacity:0;
+            visibility:hidden;
+        }
+
+        /* =========================================================
+           TABLETS
+        ========================================================= */
+
+        @media (max-width:992px){
+
+            .wrapper{
+                padding:30px 18px;
+            }
+
+            .role-scroll{
+                justify-content:flex-start;
+                gap:20px;
+            }
+
+            .role-card{
+                min-width:220px;
+            }
+
+            .feature-grid{
+                grid-template-columns:repeat(2,1fr);
+            }
+        }
+
+        /* =========================================================
+           MOBILE DEVICES
+        ========================================================= */
+
+        @media (max-width:768px){
+
+            html{
+                font-size:15px;
+            }
+
+            .wrapper{
+                padding:25px 14px;
+            }
+
+            .role-scroll{
+                gap:16px;
+                padding-bottom:10px;
+            }
+
+            .role-card{
+                min-width:190px;
+                max-width:190px;
+
+                padding:22px 16px;
+                border-radius:18px;
+            }
+
+            .role-card div{
+                font-size:38px !important;
+            }
+
+            .role-card p{
+                font-size:.78rem;
+            }
+
+            .role-feature-group{
+                padding:22px 18px;
+            }
+
+            .feature-grid{
+                grid-template-columns:1fr;
+            }
+
+            .feature-card{
+                font-size:.85rem;
+                padding:15px;
+            }
+
+            .role-header{
+                font-size:1rem;
+            }
+        }
+
+        /* =========================================================
+           SMALL PHONES
+        ========================================================= */
+
+        @media (max-width:480px){
+
+            html{
+                font-size:14px;
+            }
+
+            .wrapper{
+                padding:22px 10px;
+            }
+
+            h1{
+                margin-top:0;
+            }
+
+            .subtitle{
+                font-size:.82rem;
+            }
+
+            .role-scroll{
+                gap:12px;
+                padding:5px;
+            }
+
+            .role-card{
+                min-width:165px;
+                max-width:165px;
+
+                padding:18px 12px;
+
+                border-radius:16px;
+            }
+
+            .role-card div{
+                font-size:32px !important;
+            }
+
+            .role-card p{
+                font-size:.72rem;
+            }
+
+            .feature-title{
+                line-height:1.3;
+            }
+
+            .feature-subtext{
+                font-size:.8rem;
+            }
+
+            .role-feature-group{
+                padding:18px 14px;
+                border-radius:18px;
+            }
+
+            .feature-card{
+                font-size:.78rem;
+                gap:10px;
+            }
+
+            .feature-card span{
+                font-size:1rem;
+            }
+
+            #introLogo{
+                font-size:2.3rem;
+            }
+        }
+
+        /* =========================================================
+           ULTRA SMALL DEVICES
+        ========================================================= */
+
+        @media (max-width:340px){
+
+            html{
+                font-size:13px;
+            }
+
+            .role-card{
+                min-width:145px;
+                max-width:145px;
+                padding:15px 10px;
+            }
+
+            .role-card div{
+                font-size:28px !important;
+            }
+
+            .role-card p{
+                font-size:.68rem;
+            }
+
+            .feature-card{
+                font-size:.72rem;
+            }
+
+            .role-feature-group{
+                padding:14px 10px;
+            }
+
+            #introLogo{
+                font-size:2rem;
+            }
+        }
+    </style>
+
     <script>
         window.addEventListener("load", function() {
             const foods = document.querySelectorAll(".food");
