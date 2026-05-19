@@ -1,9 +1,12 @@
 package com.RestroPlusWebsite_20.Controllers;
 
 import com.RestroPlusWebsite_20.DTOS.LocationDTO;
+import com.RestroPlusWebsite_20.DTOS.RestaurantLocationDTO;
 import com.RestroPlusWebsite_20.Entities.UserEntity;
+import com.RestroPlusWebsite_20.Entities.resturentEntity;
 import com.RestroPlusWebsite_20.repos.UserRepository;
 
+import com.RestroPlusWebsite_20.repos.resturnetRepository;
 import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +20,14 @@ public class LocationController {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private resturnetRepository resturnetRepository;
+
+
+
+
+
 
     @PostMapping("/update")
     public String updateLocation(
@@ -95,6 +106,64 @@ public class LocationController {
             e.printStackTrace();
 
             return "Error Updating Location : " + e.getMessage();
+        }
+    }
+
+    @PostMapping("/resturent-update")
+    public String updateRestaurantLocation(
+            @RequestBody RestaurantLocationDTO dto,
+            HttpSession session
+    ) {
+
+        try {
+
+            Object regObj =
+                    session.getAttribute("loggedInRegNo");
+
+            if(regObj == null){
+
+                return "Restaurant Not Logged In";
+            }
+
+            String registrationNo = regObj.toString();
+
+            Optional<resturentEntity> optionalRestaurant =
+                   resturnetRepository
+                            .findByResturentRegistrationNo(registrationNo);
+
+            if(optionalRestaurant.isEmpty()){
+
+                return "Restaurant Not Found";
+            }
+
+            resturentEntity restaurant =
+                    optionalRestaurant.get();
+
+            // UPDATE LOCATION
+
+            restaurant.setLatitude(dto.getLatitude());
+
+            restaurant.setLongitude(dto.getLongitude());
+
+            restaurant.setLocationName(dto.getLocationName());
+
+            restaurant.setMunicipality(dto.getMunicipality());
+
+            restaurant.setDistrict(dto.getDistrict());
+
+            restaurant.setState(dto.getState());
+
+            // SAVE UPDATED LOCATION
+
+            resturnetRepository.save(restaurant);
+
+            return "Restaurant Location Updated Successfully";
+
+        } catch (Exception e){
+
+            e.printStackTrace();
+
+            return "Error : " + e.getMessage();
         }
     }
 }

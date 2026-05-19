@@ -76,6 +76,30 @@ public class resturentEntity {
 
     private String menuCard;
 
+    // LOCATION FIELDS
+
+    private Double latitude;
+
+    private Double longitude;
+
+    private String locationName;
+
+    private String municipality;
+
+    private String district;
+
+    private String state;
+
+    private boolean active = false;
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
     // NEW FIELDS FOR DISPLAY
 
     public String getImageUrl() {
@@ -121,6 +145,54 @@ public class resturentEntity {
 
     public void setMenuCard(String menuCard) {
         this.menuCard = menuCard;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public String getMunicipality() {
+        return municipality;
+    }
+
+    public void setMunicipality(String municipality) {
+        this.municipality = municipality;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 
 }

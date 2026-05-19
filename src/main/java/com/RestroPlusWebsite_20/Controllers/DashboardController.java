@@ -196,6 +196,11 @@ public class DashboardController {
                 getRole(authentication)
         );
 
+        model.addAttribute(
+                "restaurantStatus",
+                restaurant.isActive()
+        );
+
         return "restro-dashboard";
     }
 

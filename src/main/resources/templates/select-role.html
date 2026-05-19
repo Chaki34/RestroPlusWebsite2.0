@@ -8,13 +8,24 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&display=swap');
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(to bottom, #fde2b5, #c8ffb8);
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
+      body{
+    font-family:'Poppins',sans-serif;
+
+    background:
+        linear-gradient(
+            rgba(255,255,255,0.45),
+            rgba(255,255,255,0.45)
+        ),
+        url('/images/bg.png');
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+
+    overflow-x:hidden;
+    min-height:100vh;
+}
 
         .wrapper {
             max-width: 960px;
@@ -129,12 +140,6 @@
             font-size:16px;
         }
 
-        body{
-            font-family:'Poppins',sans-serif;
-            background:linear-gradient(to bottom,var(--bg1),var(--bg2));
-            overflow-x:hidden;
-            min-height:100vh;
-        }
 
         /* =========================================================
            WRAPPER
@@ -163,7 +168,7 @@
             text-align:center;
             max-width:700px;
             margin:12px auto 25px auto;
-            color:#444;
+            color:black;
             font-size:clamp(.85rem,2vw,1rem);
             line-height:1.6;
             padding:0 10px;

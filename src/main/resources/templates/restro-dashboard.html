@@ -18,12 +18,36 @@
             --sidebar-width: 280px;
             --navbar-height: 72px;
         }
+body{
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    overflow-x:hidden;
+    position:relative;
+    min-height:100vh;
+    background:#f4f7f6;
+}
 
-        body {
-            background-color: #f4f7f6;
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            overflow-x: hidden;
-        }
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background:url('/images/admin-bg.jpg') center/cover no-repeat;
+
+    filter:blur(3px);
+    transform:scale(1.08);
+
+    z-index:-2;
+}
+
+body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+
+    background:rgba(255,255,255,0.45);
+
+    z-index:-1;
+}
 
         /* Fixed Navbar */
         .navbar {
@@ -114,14 +138,417 @@
             background: linear-gradient(90deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.3) 100%);
         }
 
+
+        /* ================= CUSTOM ACTIVE TOGGLE ================= */
+
+.custom-switch .form-check-input {
+
+    width: 65px;
+    height: 32px;
+    cursor: pointer;
+    background-color: #dc3545;
+    border: none;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.custom-switch .form-check-input:checked {
+
+    background-color: #198754;
+}
+
+.custom-switch .form-check-input:focus {
+
+    box-shadow: none;
+}
+
+/* STATUS CARD HOVER */
+
+.status-card {
+
+    transition: all 0.3s ease;
+}
+
+.status-card:hover {
+
+    transform: translateY(-3px);
+}
+
         /* Responsive */
-        @media (max-width: 768px) {
-            .sidebar { width: 80px; }
-            .sidebar span, .sidebar h6, .sidebar-note { display: none; }
-            .main-content { margin-left: 80px; width: calc(100% - 80px); }
-            .nav-link { text-align: center; margin: 0.2rem 0.5rem; padding: 1rem 0; }
-            .nav-link i { margin-right: 0; }
-        }
+       /* =========================================================
+   GLOBAL RESPONSIVE FIX
+========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+img{
+    max-width:100%;
+    height:auto;
+}
+
+/* =========================================================
+   NAVBAR RESPONSIVE
+========================================================= */
+
+.navbar{
+    padding:0.8rem 1rem !important;
+}
+
+.navbar-brand span{
+    font-size:1.1rem;
+}
+
+.navbar .btn{
+    white-space:nowrap;
+}
+
+/* =========================================================
+   MAIN CONTENT
+========================================================= */
+
+.main-content{
+    transition:all .3s ease;
+}
+
+/* =========================================================
+   HERO SECTION
+========================================================= */
+
+.hero-container{
+    border-radius:22px;
+}
+
+.hero-container img{
+    height:320px;
+    object-fit:cover;
+}
+
+.hero-overlay{
+    padding:2rem !important;
+}
+
+.hero-overlay h1{
+    font-size:clamp(2rem,5vw,3.5rem);
+}
+
+.hero-overlay p{
+    font-size:clamp(.9rem,2vw,1.1rem);
+}
+
+/* =========================================================
+   CATEGORY CARD
+========================================================= */
+
+.category-card{
+    border-radius:22px;
+}
+
+.category-card img{
+    height:220px;
+    object-fit:cover;
+}
+
+/* =========================================================
+   SIDEBAR SCROLLBAR
+========================================================= */
+
+.sidebar::-webkit-scrollbar{
+    width:6px;
+}
+
+.sidebar::-webkit-scrollbar-thumb{
+    background:#ddd;
+    border-radius:20px;
+}
+
+/* =========================================================
+   TABLETS
+========================================================= */
+
+@media (max-width: 992px){
+
+    :root{
+        --sidebar-width:90px;
+    }
+
+    .sidebar{
+        width:var(--sidebar-width);
+    }
+
+    .sidebar span,
+    .sidebar h6,
+    .sidebar-note{
+        display:none !important;
+    }
+
+    .nav-link{
+        text-align:center;
+        padding:1rem .5rem;
+        margin:.3rem;
+    }
+
+    .nav-link i{
+        margin-right:0 !important;
+        font-size:1.3rem;
+    }
+
+    .main-content{
+        margin-left:var(--sidebar-width);
+        width:calc(100% - var(--sidebar-width));
+        padding:1.5rem;
+    }
+
+    .hero-overlay{
+        padding:1.5rem !important;
+    }
+
+    .hero-overlay .d-flex{
+        flex-wrap:wrap;
+    }
+}
+
+/* =========================================================
+   MOBILE DEVICES
+========================================================= */
+
+@media (max-width:768px){
+
+    :root{
+        --navbar-height:auto;
+    }
+
+    body{
+        overflow-x:hidden;
+    }
+
+    /* NAVBAR */
+
+    .navbar{
+        padding:1rem !important;
+    }
+
+    .navbar .container-fluid{
+        flex-wrap:wrap;
+        gap:12px;
+    }
+
+    .navbar-brand{
+        width:100%;
+        justify-content:center;
+    }
+
+    .navbar .ms-auto{
+        width:100%;
+        justify-content:center;
+        flex-wrap:wrap;
+        gap:10px;
+    }
+
+    .navbar .btn{
+        width:100%;
+    }
+
+    /* SIDEBAR */
+
+    .sidebar{
+        position:fixed;
+        bottom:0;
+        top:auto;
+        left:0;
+
+        width:100%;
+        height:75px;
+
+        z-index:1050;
+
+        border-top:1px solid #ddd;
+        border-right:none !important;
+    }
+
+    .sidebar .nav{
+        flex-direction:row !important;
+        justify-content:space-around;
+        align-items:center;
+        height:100%;
+    }
+
+    .sidebar .nav-item{
+        flex:1;
+    }
+
+    .sidebar .nav-link{
+        margin:0;
+        padding:.8rem .3rem;
+        font-size:.7rem;
+        border-radius:0;
+    }
+
+    .sidebar .nav-link i{
+        display:block;
+        font-size:1.3rem;
+        margin:0 0 4px 0 !important;
+    }
+
+    .sidebar span{
+        display:block !important;
+        font-size:.65rem;
+    }
+
+    .sidebar h6,
+    .sidebar-note{
+        display:none !important;
+    }
+
+    /* MAIN CONTENT */
+
+    .main-content{
+        margin-left:0;
+        width:100%;
+        padding:1rem;
+        padding-bottom:100px;
+    }
+
+    /* HERO */
+
+    .hero-container img{
+        height:260px !important;
+    }
+
+    .hero-overlay{
+        padding:1rem !important;
+    }
+
+    .hero-overlay h1{
+        font-size:1.7rem;
+    }
+
+    .hero-overlay p{
+        font-size:.85rem;
+    }
+
+    .hero-overlay .d-flex{
+        flex-direction:column;
+        align-items:stretch;
+    }
+
+    .hero-overlay .btn{
+        width:100%;
+    }
+
+    /* STATUS CARD */
+
+    .status-card .row{
+        text-align:center;
+    }
+
+    .status-card .d-flex{
+        justify-content:center !important;
+    }
+
+    /* CATEGORY */
+
+    .category-card img{
+        height:180px;
+    }
+
+    /* MODAL */
+
+    .modal-dialog{
+        margin:1rem;
+    }
+
+    .modal-content{
+        border-radius:20px;
+    }
+}
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width:480px){
+
+    html{
+        font-size:14px;
+    }
+
+    .main-content{
+        padding:.8rem;
+        padding-bottom:95px;
+    }
+
+    .hero-container{
+        border-radius:18px;
+    }
+
+    .hero-container img{
+        height:220px !important;
+    }
+
+    .hero-overlay{
+        padding:.8rem !important;
+    }
+
+    .hero-overlay h1{
+        font-size:1.4rem;
+    }
+
+    .hero-overlay p{
+        font-size:.78rem;
+        margin-bottom:1rem !important;
+    }
+
+    .card-body{
+        padding:1rem !important;
+    }
+
+    .category-card img{
+        height:160px;
+    }
+
+    .btn{
+        font-size:.82rem;
+        padding:.7rem 1rem !important;
+    }
+
+    .sidebar{
+        height:70px;
+    }
+
+    .sidebar .nav-link{
+        font-size:.6rem;
+        padding:.6rem .2rem;
+    }
+
+    .sidebar .nav-link i{
+        font-size:1.1rem;
+    }
+}
+
+/* =========================================================
+   ULTRA SMALL DEVICES
+========================================================= */
+
+@media (max-width:340px){
+
+    .hero-overlay h1{
+        font-size:1.2rem;
+    }
+
+    .hero-overlay p{
+        display:none;
+    }
+
+    .sidebar .nav-link span{
+        font-size:.52rem;
+    }
+
+    .btn{
+        font-size:.72rem;
+    }
+}
     </style>
 </head>
 
@@ -140,6 +567,13 @@
                 <i class="bi bi-person-circle me-1 text-secondary"></i>
                 <span th:text="${userName}">User</span>
             </div>
+            <a class="btn btn-outline-danger btn-sm fw-bold px-3"
+               href="#"
+               data-bs-toggle="modal"
+               data-bs-target="#locationPermissionModal">
+                <i class="bi bi-power me-1"></i> ACTIVE RESTAURANT
+            </a>
+
             <a class="btn btn-outline-warning btn-sm fw-bold px-3" th:href="@{/logout}">
                 <i class="bi bi-box-arrow-right me-1"></i> Logout
             </a>
@@ -249,6 +683,182 @@
             </div>
         </div>
 
+        <!-- ================= RESTAURANT STATUS CARD ================= -->
+
+        <div class="card border-0 shadow-sm rounded-4 mb-4 overflow-hidden status-card">
+
+            <div class="card-body p-4">
+
+                <div class="row align-items-center g-4">
+
+                    <!-- LEFT SIDE -->
+
+                    <div class="col-lg-8">
+
+                        <div class="d-flex align-items-start">
+
+                            <!-- ICON -->
+
+                            <div class="bg-danger bg-opacity-10 p-3 rounded-circle me-3">
+
+                                <i class="bi bi-geo-alt-fill text-danger fs-3"></i>
+
+                            </div>
+
+                            <!-- CONTENT -->
+
+                            <div class="flex-grow-1">
+
+                                <!-- TITLE + STATUS -->
+
+                                <div class="d-flex flex-wrap align-items-center gap-2 mb-2">
+
+                                    <h5 class="fw-bold mb-0">
+
+                                        Restaurant Live Status
+
+                                    </h5>
+
+                                    <!-- STATUS BADGE -->
+
+                                    <span
+                                            id="restaurantStatusBadge"
+
+                                            th:classappend="${restaurantStatus}
+                                    ? 'bg-success-subtle text-success border border-success-subtle'
+                                    : 'bg-danger-subtle text-danger border border-danger-subtle'"
+
+                                            class="badge px-3 py-2 rounded-pill">
+
+                                <span
+                                        th:text="${restaurantStatus}
+                                        ? 'ACTIVE'
+                                        : 'INACTIVE'">
+
+                                    ACTIVE
+
+                                </span>
+
+                            </span>
+
+                                </div>
+
+                                <!-- LOCATION -->
+
+                                <div class="mb-2">
+
+                                    <div class="small text-muted fw-semibold mb-1">
+
+                                        Current Restaurant Location
+
+                                    </div>
+
+                                    <div
+                                            id="restaurantLocationText"
+                                            class="fw-semibold text-dark">
+
+                                <span
+                                        th:if="${restaurant.locationName != null}">
+
+                                    <i class="bi bi-pin-map-fill text-danger me-1"></i>
+
+                                    <span
+                                            th:text="${restaurant.locationName}">
+
+                                    </span>
+
+                                </span>
+
+                                        <span
+                                                th:if="${restaurant.locationName == null}"
+                                                class="text-danger">
+
+                                    Location not updated yet
+
+                                </span>
+
+                                    </div>
+
+                                </div>
+
+                                <!-- GPS STATUS -->
+
+                                <div class="d-flex flex-wrap align-items-center gap-2 mt-3">
+
+                            <span
+                                    class="badge rounded-pill bg-primary bg-opacity-10 text-primary px-3 py-2">
+
+                                <i class="bi bi-broadcast-pin me-1"></i>
+
+                                GPS Synced
+
+                            </span>
+
+                                    <small class="text-muted">
+
+                                        Last updated from browser GPS
+
+                                    </small>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- RIGHT SIDE -->
+
+                    <!-- RIGHT SIDE -->
+
+                    <div class="col-lg-4">
+
+                        <div
+                                class="d-flex justify-content-lg-end justify-content-start align-items-center gap-3">
+
+                            <!-- INACTIVE TEXT -->
+
+                            <span
+                                    id="inactiveText"
+                                    class="fw-semibold">
+
+            Inactive
+
+        </span>
+
+                            <!-- TOGGLE -->
+
+                            <div class="form-check form-switch custom-switch m-0">
+
+                                <input
+                                        class="form-check-input"
+                                        type="checkbox"
+                                        id="restaurantToggle"
+
+                                        th:checked="${restaurantStatus}">
+
+                            </div>
+
+                            <!-- ACTIVE TEXT -->
+
+                            <span
+                                    id="activeText"
+                                    class="fw-semibold">
+
+            Active
+
+        </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
         <!-- ******** OVERVIEW ******** -->
         <div class="card border-0 shadow-sm rounded-4 mb-4">
             <div class="card-body d-flex align-items-center p-4">
@@ -329,8 +939,592 @@
     </div>
 </div>
 
+
+<!-- ================= LOCATION PERMISSION MODAL ================= -->
+<div class="modal fade" id="locationPermissionModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+
+            <!-- Header -->
+            <div class="modal-header bg-danger text-white border-0">
+                <h5 class="modal-title fw-bold">
+                    <i class="bi bi-geo-alt-fill me-2"></i>
+                    Location Access Required
+                </h5>
+
+                <button type="button"
+                        class="btn-close btn-close-white"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Body -->
+            <div class="modal-body p-4 text-center">
+
+                <div class="mb-3">
+                    <i class="bi bi-pin-map-fill text-danger"
+                       style="font-size: 70px;"></i>
+                </div>
+
+                <h4 class="fw-bold mb-3">
+                    Enable Your Restaurant Location
+                </h4>
+
+                <p class="text-muted mb-3">
+                    We need your live location permission to:
+                </p>
+
+                <div class="bg-light rounded-4 p-3 text-start mb-4">
+
+                    <div class="d-flex mb-2">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <span>Check restaurant delivery availability</span>
+                    </div>
+
+                    <div class="d-flex mb-2">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <span>Show nearby customers your restaurant</span>
+                    </div>
+
+                    <div class="d-flex mb-2">
+                        <i class="bi bi-check-circle-fill text-success me-2"></i>
+                        <span>Improve delivery accuracy</span>
+                    </div>
+
+                    <div class="d-flex">
+                        <i class="bi bi-shield-lock-fill text-primary me-2"></i>
+                        <span>Your location is securely protected</span>
+                    </div>
+
+                </div>
+
+                <!-- Permission Button -->
+                <button class="btn btn-danger w-100 fw-bold py-3 rounded-3"
+                        onclick="requestLocationPermission()">
+
+                    <i class="bi bi-geo-alt-fill me-2"></i>
+                    Allow Location Access
+
+                </button>
+
+                <small class="text-muted d-block mt-3">
+                    Your browser will ask for permission.
+                </small>
+
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Bootstrap JS -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script th:inline="javascript">
+
+    /* =========================================
+       RESTAURANT DASHBOARD SCRIPT
+    ========================================= */
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+        initializeRestaurantStatus();
+
+        loadLocationFromDatabase();
+
+    });
+
+    /* =========================================
+       INITIALIZE ACTIVE / INACTIVE STATUS
+    ========================================= */
+
+    function initializeRestaurantStatus() {
+
+        const toggle =
+            document.getElementById(
+                "restaurantToggle"
+            );
+
+        if (!toggle) return;
+
+        /* =========================================
+           STATUS COMES FROM DATABASE
+        ========================================= */
+
+        const dbStatus =
+            [[${restaurantStatus}]];
+
+        toggle.checked = dbStatus;
+
+        updateStatusUI(dbStatus);
+
+        /* =========================================
+           TOGGLE CHANGE EVENT
+        ========================================= */
+
+        toggle.addEventListener(
+            "change",
+            async function () {
+
+                const isActive =
+                    this.checked;
+
+                /* UPDATE UI INSTANTLY */
+
+                updateStatusUI(isActive);
+
+                try {
+
+                    /* =========================================
+                       SAVE STATUS INTO DATABASE
+                       TRUE  -> 1
+                       FALSE -> 0
+                    ========================================= */
+
+                    const response =
+                        await fetch(
+                            "/status",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+                                    active: isActive
+                                })
+                            }
+                        );
+
+                    if (!response.ok) {
+
+                        throw new Error(
+                            "Failed to update status"
+                        );
+                    }
+
+                    const result =
+                        await response.text();
+
+                    console.log(result);
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    /* RESTORE PREVIOUS STATE */
+
+                    toggle.checked =
+                        !isActive;
+
+                    updateStatusUI(
+                        !isActive
+                    );
+
+                    alert(
+                        "Failed to update restaurant status ❌"
+                    );
+                }
+            }
+        );
+    }
+
+    /* =========================================
+       UPDATE ACTIVE / INACTIVE BADGE
+    ========================================= */
+
+    /* =========================================
+   UPDATE ACTIVE / INACTIVE UI
+========================================= */
+
+function updateStatusUI(isActive) {
+
+    const badge =
+        document.getElementById(
+            "restaurantStatusBadge"
+        );
+
+    const activeText =
+        document.getElementById(
+            "activeText"
+        );
+
+    const inactiveText =
+        document.getElementById(
+            "inactiveText"
+        );
+
+    const toggle =
+        document.getElementById(
+            "restaurantToggle"
+        );
+
+    if (!badge || !toggle) return;
+
+    /* =========================================
+       TOGGLE STATUS
+    ========================================= */
+
+    toggle.checked = isActive;
+
+    /* =========================================
+       ACTIVE MODE
+    ========================================= */
+
+    if (isActive) {
+
+        badge.className =
+            "badge bg-success-subtle text-success border border-success-subtle px-3 py-2 rounded-pill";
+
+        badge.innerHTML = `
+
+            <i class="bi bi-check-circle-fill me-1"></i>
+
+            ACTIVE
+
+        `;
+
+        activeText.classList.remove(
+            "text-secondary"
+        );
+
+        activeText.classList.add(
+            "text-success"
+        );
+
+        inactiveText.classList.remove(
+            "text-danger"
+        );
+
+        inactiveText.classList.add(
+            "text-secondary"
+        );
+
+    }
+
+    /* =========================================
+       INACTIVE MODE
+    ========================================= */
+
+    else {
+
+        badge.className =
+            "badge bg-danger-subtle text-danger border border-danger-subtle px-3 py-2 rounded-pill";
+
+        badge.innerHTML = `
+
+            <i class="bi bi-x-circle-fill me-1"></i>
+
+            INACTIVE
+
+        `;
+
+        inactiveText.classList.remove(
+            "text-secondary"
+        );
+
+        inactiveText.classList.add(
+            "text-danger"
+        );
+
+        activeText.classList.remove(
+            "text-success"
+        );
+
+        activeText.classList.add(
+            "text-secondary"
+        );
+    }
+}
+
+    /* =========================================
+       LOAD LOCATION FROM DATABASE
+    ========================================= */
+
+    function loadLocationFromDatabase() {
+
+        const locationText =
+            document.getElementById(
+                "restaurantLocationText"
+            );
+
+        if (!locationText) return;
+
+        /* =========================================
+           LOCATION COMES FROM DATABASE
+           NOT FROM LOCAL STORAGE
+        ========================================= */
+
+        const dbLocation =
+            [[${restaurant.locationName != null ?
+                '"' + restaurant.locationName + '"' :
+                'null'}]];
+
+        if (
+            dbLocation &&
+            dbLocation !== "null" &&
+            dbLocation.trim() !== ""
+        ) {
+
+            locationText.innerHTML = `
+
+                <i class="bi bi-pin-map-fill text-danger me-1"></i>
+
+                <span class="text-success fw-semibold">
+
+                    ${dbLocation}
+
+                </span>
+
+            `;
+
+        } else {
+
+            locationText.innerHTML = `
+
+                <span class="text-danger">
+
+                    Location not updated yet
+
+                </span>
+
+            `;
+        }
+    }
+
+    /* =========================================
+       REQUEST LOCATION PERMISSION
+    ========================================= */
+
+    async function requestLocationPermission() {
+
+        if (!navigator.geolocation) {
+
+            alert(
+                "Geolocation is not supported."
+            );
+
+            return;
+        }
+
+        navigator.geolocation.getCurrentPosition(
+
+            async function (position) {
+
+                const latitude =
+                    position.coords.latitude;
+
+                const longitude =
+                    position.coords.longitude;
+
+                try {
+
+                    /* =========================================
+                       FETCH ADDRESS FROM OPENSTREETMAP
+                    ========================================= */
+
+                    const response =
+                        await fetch(
+                            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`
+                        );
+
+                    const data =
+                        await response.json();
+
+                    /* =========================================
+                       ADDRESS PARTS
+                    ========================================= */
+
+                    const suburb =
+                        data.address.suburb ||
+                        data.address.neighbourhood ||
+                        data.address.village ||
+                        "";
+
+                    const municipality =
+                        data.address.municipality ||
+                        data.address.city ||
+                        data.address.town ||
+                        "";
+
+                    const district =
+                        data.address.county ||
+                        data.address.state_district ||
+                        "";
+
+                    const state =
+                        data.address.state || "";
+
+                    /* =========================================
+                       BUILD FULL LOCATION
+                    ========================================= */
+
+                    let fullLocation = "";
+
+                    if (suburb) {
+
+                        fullLocation += suburb;
+                    }
+
+                    if (municipality) {
+
+                        fullLocation +=
+                            (fullLocation ? ", " : "") +
+                            municipality;
+                    }
+
+                    if (district) {
+
+                        fullLocation +=
+                            (fullLocation ? ", " : "") +
+                            district;
+                    }
+
+                    if (state) {
+
+                        fullLocation +=
+                            (fullLocation ? ", " : "") +
+                            state;
+                    }
+
+                    if (fullLocation === "") {
+
+                        fullLocation =
+                            "Current Location";
+                    }
+
+                    /* =========================================
+                       UPDATE UI INSTANTLY
+                    ========================================= */
+
+                    updateLocationUI(
+                        fullLocation
+                    );
+
+                    /* =========================================
+                       SAVE LOCATION INTO DATABASE
+                    ========================================= */
+
+                    const saveResponse =
+                        await fetch(
+                            "/api/location/resturent-update",
+                            {
+                                method: "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body: JSON.stringify({
+
+                                    latitude:
+                                        latitude,
+
+                                    longitude:
+                                        longitude,
+
+                                    locationName:
+                                        fullLocation,
+
+                                    municipality:
+                                        municipality,
+
+                                    district:
+                                        district,
+
+                                    state:
+                                        state
+                                })
+                            }
+                        );
+
+                    if (!saveResponse.ok) {
+
+                        throw new Error(
+                            "Failed to save location"
+                        );
+                    }
+
+                    const result =
+                        await saveResponse.text();
+
+                    console.log(result);
+
+                    /* =========================================
+                       CLOSE MODAL
+                    ========================================= */
+
+                    const modal =
+                        bootstrap.Modal.getInstance(
+                            document.getElementById(
+                                "locationPermissionModal"
+                            )
+                        );
+
+                    if (modal) {
+
+                        modal.hide();
+                    }
+
+                    alert(
+                        "Restaurant location updated successfully ✅"
+                    );
+
+                } catch (error) {
+
+                    console.error(error);
+
+                    alert(
+                        "Location fetch failed ❌"
+                    );
+                }
+            },
+
+            function (error) {
+
+                console.log(error);
+
+                alert(
+                    "Location permission denied ❌"
+                );
+            },
+
+            {
+                enableHighAccuracy: true,
+                timeout: 10000,
+                maximumAge: 0
+            }
+        );
+    }
+
+    /* =========================================
+       UPDATE LOCATION UI
+    ========================================= */
+
+    function updateLocationUI(locationName) {
+
+        const locationText =
+            document.getElementById(
+                "restaurantLocationText"
+            );
+
+        if (!locationText) return;
+
+        locationText.innerHTML = `
+
+            <i class="bi bi-pin-map-fill text-danger me-1"></i>
+
+            <span class="text-success fw-semibold">
+
+                ${locationName}
+
+            </span>
+
+        `;
+    }
+
+</script>
 
 </body>
 </html>

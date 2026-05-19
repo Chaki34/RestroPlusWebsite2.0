@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
+import java.util.Map;
 import java.util.Optional;
 
 @Controller
@@ -33,6 +34,9 @@ public class AdminActivitiesController {
 
     @Autowired
     private MenuCategoryDetailsRepository menuCategoryDetailsRepository;
+
+    @Autowired
+    private resturnetRepository repository;
 
     @GetMapping("/set-manu")
     public String showSetMenuPage(HttpSession session, Model model) {
@@ -265,6 +269,66 @@ public class AdminActivitiesController {
         }
 
         return "redirect:/dashboard/admin";
+    }
+
+    @PostMapping("/status")
+    @ResponseBody
+    public String updateStatus(
+
+            @RequestBody Map<String, Boolean> body,
+
+            HttpSession session
+    ) {
+
+        // GET LOGGED IN RESTAURANT
+
+        String regNo =
+                (String) session.getAttribute(
+                        "loggedInRegNo"
+                );
+
+        if (regNo == null || regNo.isBlank()) {
+
+            return "Session expired";
+        }
+
+        // FIND RESTAURANT
+
+        Optional<resturentEntity> optional =
+                repository.findByResturentRegistrationNo(
+                        regNo
+                );
+
+        if (optional.isEmpty()) {
+
+            return "Restaurant not found";
+        }
+
+        // GET RESTAURANT
+
+        resturentEntity restaurant =
+                optional.get();
+
+        // GET ACTIVE STATUS FROM REQUEST
+
+        Boolean active =
+                body.get("active");
+
+
+
+        // SAVE AS 1 OR 0
+
+        Boolean activestatus =
+                body.get("active");
+
+        restaurant.setActive(
+                Boolean.TRUE.equals(activestatus)
+        );
+        // SAVE TO DATABASE
+
+        repository.save(restaurant);
+
+        return "Restaurant status updated successfully";
     }
 
 

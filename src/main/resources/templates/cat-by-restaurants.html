@@ -19,11 +19,36 @@
             --light-bg: #f8f9fa;
         }
 
-        body {
-            background-color: #f4f7f6;
-            font-family: 'Poppins', sans-serif;
-            color: var(--dark-color);
-        }
+       body::before{
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    background-image: url('/images/bg.png');
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    filter: blur(12px);
+
+    transform: scale(1.08);
+
+    z-index: -2;
+}
+
+/* DARK/LIGHT OVERLAY FOR BETTER VISIBILITY */
+body::after{
+    content: "";
+
+    position: fixed;
+    inset: 0;
+
+    background: rgba(255,255,255,0.45);
+
+    z-index: -1;
+}
 
         /* Navbar Mockup */
         .fake-nav {
