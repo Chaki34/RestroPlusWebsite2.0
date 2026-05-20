@@ -191,6 +191,63 @@ body::after{
             background: var(--primary-color);
             border-radius: 2px;
         }
+
+        /* FLOATING CART */
+
+.floating-cart{
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    z-index: 9999;
+}
+
+.cart-btn{
+    background: #27ae60;
+    color: white;
+    text-decoration: none;
+
+    padding: 15px 18px;
+
+    border-radius: 60px;
+
+    display: flex;
+    align-items: center;
+    gap: 12px;
+
+    box-shadow: 0 8px 25px rgba(0,0,0,0.2);
+
+    animation: bounceCart 2s infinite;
+}
+
+.cart-btn i{
+    font-size: 28px;
+}
+
+.cart-text{
+    max-width: 220px;
+    font-size: 13px;
+    line-height: 1.4;
+    font-weight: 600;
+}
+
+.cart-btn:hover{
+    background: #219150;
+    color: white;
+}
+
+@keyframes bounceCart{
+    0%{
+        transform: translateY(0);
+    }
+
+    50%{
+        transform: translateY(-6px);
+    }
+
+    100%{
+        transform: translateY(0);
+    }
+}
     </style>
 </head>
 
@@ -253,9 +310,14 @@ body::after{
                             <div class="mt-auto">
                                 <div class="d-flex justify-content-between align-items-center">
                                     <span class="price-tag">₹<span th:text="${categoryDetails.price}">0</span></span>
-                                    <a th:href="@{/order/{id}(id=${categoryDetails.menuCategory.restaurant.id})}" class="btn btn-order btn-sm">
-                                        Add to Cart
-                                    </a>
+                                    <div class="cart-action"
+                                         th:attr="data-id=${categoryDetails.id}">
+
+                                        <button class="btn btn-order btn-sm add-btn">
+                                            Add to Cart
+                                        </button>
+
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -307,6 +369,7 @@ body::after{
                     <div class="d-flex gap-2">
                         <a th:href="@{/restaurant/{id}(id=${r.id})}" class="btn btn-outline-secondary btn-sm flex-grow-1 rounded-3">Menu</a>
                         <a th:href="@{/order/{id}(id=${r.id})}" class="btn btn-success btn-sm flex-grow-1 rounded-3">Order</a>
+
                     </div>
                 </div>
             </div>
@@ -342,6 +405,122 @@ body::after{
     </div>
 </footer>
 
+<!-- FLOATING CART -->
+<div class="floating-cart">
+
+    <a th:href="@{/cart/view}" class="cart-btn">
+
+        <i class="bi bi-cart-fill"></i>
+
+        <span class="cart-text">
+            Your selected items show here for checkout.
+            Click here.
+        </span>
+
+    </a>
+
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+    document.querySelectorAll(".add-btn").forEach(button => {
+
+        button.addEventListener("click", function () {
+
+            let parent =
+                this.closest(".cart-action");
+
+            let foodId =
+                parent.getAttribute("data-id");
+
+            fetch("/cart/add/" + foodId, {
+                method: "POST"
+            })
+
+            .then(response => response.text())
+
+            .then(qty => {
+
+                if(qty === "LOGIN"){
+                    window.location.href = "/auth/customer";
+                    return;
+                }
+
+                parent.innerHTML = `
+                    <div class="d-flex align-items-center gap-2">
+
+                        <button class="btn btn-danger btn-sm minus-btn">
+                            -
+                        </button>
+
+                        <span class="fw-bold qty-text">${qty}</span>
+
+                        <button class="btn btn-success btn-sm plus-btn">
+                            +
+                        </button>
+
+                    </div>
+                `;
+
+                attachEvents(parent, foodId);
+
+            });
+
+        });
+
+    });
+
+
+    function attachEvents(parent, foodId){
+
+        parent.querySelector(".plus-btn")
+        .addEventListener("click", function(){
+
+            updateQty(parent, foodId, "plus");
+
+        });
+
+        parent.querySelector(".minus-btn")
+        .addEventListener("click", function(){
+
+            updateQty(parent, foodId, "minus");
+
+        });
+
+    }
+
+
+    function updateQty(parent, foodId, action){
+
+        fetch("/cart/update/" + foodId + "/" + action, {
+            method: "POST"
+        })
+
+        .then(response => response.text())
+
+        .then(qty => {
+
+            if(qty === "DELETED"){
+
+                parent.innerHTML = `
+                    <button class="btn btn-order btn-sm add-btn">
+                        Add to Cart
+                    </button>
+                `;
+
+                location.reload();
+
+                return;
+            }
+
+            parent.querySelector(".qty-text").innerText = qty;
+
+        });
+
+    }
+
+</script>
 </body>
 </html>
