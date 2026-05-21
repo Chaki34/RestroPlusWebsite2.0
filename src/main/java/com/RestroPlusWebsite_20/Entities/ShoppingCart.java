@@ -44,24 +44,21 @@ public class ShoppingCart {
 
     /*
      =====================================
+            SAVE / ORDER FLAGS
+     =====================================
+    */
+
+    private Boolean savedForLater = false;
+
+    private Boolean ordered = false;
+
+    /*
+     =====================================
             CONSTRUCTORS
      =====================================
     */
 
     public ShoppingCart() {
-    }
-
-    public ShoppingCart(UserEntity user,
-                        MenuCategoryDetails menuCategoryDetails,
-                        Integer quantity,
-                        Double itemPrice,
-                        Double totalPrice) {
-
-        this.user = user;
-        this.menuCategoryDetails = menuCategoryDetails;
-        this.quantity = quantity;
-        this.itemPrice = itemPrice;
-        this.totalPrice = totalPrice;
     }
 
     /*
@@ -112,5 +109,21 @@ public class ShoppingCart {
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Boolean getSavedForLater() {
+        return savedForLater;
+    }
+
+    public void setSavedForLater(Boolean savedForLater) {
+        this.savedForLater = savedForLater;
+    }
+
+    public Boolean getOrdered() {
+        return ordered;
+    }
+
+    public void setOrdered(Boolean ordered) {
+        this.ordered = ordered;
     }
 }

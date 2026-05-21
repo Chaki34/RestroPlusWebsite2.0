@@ -1,0 +1,845 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Checkout</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+        body{
+            font-family:'Segoe UI',sans-serif;
+
+            background:
+                linear-gradient(
+                    rgba(18,18,18,0.45),
+                    rgba(18,18,18,0.45)
+                ),
+                url('https://cdn.dribbble.com/userupload/14672600/file/original-13db08831daf9fb3e39549eaa9dd9971.gif')
+                center/cover fixed no-repeat;
+
+            min-height:100vh;
+        }
+
+        /* MAIN CARDS */
+
+        .checkout-card,
+        .summary-card,
+        .delivery-card{
+            border:none;
+            border-radius:25px;
+            overflow:hidden;
+
+            background:rgba(255,255,255,0.93);
+
+            backdrop-filter:blur(10px);
+
+            box-shadow:
+                0 8px 35px rgba(0,0,0,0.18);
+
+            border:1px solid rgba(255,255,255,0.35);
+        }
+
+        /* HEADER */
+
+        .checkout-header{
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff5a1f,
+                    #ff7b00,
+                    #ff3d00
+                );
+
+            color:white;
+            padding:25px;
+        }
+
+        /* FOOD IMAGE */
+
+        .food-img{
+            width:85px;
+            height:85px;
+            object-fit:cover;
+            border-radius:18px;
+
+            border:3px solid #ffb067;
+
+            box-shadow:
+                0 4px 15px rgba(0,0,0,0.15);
+        }
+
+        /* INFO SECTION */
+
+        .info-box{
+            display:flex;
+            align-items:flex-start;
+            gap:15px;
+            margin-bottom:25px;
+        }
+
+        .info-icon{
+            width:45px;
+            height:45px;
+            border-radius:50%;
+
+            background:#fff2e8;
+
+            color:#ff5a1f;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            font-size:18px;
+            flex-shrink:0;
+
+            box-shadow:
+                0 4px 10px rgba(255,90,31,0.18);
+        }
+
+        /* TEXT VISIBILITY */
+
+        .text-muted{
+            color:#5f6368 !important;
+        }
+
+        h2,h3,h4,h5,h6{
+            color:#222;
+        }
+
+        /* TOTAL */
+
+        .grand-total{
+            font-size:34px;
+            font-weight:800;
+
+            color:#ff5a1f;
+
+            text-shadow:
+                0 2px 8px rgba(255,90,31,0.15);
+        }
+
+        /* BUTTON */
+
+        .confirm-btn{
+            border-radius:50px;
+            padding:14px;
+            font-size:18px;
+            font-weight:700;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #ff5a1f,
+                    #ff7b00
+                );
+
+            border:none;
+
+            transition:0.3s;
+        }
+
+        .confirm-btn:hover{
+            transform:translateY(-2px);
+
+            box-shadow:
+                0 10px 25px rgba(255,90,31,0.35);
+        }
+
+        /* TABLE */
+
+        .table{
+            color:#222;
+        }
+
+        .table-light{
+            background:#fff3eb !important;
+        }
+
+        .table tbody tr{
+            vertical-align:middle;
+        }
+
+        /* OFFER BOX */
+
+        .offer-box{
+            background:
+                linear-gradient(
+                    135deg,
+                    #1c9c8c,
+                    #117a8b,
+                    #0f6674
+                );
+
+            color:white;
+
+            border-radius:20px;
+            padding:20px;
+
+            box-shadow:
+                0 8px 25px rgba(0,0,0,0.18);
+        }
+
+        /* BADGES */
+
+        .badge{
+            font-weight:600;
+        }
+
+        /* CUSTOM BUTTONS */
+
+        .btn-outline-dark{
+            border:2px solid #ff5a1f;
+            color:#ff5a1f;
+            background:rgba(255,255,255,0.85);
+        }
+
+        .btn-outline-dark:hover{
+            background:#ff5a1f;
+            color:white;
+            border-color:#ff5a1f;
+        }
+
+        /* RIGHT SIDE SUMMARY */
+
+        .summary-card hr{
+            border-color:rgba(255,90,31,0.25);
+        }
+
+        /* GLASS EFFECT */
+
+        .container{
+            position:relative;
+            z-index:2;
+        }
+
+        /* =========================================
+        RESPONSIVE DESIGN
+========================================= */
+
+/* LARGE TABLET */
+@media (max-width: 992px){
+
+    .container{
+        padding-left:18px;
+        padding-right:18px;
+    }
+
+    .checkout-header{
+        padding:20px;
+    }
+
+    .summary-card,
+    .checkout-card,
+    .delivery-card{
+        border-radius:22px;
+    }
+
+    .grand-total{
+        font-size:30px;
+    }
+
+    .food-img{
+        width:75px;
+        height:75px;
+    }
+
+    .offer-box{
+        padding:18px;
+    }
+
+    .offer-box i{
+        font-size:50px !important;
+    }
+
+}
+
+/* MOBILE DEVICES */
+@media (max-width: 768px){
+
+    body{
+        background-position:center center;
+        background-attachment:scroll;
+    }
+
+    .container{
+        padding-top:25px !important;
+        padding-bottom:25px !important;
+    }
+
+    /* TOP HEADER */
+
+    .container > .d-flex{
+        flex-direction:column;
+        align-items:flex-start !important;
+    }
+
+    .container > .d-flex a{
+        width:100%;
+        text-align:center;
+    }
+
+    /* ATM STYLE TITLE CARD */
+
+    .container > .d-flex > div{
+        width:100%;
+    }
+
+    .container > .d-flex > div > div{
+        width:100%;
+        padding:20px !important;
+        border-radius:20px !important;
+    }
+
+    .container > .d-flex > div > div h2{
+        font-size:28px;
+    }
+
+    .container > .d-flex > div > div p{
+        font-size:14px;
+    }
+
+    /* CARDS */
+
+    .checkout-card,
+    .summary-card,
+    .delivery-card{
+        border-radius:20px;
+    }
+
+    .checkout-header{
+        flex-direction:column;
+        align-items:flex-start !important;
+        gap:14px;
+        padding:18px;
+    }
+
+    .card-body{
+        padding:18px !important;
+    }
+
+    /* TABLE */
+
+    .table-responsive{
+        overflow-x:auto;
+    }
+
+    .table{
+        min-width:650px;
+    }
+
+    .table th,
+    .table td{
+        white-space:nowrap;
+        font-size:14px;
+    }
+
+    /* FOOD */
+
+    .food-img{
+        width:65px;
+        height:65px;
+        border-radius:14px;
+    }
+
+    h6{
+        font-size:14px;
+    }
+
+    small{
+        font-size:12px;
+    }
+
+    /* CUSTOMER INFO */
+
+    .info-box{
+        gap:12px;
+        margin-bottom:18px;
+    }
+
+    .info-icon{
+        width:40px;
+        height:40px;
+        font-size:16px;
+    }
+
+    /* TOTAL */
+
+    .grand-total{
+        font-size:26px;
+    }
+
+    /* BUTTON */
+
+    .confirm-btn{
+        font-size:16px;
+        padding:13px;
+    }
+
+    /* OFFER BOX */
+
+    .offer-box{
+        padding:18px;
+        border-radius:18px;
+    }
+
+    .offer-box h4{
+        font-size:20px;
+    }
+
+    .offer-box p{
+        font-size:14px;
+    }
+
+    .offer-box i{
+        font-size:45px !important;
+    }
+
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px){
+
+    .container{
+        padding-left:12px;
+        padding-right:12px;
+    }
+
+    .container > .d-flex > div > div{
+        padding:18px !important;
+    }
+
+    .container > .d-flex > div > div h2{
+        font-size:24px;
+    }
+
+    .checkout-header h4,
+    .summary-card h5{
+        font-size:20px;
+    }
+
+    .food-img{
+        width:58px;
+        height:58px;
+    }
+
+    .grand-total{
+        font-size:22px;
+    }
+
+    .badge{
+        font-size:12px !important;
+    }
+
+    .confirm-btn{
+        border-radius:40px;
+    }
+
+    .table{
+        min-width:600px;
+    }
+
+}
+
+    </style>
+
+</head>
+<body>
+
+<div class="container py-5">
+
+    <!-- HEADER -->
+
+    <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+
+        <div>
+
+            <div style="
+    background:#111111;
+    border-radius:22px;
+    padding:22px 28px;
+    box-shadow:0 10px 35px rgba(0,0,0,0.25);
+    position:relative;
+    overflow:hidden;
+">
+
+                <!-- WHITE CENTER STRIP -->
+
+                <div style="
+        position:absolute;
+        top:0;
+        left:18%;
+        width:64%;
+        height:100%;
+        background:rgba(255,255,255,0.12);
+        backdrop-filter:blur(6px);
+        border-left:1px solid rgba(255,255,255,0.15);
+        border-right:1px solid rgba(255,255,255,0.15);
+    "></div>
+
+                <!-- CONTENT -->
+
+                <div style="position:relative;z-index:2;">
+
+                    <h2 class="fw-bold mb-1 text-white">
+
+                        <i class="bi bi-credit-card-2-front-fill"
+                           style="color:#ff6b00;"></i>
+
+                        Checkout
+
+                    </h2>
+
+                    <p style="
+            color:#dcdcdc;
+            margin-bottom:0;
+            font-weight:500;
+        ">
+
+                        Secure food order checkout experience
+
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+        <a href="/cart/view"
+           class="btn btn-outline-dark rounded-pill px-4 py-2">
+
+            <i class="bi bi-arrow-left"></i>
+            Back To Cart
+
+        </a>
+
+    </div>
+
+    <div class="row g-4">
+
+        <!-- LEFT SECTION -->
+
+        <div class="col-lg-8">
+
+            <div class="card checkout-card mb-4">
+
+                <div class="checkout-header d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                    <div>
+
+                        <h4 class="fw-bold mb-1">
+
+                            <i class="bi bi-basket2-fill"></i>
+                            Order Items
+
+                        </h4>
+
+                        <small>
+                            Review all food items before placing order
+                        </small>
+
+                    </div>
+
+                    <span class="badge bg-light text-dark rounded-pill px-3 py-2 fs-6">
+
+                        <span th:text="${#lists.size(cartItems)}"></span>
+                        Items
+
+                    </span>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    <div class="table-responsive">
+
+                        <table class="table align-middle">
+
+                            <thead class="table-light">
+
+                            <tr>
+                                <th>Food</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                            <tr th:each="item : ${cartItems}">
+
+                                <td>
+
+                                    <div class="d-flex align-items-center gap-3">
+
+                                        <img th:src="${item.menuCategoryDetails.menuCategory.imageUrl}"
+                                             class="food-img">
+
+                                        <div>
+
+                                            <h6 class="fw-bold mb-1"
+                                                th:text="${item.menuCategoryDetails.menuCategory.categoryName}">
+                                            </h6>
+
+                                            <small class="text-muted d-block"
+                                                   th:text="${item.menuCategoryDetails.description}">
+                                            </small>
+
+                                            <small class="text-success fw-semibold">
+
+                                                <i class="bi bi-patch-check-fill"></i>
+                                                Fresh & Hygienic
+
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <span class="fw-bold">
+                                        ₹<span th:text="${item.itemPrice}"></span>
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-primary rounded-pill px-3 py-2 fs-6"
+                                          th:text="${item.quantity}">
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <span class="fw-bold text-success fs-5">
+                                        ₹<span th:text="${item.totalPrice}"></span>
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- DELIVERY CARD -->
+
+            <div class="delivery-card p-4">
+
+                <div class="offer-box">
+
+                    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+
+                        <div>
+
+                            <h4 class="fw-bold mb-2">
+                                <i class="bi bi-truck"></i>
+                                Free Delivery Available
+                            </h4>
+
+                            <p class="mb-0">
+                                Your order will be delivered quickly and safely at your doorstep.
+                            </p>
+
+                        </div>
+
+                        <i class="bi bi-box2-heart"
+                           style="font-size:65px;"></i>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT SECTION -->
+
+        <div class="col-lg-4">
+
+            <!-- CUSTOMER DETAILS -->
+
+            <div class="summary-card p-4 mb-4">
+
+                <h5 class="fw-bold mb-4">
+
+                    <i class="bi bi-person-circle text-primary"></i>
+                    Customer Details
+
+                </h5>
+
+                <div class="info-box">
+
+                    <div class="info-icon">
+                        <i class="bi bi-person-fill"></i>
+                    </div>
+
+                    <div>
+
+                        <small class="text-muted">
+                            Customer Name
+                        </small>
+
+                        <h6 class="fw-bold mb-0"
+                            th:text="${user.username}">
+                        </h6>
+
+                    </div>
+
+                </div>
+
+                <div class="info-box">
+
+                    <div class="info-icon">
+                        <i class="bi bi-telephone-fill"></i>
+                    </div>
+
+                    <div>
+
+                        <small class="text-muted">
+                            Phone Number
+                        </small>
+
+                        <h6 class="fw-bold mb-0"
+                            th:text="${user.phoneno}">
+                        </h6>
+
+                    </div>
+
+                </div>
+
+                <div class="info-box mb-0">
+
+                    <div class="info-icon">
+                        <i class="bi bi-geo-alt-fill"></i>
+                    </div>
+
+                    <div>
+
+                        <small class="text-muted">
+                            Delivery Location
+                        </small>
+
+                        <h6 class="fw-bold mb-0"
+                            th:text="${user.city}">
+                        </h6>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ORDER SUMMARY -->
+
+            <div class="summary-card p-4">
+
+                <h5 class="fw-bold mb-4">
+
+                    <i class="bi bi-receipt-cutoff text-success"></i>
+                    Order Summary
+
+                </h5>
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span class="text-muted">
+                        Total Items
+                    </span>
+
+                    <span class="fw-bold">
+                        <span th:text="${#lists.size(cartItems)}"></span>
+                    </span>
+
+                </div>
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span class="text-muted">
+                        Delivery Charge
+                    </span>
+
+                    <span class="fw-bold text-success">
+                        FREE
+                    </span>
+
+                </div>
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span class="text-muted">
+                        Platform Fee
+                    </span>
+
+                    <span class="fw-bold text-success">
+                        ₹0
+                    </span>
+
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-between align-items-center mb-4">
+
+                    <span class="fw-bold fs-5">
+                        Grand Total
+                    </span>
+
+                    <span class="grand-total">
+                        ₹<span th:text="${grandTotal}"></span>
+                    </span>
+
+                </div>
+
+                <form action="/cart/place-order"
+                      method="post">
+
+                    <button type="submit"
+                            class="btn btn-success w-100 confirm-btn shadow">
+
+                        <i class="bi bi-check-circle-fill"></i>
+                        Confirm & Place Order
+
+                    </button>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>
+
+
+

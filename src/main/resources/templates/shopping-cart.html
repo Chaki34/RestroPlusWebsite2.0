@@ -1,8 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
 
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Shopping Cart</title>
 
@@ -12,140 +14,1054 @@
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
 
+    <style>
+
+        body{
+             font-family:'Segoe UI',sans-serif;
+
+             background:
+                 linear-gradient(
+                     rgba(18,18,18,0.45),
+                     rgba(18,18,18,0.45)
+                 ),
+                 url('https://cdn.dribbble.com/userupload/23773487/file/original-bf15590fb758c10d9213f7cb12ad462f.gif')
+                 center/cover fixed no-repeat;
+
+             min-height:100vh;
+         }
+
+         .cart-card{
+             border:none;
+             border-radius:25px;
+             overflow:hidden;
+         }
+
+         .cart-header{
+             background:linear-gradient(135deg,#0d6efd,#198754);
+             color:white;
+             padding:25px;
+         }
+
+         .food-img{
+             width:90px;
+             height:90px;
+             object-fit:cover;
+             border-radius:18px;
+             border:3px solid #f1f1f1;
+             background:#fff;
+         }
+
+         .qty-btn{
+             width:34px;
+             height:34px;
+             border-radius:50%;
+             display:flex;
+             align-items:center;
+             justify-content:center;
+             font-weight:bold;
+             padding:0;
+         }
+
+         .table tbody tr{
+             vertical-align:middle;
+         }
+
+         .summary-card{
+             background:white;
+             border-radius:20px;
+             padding:25px;
+             box-shadow:0 5px 25px rgba(0,0,0,0.08);
+         }
+
+         .user-box{
+             background:#ffffff;
+             border-radius:20px;
+             padding:25px;
+             box-shadow:0 5px 25px rgba(0,0,0,0.06);
+         }
+
+         .info-icon{
+             width:42px;
+             height:42px;
+             border-radius:50%;
+             background:#eef4ff;
+             color:#0d6efd;
+             display:flex;
+             align-items:center;
+             justify-content:center;
+             font-size:18px;
+             flex-shrink:0;
+         }
+
+         .grand-total{
+             font-size:32px;
+             font-weight:800;
+             color:#198754;
+         }
+
+         .save-btn{
+             border-radius:50px;
+             padding:12px 30px;
+             font-weight:600;
+         }
+
+         .order-btn{
+             border-radius:50px;
+             padding:12px 35px;
+             font-weight:700;
+         }
+
+         .badge-cart{
+             background:#198754;
+             font-size:13px;
+         }
+
+         .saved-cart-card{
+             margin-top:30px;
+         }
+
+         .action-btn{
+             border-radius:30px;
+             font-size:14px;
+             font-weight:600;
+             padding:8px 18px;
+         }
+
+         .table th{
+             white-space:nowrap;
+         }
+
+         @media(max-width:768px){
+
+             .food-img{
+                 width:70px;
+                 height:70px;
+             }
+
+             .grand-total{
+                 font-size:26px;
+             }
+
+             .cart-header{
+                 flex-direction:column;
+                 align-items:flex-start !important;
+                 gap:12px;
+             }
+
+             .top-header{
+                 flex-direction:column;
+                 align-items:flex-start !important;
+                 gap:20px;
+             }
+
+         }
+
+        /* =========================================================
+                    RESPONSIVE DESIGN
+========================================================= */
+
+/* LARGE LAPTOPS */
+
+@media (max-width:1400px){
+
+    .container{
+        max-width:1280px;
+    }
+
+}
+
+/* =========================================================
+                    TABLETS & MEDIUM DEVICES
+========================================================= */
+
+@media (max-width:992px){
+
+    body{
+        background-attachment:scroll;
+    }
+
+    .container{
+        padding-left:18px;
+        padding-right:18px;
+    }
+
+    .top-header{
+        flex-direction:column;
+        align-items:flex-start !important;
+        gap:18px;
+    }
+
+    .top-header a{
+        width:100%;
+        text-align:center;
+    }
+
+    .cart-header{
+        flex-direction:column;
+        align-items:flex-start !important;
+        gap:14px;
+    }
+
+    .summary-card,
+    .user-box{
+        padding:22px;
+    }
+
+    .cart-card{
+        border-radius:22px;
+    }
+
+    .food-img{
+        width:75px;
+        height:75px;
+    }
+
+    .grand-total{
+        font-size:28px;
+    }
+
+    .table{
+        min-width:780px;
+    }
+
+    .action-btn{
+        width:100%;
+    }
+
+    .order-btn,
+    .save-btn{
+        width:100%;
+    }
+
+}
+
+/* =========================================================
+                    MOBILE DEVICES
+========================================================= */
+
+@media (max-width:768px){
+
+    body{
+        background-position:center;
+        background-size:cover;
+    }
+
+    .container{
+        padding-top:25px !important;
+        padding-bottom:30px !important;
+        padding-left:14px;
+        padding-right:14px;
+    }
+
+    h2{
+        font-size:28px;
+    }
+
+    .top-header{
+        flex-direction:column;
+        align-items:flex-start !important;
+        gap:20px;
+    }
+
+    .top-header a{
+        width:100%;
+        text-align:center;
+        padding:12px;
+    }
+
+    .cart-header{
+        padding:20px;
+        flex-direction:column;
+        align-items:flex-start !important;
+        gap:12px;
+    }
+
+    .cart-header h4{
+        font-size:22px;
+    }
+
+    .cart-card,
+    .summary-card,
+    .user-box{
+        border-radius:22px;
+    }
+
+    .card-body{
+        padding:18px !important;
+    }
+
+    .summary-card,
+    .user-box{
+        padding:20px;
+    }
+
+    .food-img{
+        width:65px;
+        height:65px;
+        border-radius:14px;
+    }
+
+    .table{
+        min-width:720px;
+    }
+
+    .table th{
+        font-size:14px;
+    }
+
+    .table td{
+        font-size:14px;
+    }
+
+    .qty-btn{
+        width:30px;
+        height:30px;
+        font-size:13px;
+    }
+
+    .grand-total{
+        font-size:24px;
+    }
+
+    .action-btn{
+        width:100%;
+        font-size:13px;
+        padding:8px 14px;
+    }
+
+    .order-btn,
+    .save-btn{
+        width:100%;
+        padding:13px;
+        font-size:15px;
+    }
+
+    .info-icon{
+        width:38px;
+        height:38px;
+        font-size:16px;
+    }
+
+    .saved-cart-card{
+        margin-top:22px;
+    }
+
+    .badge-cart{
+        font-size:12px;
+    }
+
+}
+
+/* =========================================================
+                    EXTRA SMALL MOBILE
+========================================================= */
+
+@media (max-width:576px){
+
+    body{
+        min-height:100vh;
+    }
+
+    .container{
+        padding-left:10px;
+        padding-right:10px;
+    }
+
+    h2{
+        font-size:24px;
+    }
+
+    .cart-header{
+        padding:18px;
+    }
+
+    .cart-header h4{
+        font-size:20px;
+    }
+
+    .summary-card,
+    .user-box{
+        padding:18px;
+    }
+
+    .food-img{
+        width:58px;
+        height:58px;
+    }
+
+    .table{
+        min-width:680px;
+    }
+
+    .table th,
+    .table td{
+        font-size:13px;
+    }
+
+    .grand-total{
+        font-size:22px;
+    }
+
+    .order-btn,
+    .save-btn{
+        font-size:14px;
+        padding:12px;
+    }
+
+    .action-btn{
+        font-size:12px;
+        padding:7px 12px;
+    }
+
+    .info-icon{
+        width:35px;
+        height:35px;
+        font-size:15px;
+    }
+
+}
+
+/* =========================================================
+                ULTRA SMALL PHONES
+========================================================= */
+
+@media (max-width:400px){
+
+    h2{
+        font-size:21px;
+    }
+
+    .food-img{
+        width:52px;
+        height:52px;
+    }
+
+    .grand-total{
+        font-size:20px;
+    }
+
+    .cart-header h4{
+        font-size:18px;
+    }
+
+    .summary-card,
+    .user-box{
+        padding:16px;
+    }
+
+}
+
+    </style>
+
 </head>
 
-<body class="bg-light">
+<body>
 
 <div class="container py-5">
 
-    <div class="d-flex justify-content-between align-items-center mb-4">
+    <!-- TOP HEADER -->
 
-        <h2 class="fw-bold">
-            <i class="bi bi-cart-fill text-success"></i>
-            Your Cart
-        </h2>
+    <div class="d-flex justify-content-between align-items-center mb-4 top-header">
+
+        <div>
+
+            <h2 class="fw-bold mb-1">
+
+                <i class="bi bi-cart-fill text-success"></i>
+                Your Shopping Cart
+
+            </h2>
+
+            <p class="text-muted mb-0">
+                Review your selected food items before placing order
+            </p>
+
+        </div>
 
         <a href="/"
-           class="btn btn-outline-secondary">
+           class="btn btn-outline-dark rounded-pill px-4">
+
+            <i class="bi bi-arrow-left"></i>
             Continue Shopping
+
         </a>
 
     </div>
 
-    <div class="card shadow border-0 rounded-4">
+    <!-- MAIN ROW -->
 
-        <div class="card-body p-4">
+    <div class="row g-4">
 
-            <div th:if="${#lists.isEmpty(cartItems)}">
+        <!-- LEFT SECTION -->
 
-                <div class="text-center py-5">
+        <div class="col-lg-8">
 
-                    <i class="bi bi-cart-x"
-                       style="font-size: 80px;"></i>
+            <!-- CART ITEMS -->
 
-                    <h3 class="mt-3">
-                        Cart is Empty
-                    </h3>
+            <div class="card cart-card shadow-sm">
+
+                <div class="cart-header d-flex justify-content-between align-items-center">
+
+                    <div>
+
+                        <h4 class="fw-bold mb-1">
+
+                            <i class="bi bi-bag-check-fill"></i>
+                            Cart Items
+
+                        </h4>
+
+                        <small>
+                            Manage quantity and review your order
+                        </small>
+
+                    </div>
+
+                    <span class="badge badge-cart rounded-pill px-3 py-2">
+
+                        <span th:text="${#lists.size(cartItems)}"></span>
+                        Items
+
+                    </span>
+
+                </div>
+
+                <div class="card-body p-4">
+
+                    <!-- EMPTY CART -->
+
+                    <div th:if="${#lists.isEmpty(cartItems)}">
+
+                        <div class="text-center py-5">
+
+                            <i class="bi bi-cart-x"
+                               style="font-size:90px;color:#c2c2c2;"></i>
+
+                            <h3 class="mt-4 fw-bold">
+                                Your Cart is Empty
+                            </h3>
+
+                            <p class="text-muted">
+                                Add delicious foods to continue
+                            </p>
+
+                            <a href="/"
+                               class="btn btn-success rounded-pill px-4">
+
+                                Explore Foods
+
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                    <!-- CART ITEMS TABLE -->
+
+                    <div th:unless="${#lists.isEmpty(cartItems)}">
+
+                        <div class="table-responsive">
+
+                            <table class="table align-middle">
+
+                                <thead class="table-light">
+
+                                <tr>
+                                    <th>Food</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                    <th class="text-center">Actions</th>
+                                </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                <tr th:each="item : ${cartItems}">
+
+                                    <!-- FOOD -->
+
+                                    <td>
+
+                                        <div class="d-flex align-items-center gap-3">
+
+                                            <img th:src="${item.menuCategoryDetails.menuCategory.imageUrl}"
+                                                 class="food-img"
+                                                 alt="Food Image">
+
+                                            <div>
+
+                                                <h6 class="fw-bold mb-1"
+                                                    th:text="${item.menuCategoryDetails.menuCategory.categoryName}">
+                                                </h6>
+
+                                                <small class="text-muted d-block"
+                                                       th:text="${item.menuCategoryDetails.description}">
+                                                </small>
+
+                                                <small class="text-success fw-semibold">
+
+                                                    <i class="bi bi-check-circle-fill"></i>
+                                                    Fresh & Available
+
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+                                    <!-- PRICE -->
+
+                                    <td>
+
+                                        <span class="fw-bold text-dark">
+
+                                            ₹<span th:text="${item.itemPrice}"></span>
+
+                                        </span>
+
+                                    </td>
+
+                                    <!-- QUANTITY -->
+
+                                    <td>
+
+                                        <div class="d-flex align-items-center gap-2">
+
+                                            <a th:href="@{/cart/update-page/{id}/{action}(id=${item.id},action='minus')}"
+                                               class="btn btn-danger qty-btn">
+
+                                                <i class="bi bi-dash"></i>
+
+                                            </a>
+
+                                            <span class="fw-bold fs-5 px-2"
+                                                  th:text="${item.quantity}">
+                                            </span>
+
+                                            <a th:href="@{/cart/update-page/{id}/{action}(id=${item.id},action='plus')}"
+                                               class="btn btn-success qty-btn">
+
+                                                <i class="bi bi-plus"></i>
+
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                    <!-- TOTAL -->
+
+                                    <td>
+
+                                        <span class="fw-bold text-success fs-5">
+
+                                            ₹<span th:text="${item.totalPrice}"></span>
+
+                                        </span>
+
+                                    </td>
+
+                                    <!-- ACTIONS -->
+
+                                    <td>
+
+                                        <div class="d-flex flex-column gap-2 align-items-center">
+
+                                            <a th:href="@{/cart/save/{id}(id=${item.id})}"
+                                               class="btn btn-outline-primary action-btn">
+
+                                                <i class="bi bi-bookmark-heart-fill"></i>
+                                                Save
+
+                                            </a>
+
+                                            <a th:href="@{/cart/remove/{id}(id=${item.id})}"
+                                               class="btn btn-outline-danger action-btn">
+
+                                                <i class="bi bi-trash-fill"></i>
+                                                Remove
+
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
 
                 </div>
 
             </div>
 
-            <div th:unless="${#lists.isEmpty(cartItems)}">
+            <!-- SAVED CART SECTION -->
 
-                <div class="table-responsive">
+            <div class="card cart-card shadow-sm saved-cart-card">
 
-                    <table class="table align-middle">
+                <div class="cart-header">
 
-                        <thead>
+                    <h4 class="fw-bold mb-1">
 
-                        <tr>
-                            <th>Image</th>
-                            <th>Food</th>
-                            <th>Price</th>
-                            <th>Qty</th>
-                            <th>Total</th>
-                        </tr>
+                        <i class="bi bi-bookmark-heart-fill"></i>
+                        Saved Carts
 
-                        </thead>
+                    </h4>
 
-                        <tbody>
-
-                        <tr th:each="item : ${cartItems}">
-
-                            <td>
-
-                                <img th:src="${item.menuCategoryDetails.menuCategory.imageUrl}"
-                                     width="80"
-                                     class="rounded-3">
-
-                            </td>
-
-                            <td>
-
-                                <h6 class="fw-bold"
-                                    th:text="${item.menuCategoryDetails.menuCategory.categoryName}">
-                                </h6>
-
-                                <small class="text-muted"
-                                       th:text="${item.menuCategoryDetails.description}">
-                                </small>
-
-                            </td>
-
-                            <td>
-                                ₹<span th:text="${item.menuCategoryDetails.price}"></span>
-                            </td>
-
-                            <td>
-
-                                <div class="d-flex align-items-center gap-2">
-
-                                    <a th:href="@{/cart/update-page/{id}/{action}(id=${item.id},action='minus')}"
-                                       class="btn btn-danger btn-sm">
-                                        -
-                                    </a>
-
-                                    <span class="fw-bold"
-                                          th:text="${item.quantity}">
-        </span>
-
-                                    <a th:href="@{/cart/update-page/{id}/{action}(id=${item.id},action='plus')}"
-                                       class="btn btn-success btn-sm">
-                                        +
-                                    </a>
-
-                                </div>
-
-                            </td>
-
-                            <td>
-                                ₹<span th:text="${item.totalPrice}"></span>
-                            </td>
-
-                        </tr>
-
-                        </tbody>
-
-                    </table>
+                    <small>
+                        Your permanently saved food items
+                    </small>
 
                 </div>
 
-                <div class="text-end mt-4">
+                <div class="card-body p-4">
 
-                    <h3 class="fw-bold">
+                    <!-- EMPTY SAVED CART -->
 
-                        Grand Total :
+                    <div th:if="${#lists.isEmpty(savedCartItems)}">
+
+                        <div class="text-center py-5">
+
+                            <i class="bi bi-bookmark-x"
+                               style="font-size:70px;color:#c7c7c7;"></i>
+
+                            <h4 class="fw-bold mt-3">
+                                No Saved Carts
+                            </h4>
+
+                            <p class="text-muted mb-0">
+                                Your saved items will appear here
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                    <!-- SAVED CART TABLE -->
+
+                    <div th:unless="${#lists.isEmpty(savedCartItems)}">
+
+                        <div class="table-responsive">
+
+                            <table class="table align-middle">
+
+                                <thead class="table-light">
+
+                                <tr>
+                                    <th>Food</th>
+                                    <th>Price</th>
+                                    <th>Qty</th>
+                                    <th>Total</th>
+                                    <th class="text-center">Action</th>
+                                </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                <tr th:each="item : ${savedCartItems}">
+
+                                    <!-- FOOD -->
+
+                                    <td>
+
+                                        <div class="d-flex align-items-center gap-3">
+
+                                            <img th:src="${item.menuCategoryDetails.menuCategory.imageUrl}"
+                                                 class="food-img"
+                                                 alt="Food Image">
+
+                                            <div>
+
+                                                <h6 class="fw-bold mb-1"
+                                                    th:text="${item.menuCategoryDetails.menuCategory.categoryName}">
+                                                </h6>
+
+                                                <small class="text-muted d-block"
+                                                       th:text="${item.menuCategoryDetails.description}">
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </td>
+
+                                    <!-- PRICE -->
+
+                                    <td>
+
+                                        <span class="fw-bold">
+
+                                            ₹<span th:text="${item.itemPrice}"></span>
+
+                                        </span>
+
+                                    </td>
+
+                                    <!-- QTY -->
+
+                                    <td>
+
+                                        <span class="fw-bold"
+                                              th:text="${item.quantity}">
+                                        </span>
+
+                                    </td>
+
+                                    <!-- TOTAL -->
+
+                                    <td>
+
+                                        <span class="fw-bold text-success">
+
+                                            ₹<span th:text="${item.totalPrice}"></span>
+
+                                        </span>
+
+                                    </td>
+
+                                    <!-- ACTION -->
+
+                                    <td>
+
+                                        <div class="d-flex flex-column gap-2 align-items-center">
+
+                                            <a th:href="@{/cart/move-to-cart/{id}(id=${item.id})}"
+                                               class="btn btn-outline-success action-btn">
+
+                                                <i class="bi bi-cart-plus-fill"></i>
+                                                Move To Cart
+
+                                            </a>
+
+                                            <a th:href="@{/cart/delete-saved/{id}(id=${item.id})}"
+                                               class="btn btn-outline-danger action-btn">
+
+                                                <i class="bi bi-trash-fill"></i>
+                                                Delete
+
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- RIGHT SECTION -->
+
+        <div class="col-lg-4">
+
+            <!-- CUSTOMER DETAILS -->
+
+            <div class="user-box mb-4">
+
+                <h5 class="fw-bold mb-4">
+
+                    <i class="bi bi-person-circle text-primary"></i>
+                    Customer Details
+
+                </h5>
+
+                <!-- NAME -->
+
+                <div class="d-flex align-items-start gap-3 mb-4">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-person-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <small class="text-muted">
+                            Customer Name
+                        </small>
+
+                        <h6 class="fw-bold mb-0"
+                            th:text="${user.username}">
+                        </h6>
+
+                    </div>
+
+                </div>
+
+                <!-- PHONE -->
+
+                <div class="d-flex align-items-start gap-3 mb-4">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-telephone-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <small class="text-muted">
+                            Phone Number
+                        </small>
+
+                        <h6 class="fw-bold mb-0"
+                            th:text="${user.phoneno}">
+                        </h6>
+
+                    </div>
+
+                </div>
+
+                <!-- LOCATION -->
+
+                <div class="d-flex align-items-start gap-3">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-geo-alt-fill"></i>
+
+                    </div>
+
+                    <div>
+
+                        <small class="text-muted">
+                            Delivery Location
+                        </small>
+
+                        <h6 class="fw-bold mb-0">
+
+                            <span th:text="${user.city}"></span>
+
+                        </h6>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- ORDER SUMMARY -->
+
+            <div class="summary-card">
+
+                <h5 class="fw-bold mb-4">
+
+                    <i class="bi bi-receipt-cutoff text-success"></i>
+                    Order Summary
+
+                </h5>
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span class="text-muted">
+                        Total Items
+                    </span>
+
+                    <span class="fw-bold">
+
+                        <span th:text="${#lists.size(cartItems)}"></span>
+
+                    </span>
+
+                </div>
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span class="text-muted">
+                        Delivery Charge
+                    </span>
+
+                    <span class="fw-bold text-success">
+                        FREE
+                    </span>
+
+                </div>
+
+                <div class="d-flex justify-content-between mb-3">
+
+                    <span class="text-muted">
+                        Taxes
+                    </span>
+
+                    <span class="fw-bold text-dark">
+                        Included
+                    </span>
+
+                </div>
+
+                <hr>
+
+                <div class="d-flex justify-content-between align-items-center">
+
+                    <span class="fw-bold fs-5">
+                        Grand Total
+                    </span>
+
+                    <span class="grand-total">
+
                         ₹<span th:text="${grandTotal}"></span>
 
-                    </h3>
+                    </span>
 
-                    <button class="btn btn-success btn-lg rounded-pill px-5 mt-3">
+                </div>
+
+                <!-- BUTTONS -->
+
+                <div class="d-grid gap-3 mt-4">
+
+                    <!-- PLACE ORDER -->
+
+                    <a href="/cart/checkout"
+                       class="btn btn-success btn-lg order-btn shadow">
 
                         <i class="bi bi-bag-check-fill"></i>
                         Place Order
 
-                    </button>
+                    </a>
+
+                    <!-- SAVE ALL CART -->
+
+                    <a href="/cart/save-all"
+                       class="btn btn-outline-primary btn-lg save-btn">
+
+                        <i class="bi bi-bookmark-heart-fill"></i>
+                        Save Cart For Later
+
+                    </a>
+
+                    <!-- CLEAR CART -->
+
+                    <a href="/cart/clear"
+                       class="btn btn-outline-danger btn-lg save-btn">
+
+                        <i class="bi bi-trash-fill"></i>
+                        Clear Cart
+
+                    </a>
 
                 </div>
 
@@ -158,4 +1074,5 @@
 </div>
 
 </body>
+
 </html>

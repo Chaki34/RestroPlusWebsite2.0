@@ -1,0 +1,640 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <meta charset="UTF-8">
+
+    <title>Order Success</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+          rel="stylesheet">
+
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <style>
+
+        body{
+           font-family:'Segoe UI',sans-serif;
+
+           background:
+               linear-gradient(
+                   rgba(18,18,18,0.45),
+                   rgba(18,18,18,0.45)
+               ),
+               url('https://cdn.dribbble.com/userupload/31585939/file/original-875faf7daedcbe8d97506091c54f66b3.gif')
+               center/cover fixed no-repeat;
+
+           min-height:100vh;
+       }
+
+       .success-card,
+       .summary-card{
+           background:white;
+           border:none;
+           border-radius:30px;
+           overflow:hidden;
+           box-shadow:0 5px 25px rgba(0,0,0,0.08);
+       }
+
+      .success-header{
+    position:relative;
+    overflow:hidden;
+    color:white;
+    padding:70px 30px;
+    text-align:center;
+    min-height:340px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:30px 30px 0 0;
+}
+
+/* VIDEO */
+
+.success-video{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    z-index:1;
+}
+
+/* DARK OVERLAY */
+
+.success-overlay{
+    position:absolute;
+    inset:0;
+
+    background:linear-gradient(
+        rgba(0,0,0,0.45),
+        rgba(0,0,0,0.45)
+    );
+
+    z-index:2;
+}
+
+/* CONTENT */
+
+.success-content{
+    position:relative;
+    z-index:3;
+}
+
+/* ICON */
+
+.success-icon{
+    font-size:95px;
+    color:#ffffff;
+
+    filter:
+        drop-shadow(0 0 15px rgba(255,255,255,0.4))
+        drop-shadow(0 0 35px rgba(32,201,151,0.5));
+}
+
+       .food-img{
+           width:75px;
+           height:75px;
+           object-fit:cover;
+           border-radius:16px;
+           border:3px solid #f1f1f1;
+       }
+
+       .order-id-box{
+           background:#eef9f1;
+           border-radius:15px;
+           padding:15px;
+       }
+
+       .table tbody tr{
+           vertical-align:middle;
+       }
+
+       .grand-total{
+           font-size:34px;
+           font-weight:800;
+           color:#198754;
+       }
+
+       .home-btn{
+           border-radius:50px;
+           padding:14px;
+           font-size:18px;
+           font-weight:700;
+       }
+
+        /* =========================================
+        RESPONSIVE DESIGN
+========================================= */
+
+/* LARGE TABLET */
+@media (max-width: 992px){
+
+    .container{
+        padding-left:18px;
+        padding-right:18px;
+    }
+
+    .success-header{
+        min-height:300px;
+        padding:55px 25px;
+    }
+
+    .success-icon{
+        font-size:80px;
+    }
+
+    .success-content h1{
+        font-size:38px;
+    }
+
+    .food-img{
+        width:68px;
+        height:68px;
+    }
+
+    .grand-total{
+        font-size:30px;
+    }
+
+    .summary-card{
+        border-radius:24px;
+    }
+
+}
+
+/* MOBILE */
+@media (max-width: 768px){
+
+    body{
+        background-attachment:scroll;
+        background-position:center;
+    }
+
+    .container{
+        padding-top:22px !important;
+        padding-bottom:22px !important;
+        padding-left:14px;
+        padding-right:14px;
+    }
+
+    .success-card,
+    .summary-card{
+        border-radius:22px;
+    }
+
+    /* SUCCESS HEADER */
+
+    .success-header{
+        min-height:260px;
+        padding:40px 20px;
+        border-radius:22px 22px 0 0;
+    }
+
+    .success-icon{
+        font-size:68px;
+    }
+
+    .success-content h1{
+        font-size:30px;
+        line-height:1.2;
+    }
+
+    .success-content p{
+        font-size:16px !important;
+        line-height:1.5;
+    }
+
+    /* SECTION HEADER */
+
+    .d-flex.justify-content-between{
+        flex-direction:column;
+        align-items:flex-start !important;
+    }
+
+    .order-id-box{
+        width:100%;
+        text-align:center;
+        padding:12px;
+    }
+
+    /* TABLE */
+
+    .table-responsive{
+        overflow-x:auto;
+    }
+
+    .table{
+        min-width:620px;
+    }
+
+    .table th,
+    .table td{
+        white-space:nowrap;
+        font-size:14px;
+    }
+
+    /* FOOD ITEM */
+
+    .food-img{
+        width:58px;
+        height:58px;
+        border-radius:14px;
+    }
+
+    h6{
+        font-size:14px;
+    }
+
+    small{
+        font-size:12px;
+    }
+
+    /* SUMMARY */
+
+    .summary-card{
+        padding:22px !important;
+    }
+
+    .summary-card h4{
+        font-size:22px;
+    }
+
+    .grand-total{
+        font-size:26px;
+    }
+
+    /* BUTTON */
+
+    .home-btn{
+        font-size:16px;
+        padding:13px;
+        border-radius:40px;
+    }
+
+}
+
+/* SMALL MOBILE */
+@media (max-width: 480px){
+
+    .container{
+        padding-left:10px;
+        padding-right:10px;
+    }
+
+    .success-header{
+        min-height:230px;
+        padding:30px 15px;
+    }
+
+    .success-icon{
+        font-size:58px;
+    }
+
+    .success-content h1{
+        font-size:24px;
+    }
+
+    .success-content p{
+        font-size:14px !important;
+    }
+
+    .food-img{
+        width:52px;
+        height:52px;
+    }
+
+    .table{
+        min-width:560px;
+    }
+
+    .summary-card{
+        padding:18px !important;
+    }
+
+    .summary-card h4{
+        font-size:20px;
+    }
+
+    .grand-total{
+        font-size:22px;
+    }
+
+    .home-btn{
+        font-size:15px;
+        padding:12px;
+    }
+
+    .badge{
+        font-size:12px !important;
+    }
+
+}
+
+/* EXTRA SMALL DEVICES */
+@media (max-width: 360px){
+
+    .success-content h1{
+        font-size:21px;
+    }
+
+    .success-content p{
+        font-size:13px !important;
+    }
+
+    .success-icon{
+        font-size:52px;
+    }
+
+    .grand-total{
+        font-size:20px;
+    }
+
+}
+
+    </style>
+
+</head>
+<body>
+
+<div class="container py-5">
+
+    <div class="success-card mb-4">
+
+        <div class="success-header">
+
+            <!-- VIDEO BACKGROUND -->
+
+            <video autoplay muted loop playsinline class="success-video">
+
+                <source src="https://cdn.dribbble.com/userupload/27556169/file/original-ba1d2e66a7833fc39d7829bcd7850e52.mp4" type="video/mp4">
+
+            </video>
+
+            <!-- DARK OVERLAY -->
+
+            <div class="success-overlay"></div>
+
+            <!-- CONTENT -->
+
+            <div class="success-content">
+
+                <i class="bi bi-check-circle-fill success-icon"></i>
+
+                <h1 class="fw-bold mt-3 mb-2">
+                    Order Placed Successfully
+                </h1>
+
+                <p class="mb-0 fs-5">
+                    Your food order has been confirmed and is being prepared.
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="p-4 p-lg-5">
+
+            <div class="row g-4">
+
+                <!-- LEFT SECTION -->
+
+                <div class="col-lg-7">
+
+                    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+
+                        <h4 class="fw-bold mb-0">
+
+                            <i class="bi bi-basket2-fill text-success"></i>
+                            Ordered Food Items
+
+                        </h4>
+
+                        <div class="order-id-box">
+
+                            <span class="text-muted me-2">
+                                Order ID:
+                            </span>
+
+                            <span class="fw-bold text-success fs-5">
+                                #<span th:text="${order.id}"></span>
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                    <div class="table-responsive">
+
+                        <table class="table align-middle">
+
+                            <thead class="table-light">
+
+                            <tr>
+                                <th>Food</th>
+                                <th>Qty</th>
+                                <th>Total</th>
+                            </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                            <tr th:each="item : ${cartItems}">
+
+                                <td>
+
+                                    <div class="d-flex align-items-center gap-3">
+
+                                        <img th:src="${item.menuCategoryDetails.menuCategory.imageUrl}"
+                                             class="food-img">
+
+                                        <div>
+
+                                            <h6 class="fw-bold mb-1"
+                                                th:text="${item.menuCategoryDetails.menuCategory.categoryName}">
+                                            </h6>
+
+                                            <small class="text-muted d-block"
+                                                   th:text="${item.menuCategoryDetails.description}">
+                                            </small>
+
+                                            <small class="text-success fw-semibold">
+
+                                                <i class="bi bi-patch-check-fill"></i>
+                                                Order Confirmed
+
+                                            </small>
+
+                                        </div>
+
+                                    </div>
+
+                                </td>
+
+                                <td>
+
+                                    <span class="badge bg-primary rounded-pill px-3 py-2 fs-6"
+                                          th:text="${item.quantity}">
+                                    </span>
+
+                                </td>
+
+                                <td>
+
+                                    <span class="fw-bold text-success fs-5">
+                                        ₹<span th:text="${item.totalPrice}"></span>
+                                    </span>
+
+                                </td>
+
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT SECTION -->
+
+                <div class="col-lg-5">
+
+                    <div class="summary-card p-4 h-100">
+
+                        <h4 class="fw-bold mb-4">
+
+                            <i class="bi bi-receipt-cutoff text-success"></i>
+                            Order Summary
+
+                        </h4>
+
+                        <div class="mb-4">
+
+                            <small class="text-muted">
+                                Customer Name
+                            </small>
+
+                            <h6 class="fw-bold mb-0"
+                                th:text="${user.username}">
+                            </h6>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <small class="text-muted">
+                                Phone Number
+                            </small>
+
+                            <h6 class="fw-bold mb-0"
+                                th:text="${user.phoneno}">
+                            </h6>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <small class="text-muted">
+                                Delivery City
+                            </small>
+
+                            <h6 class="fw-bold mb-0"
+                                th:text="${user.city}">
+                            </h6>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <small class="text-muted">
+                                Order Status
+                            </small>
+
+                            <h6 class="fw-bold text-success mb-0"
+                                th:text="${order.orderStatus}">
+                            </h6>
+
+                        </div>
+
+                        <div class="mb-4">
+
+                            <small class="text-muted">
+                                Order Date & Time
+                            </small>
+
+                            <h6 class="fw-bold mb-0"
+                                th:text="${order.orderDate}">
+                            </h6>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between mb-3">
+
+                            <span class="text-muted">
+                                Total Items
+                            </span>
+
+                            <span class="fw-bold"
+                                  th:text="${order.totalItems}">
+                            </span>
+
+                        </div>
+
+                        <div class="d-flex justify-content-between mb-3">
+
+                            <span class="text-muted">
+                                Delivery Charge
+                            </span>
+
+                            <span class="fw-bold text-success">
+                                FREE
+                            </span>
+
+                        </div>
+
+                        <hr>
+
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+
+                            <span class="fw-bold fs-5">
+                                Grand Total
+                            </span>
+
+                            <span class="grand-total">
+                                ₹<span th:text="${grandTotal}"></span>
+                            </span>
+
+                        </div>
+
+                        <a href="/"
+                           class="btn btn-success w-100 home-btn shadow">
+
+                            <i class="bi bi-house-door-fill"></i>
+                            Back To Home
+
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

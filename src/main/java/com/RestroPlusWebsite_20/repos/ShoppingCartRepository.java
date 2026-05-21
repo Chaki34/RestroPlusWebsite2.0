@@ -17,4 +17,8 @@ public interface ShoppingCartRepository
             UserEntity user,
             MenuCategoryDetails details
     );
+
+    List<ShoppingCart> findByUserAndSavedForLaterFalseAndOrderedFalse(UserEntity user);
+
+    List<ShoppingCart> findByUserAndSavedForLaterTrue(UserEntity user);
 }
