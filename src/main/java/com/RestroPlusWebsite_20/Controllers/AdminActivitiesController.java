@@ -5,8 +5,10 @@ import com.RestroPlusWebsite_20.Entities.MenuCategoryDetails;
 import com.RestroPlusWebsite_20.Entities.resturentEntity;
 import com.RestroPlusWebsite_20.repos.MenuCategoryDetailsRepository;
 import com.RestroPlusWebsite_20.repos.MenuCategoryRepository;
+import com.RestroPlusWebsite_20.repos.ShoppingCartRepository;
 import com.RestroPlusWebsite_20.repos.resturnetRepository;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +39,10 @@ public class AdminActivitiesController {
 
     @Autowired
     private resturnetRepository repository;
+
+    @Autowired
+    private ShoppingCartRepository shoppingCartRepository;
+
 
     @GetMapping("/set-manu")
     public String showSetMenuPage(HttpSession session, Model model) {
@@ -125,35 +131,60 @@ public class AdminActivitiesController {
     }
 
     @GetMapping("/category/delete/{id}")
-    public String deleteCategory(@PathVariable Long id) {
+    @Transactional
+    public String deleteCategory(
+            @PathVariable Long id) {
 
         try {
 
-            // FIND CATEGORY
             MenuCategory category =
                     menuCategoryRepository.findById(id)
                             .orElseThrow(() ->
-                                    new RuntimeException("Category not found"));
+                                    new RuntimeException(
+                                            "Category not found"));
 
-            // DELETE IMAGE FILE FROM FOLDER
+            // delete image
             if (category.getImageUrl() != null &&
                     !category.getImageUrl().isBlank()) {
 
-                String imagePath =
-                        "src/main/resources/static"
-                                + category.getImageUrl();
-
-                File imageFile = new File(imagePath);
+                File imageFile =
+                        new File(
+                                "src/main/resources/static"
+                                        + category.getImageUrl()
+                        );
 
                 if (imageFile.exists()) {
                     imageFile.delete();
                 }
             }
 
-            // DELETE CATEGORY FROM DATABASE
-            menuCategoryRepository.delete(category);
+            // find menu details
+            Optional<MenuCategoryDetails> detailsOpt =
+                    menuCategoryDetailsRepository
+                            .findByMenuCategoryId(id);
+
+            if (detailsOpt.isPresent()) {
+
+                MenuCategoryDetails details =
+                        detailsOpt.get();
+
+                // delete cart references first
+                shoppingCartRepository
+                        .deleteByMenuCategoryDetails(
+                                details
+                        );
+
+                // delete menu item
+                menuCategoryDetailsRepository
+                        .delete(details);
+            }
+
+            // finally delete category
+            menuCategoryRepository
+                    .delete(category);
 
         } catch (Exception e) {
+
             e.printStackTrace();
         }
 
@@ -187,24 +218,33 @@ public class AdminActivitiesController {
     @PostMapping("/category/details/save")
     public String saveCategoryDetails(
             @ModelAttribute MenuCategoryDetails details,
-            @RequestParam Long categoryId) {
+            @RequestParam Long categoryId
+    ) {
 
         MenuCategory category =
                 menuCategoryRepository.findById(categoryId)
-                        .orElseThrow(() ->
-                                new RuntimeException("Category not found"));
+                        .orElseThrow(() -> new RuntimeException("Category not found"));
+
+
+
 
         MenuCategoryDetails existing =
                 menuCategoryDetailsRepository
                         .findByMenuCategoryId(categoryId)
                         .orElse(new MenuCategoryDetails());
 
+        // IMPORTANT FIX: SET BOTH RELATIONS
         existing.setMenuCategory(category);
+        if (category.getRestaurant() == null) {
+            throw new RuntimeException("Category has no restaurant linked");
+        }
 
+        existing.setRestaurant(category.getRestaurant()); // 🔥 THIS IS KEY
+
+        // DATA COPY
         existing.setDescription(details.getDescription());
         existing.setHowItIsMade(details.getHowItIsMade());
         existing.setIngredients(details.getIngredients());
-
         existing.setPrice(details.getPrice());
         existing.setRating(details.getRating());
 
@@ -219,7 +259,6 @@ public class AdminActivitiesController {
         existing.setNonVeg(details.getNonVeg());
 
         existing.setPreparationTime(details.getPreparationTime());
-
         existing.setAvailable(details.getAvailable());
 
         menuCategoryDetailsRepository.save(existing);

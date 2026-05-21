@@ -14,12 +14,11 @@ import java.util.List;
 @Repository
 public interface MenuCategoryRepository extends JpaRepository<MenuCategory, Long> {
 
-    // Optional: fetch all categories for a restaurant
     List<MenuCategory> findByRestaurant_ResturentRegistrationNo(String regNo);
 
     List<MenuCategory> findByRestaurantId(Long restaurantId);
 
-    void deleteByRestaurant(resturentEntity restaurant);
+    List<MenuCategory> findByRestaurant(resturentEntity restaurant);
 
     List<MenuCategory> findByCategoryName(String categoryName);
 

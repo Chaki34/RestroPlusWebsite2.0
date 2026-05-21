@@ -1,13 +1,7 @@
 package com.RestroPlusWebsite_20.Controllers;
 
-import com.RestroPlusWebsite_20.Entities.MenuCategoryDetails;
-import com.RestroPlusWebsite_20.Entities.OrderEntity;
-import com.RestroPlusWebsite_20.Entities.ShoppingCart;
-import com.RestroPlusWebsite_20.Entities.UserEntity;
-import com.RestroPlusWebsite_20.repos.MenuCategoryDetailsRepository;
-import com.RestroPlusWebsite_20.repos.OrderRepository;
-import com.RestroPlusWebsite_20.repos.ShoppingCartRepository;
-import com.RestroPlusWebsite_20.repos.UserRepository;
+import com.RestroPlusWebsite_20.Entities.*;
+import com.RestroPlusWebsite_20.repos.*;
 
 import jakarta.servlet.http.HttpSession;
 
@@ -28,15 +22,20 @@ public class CartController {
     private final UserRepository userRepository;
     private final OrderRepository orderRepository;
 
+    private final OrderItemRepository orderItemRepository;
+
     public CartController(
             ShoppingCartRepository cartRepository,
             MenuCategoryDetailsRepository detailsRepository,
-            UserRepository userRepository, OrderRepository orderRepository
+            UserRepository userRepository, OrderRepository orderRepository, OrderItemRepository orderItemRepository
+
+
     ) {
         this.cartRepository = cartRepository;
         this.detailsRepository = detailsRepository;
         this.userRepository = userRepository;
         this.orderRepository = orderRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     /*
@@ -681,6 +680,10 @@ public class CartController {
                 cartRepository
                         .findByUserAndSavedForLaterFalseAndOrderedFalse(user);
 
+        if (cartItems.isEmpty()) {
+            return "redirect:/cart/view";
+        }
+
         double grandTotal =
                 cartItems.stream()
                         .mapToDouble(ShoppingCart::getTotalPrice)
@@ -692,60 +695,71 @@ public class CartController {
      ==========================================
     */
 
-        OrderEntity order =
-                new OrderEntity();
+        OrderEntity order = new OrderEntity();
 
         order.setUser(user);
+        order.setCustomerName(user.getUsername());
+        order.setPhoneNumber(user.getPhoneno());
+        order.setCity(user.getCity());
+        order.setGrandTotal(grandTotal);
+        order.setTotalItems(cartItems.size());
+        order.setOrderStatus("PLACED");
+        order.setOrderDate(LocalDateTime.now());
 
-        order.setCustomerName(
-                user.getUsername()
-        );
-
-        order.setPhoneNumber(
-                user.getPhoneno()
-        );
-
-        order.setCity(
-                user.getCity()
-        );
-
-        order.setGrandTotal(
-                grandTotal
-        );
-
-        order.setTotalItems(
-                cartItems.size()
-        );
-
-        order.setOrderStatus(
-                "PLACED"
-        );
-
-        order.setOrderDate(
-                LocalDateTime.now()
-        );
-
-        orderRepository.save(order);
+        order = orderRepository.save(order);
 
     /*
      ==========================================
-            MARK CART ITEMS ORDERED
+            SAVE ORDER ITEMS (FIXED SAFE)
      ==========================================
     */
 
         for (ShoppingCart cart : cartItems) {
 
-            cart.setOrdered(true);
+            MenuCategoryDetails details = cart.getMenuCategoryDetails();
 
+            if (details == null) {
+                throw new RuntimeException("Cart item missing menu details");
+            }
+
+            resturentEntity restaurant = details.getRestaurant();
+
+            if (restaurant == null) {
+                throw new RuntimeException(
+                        "Restaurant is NULL for menu item ID: " + details.getId()
+                );
+            }
+
+            OrderItem orderItem = new OrderItem();
+
+            orderItem.setOrder(order);
+            orderItem.setRestaurant(restaurant);
+            orderItem.setMenuCategoryDetails(details);
+            orderItem.setQuantity(cart.getQuantity());
+            orderItem.setItemPrice(cart.getItemPrice());
+            orderItem.setTotalPrice(cart.getTotalPrice());
+
+            orderItemRepository.save(orderItem);
+
+        /*
+         ==========================================
+                MARK CART ITEM ORDERED
+         ==========================================
+        */
+
+            cart.setOrdered(true);
             cartRepository.save(cart);
         }
 
+    /*
+     ==========================================
+                MODEL RESPONSE
+     ==========================================
+    */
+
         model.addAttribute("order", order);
-
         model.addAttribute("user", user);
-
         model.addAttribute("cartItems", cartItems);
-
         model.addAttribute("grandTotal", grandTotal);
 
         return "order-success";

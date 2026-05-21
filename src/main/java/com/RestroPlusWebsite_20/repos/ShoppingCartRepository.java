@@ -21,4 +21,7 @@ public interface ShoppingCartRepository
     List<ShoppingCart> findByUserAndSavedForLaterFalseAndOrderedFalse(UserEntity user);
 
     List<ShoppingCart> findByUserAndSavedForLaterTrue(UserEntity user);
+
+    void deleteByMenuCategoryDetails(
+            MenuCategoryDetails details);
 }

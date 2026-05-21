@@ -26,69 +26,106 @@ public class MenuController {
 
     @Transactional
     @PostMapping("/save-categories")
-    public ResponseEntity<?> saveCategories(@RequestBody MenuRequest request) {
+    public ResponseEntity<?> saveCategories(
+            @RequestBody MenuRequest request) {
 
         System.out.println("🚀 Received MenuRequest: " + request);
 
-        // 🔴 Validate regNo
-        if (request.getRestaurantRegNo() == null || request.getRestaurantRegNo().isBlank()) {
-            System.out.println("❌ Restaurant regNo is missing");
+        if (request.getRestaurantRegNo() == null ||
+                request.getRestaurantRegNo().isBlank()) {
+
             return ResponseEntity.badRequest()
-                    .body(Map.of("status", "error", "message", "Restaurant regNo missing"));
+                    .body(Map.of(
+                            "status", "error",
+                            "message", "Restaurant regNo missing"
+                    ));
         }
 
         String regNo = request.getRestaurantRegNo().trim();
-        System.out.println("🔹 Looking for restaurant with regNo: " + regNo);
 
-        // 🔴 Fetch restaurant
-        Optional<resturentEntity> restOpt = resturnetRepository.findByResturentRegistrationNo(regNo);
+        resturentEntity restaurant =
+                resturnetRepository
+                        .findByResturentRegistrationNo(regNo)
+                        .orElse(null);
 
-        if (restOpt.isEmpty()) {
-            System.out.println("❌ Restaurant not found for regNo: " + regNo);
+        if (restaurant == null) {
+
             return ResponseEntity.badRequest()
-                    .body(Map.of("status", "error", "message", "Restaurant not found"));
+                    .body(Map.of(
+                            "status", "error",
+                            "message", "Restaurant not found"
+                    ));
         }
 
-        resturentEntity restaurant = restOpt.get();
-        System.out.println("✅ Found restaurant: " + restaurant.getResturentname());
+        List<String> incomingCategories =
+                request.getCategories();
 
-        // 🔴 Validate categories
-        List<String> categories = request.getCategories();
-        if (categories == null || categories.isEmpty()) {
-            System.out.println("❌ No categories selected");
+        if (incomingCategories == null ||
+                incomingCategories.isEmpty()) {
+
             return ResponseEntity.badRequest()
-                    .body(Map.of("status", "error", "message", "No categories selected"));
+                    .body(Map.of(
+                            "status", "error",
+                            "message", "No categories selected"
+                    ));
         }
 
-        System.out.println("🔹 Categories to save: " + categories);
+        // Existing categories of this restaurant
+        List<MenuCategory> existingCategories =
+                menuCategoryRepository.findByRestaurant(
+                        restaurant
+                );
 
-        // Remove old categories before saving new ones
-        menuCategoryRepository.deleteByRestaurant(restaurant);
-        System.out.println("🗑️ Deleted old categories for restaurant: " + restaurant.getResturentname());
+        int inserted = 0;
 
-        int savedCount = 0;
+        for (String categoryName : incomingCategories) {
 
-        for (String cat : categories) {
-            if (cat == null || cat.trim().isEmpty()) {
-                System.out.println("⚠️ Skipping empty category");
+            if (categoryName == null ||
+                    categoryName.trim().isEmpty()) {
                 continue;
             }
 
-            MenuCategory mc = new MenuCategory();
-            mc.setCategoryName(cat.trim());
-            mc.setRestaurant(restaurant);
+            String trimmedName = categoryName.trim();
 
-            menuCategoryRepository.save(mc);
-            savedCount++;
-            System.out.println("✅ Saved category: " + cat.trim());
+            boolean alreadyExists =
+                    existingCategories.stream()
+                            .anyMatch(c ->
+                                    c.getCategoryName()
+                                            .equalsIgnoreCase(trimmedName)
+                            );
+
+            if (!alreadyExists) {
+
+                MenuCategory category =
+                        new MenuCategory();
+
+                category.setCategoryName(trimmedName);
+                category.setRestaurant(restaurant);
+
+                menuCategoryRepository.save(category);
+
+                inserted++;
+
+                System.out.println(
+                        "✅ Added new category: "
+                                + trimmedName
+                );
+            }
         }
 
-        System.out.println("🎉 Total categories saved: " + savedCount);
+        System.out.println(
+                "🎉 New categories inserted: "
+                        + inserted
+        );
 
         return ResponseEntity.ok(
                 Map.of(
                         "status", "success",
-                        "savedCategories", savedCount
+                        "inserted", inserted,
+                        "totalCategories",
+                        menuCategoryRepository
+                                .findByRestaurant(restaurant)
+                                .size()
                 )
         );
     }

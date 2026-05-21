@@ -1,5 +1,6 @@
 package com.RestroPlusWebsite_20.repos;
 
+import com.RestroPlusWebsite_20.Entities.MenuCategory;
 import com.RestroPlusWebsite_20.Entities.MenuCategoryDetails;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,4 +11,6 @@ public interface MenuCategoryDetailsRepository
 
     Optional<MenuCategoryDetails>
     findByMenuCategoryId(Long categoryId);
+
+    void deleteByMenuCategory(MenuCategory category);
 }

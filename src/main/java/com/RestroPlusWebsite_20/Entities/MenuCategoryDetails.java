@@ -18,6 +18,10 @@ public class MenuCategoryDetails {
     @JoinColumn(name = "menu_category_id")
     private MenuCategory menuCategory;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "restaurant_id")
+    private resturentEntity restaurant;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
@@ -48,6 +52,8 @@ public class MenuCategoryDetails {
     private String preparationTime;
 
     private Boolean available;
+
+
 
 
 
