@@ -51,6 +51,9 @@ public class OrderEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
+
+
+
     @OneToMany(
             mappedBy = "order",
             cascade = CascadeType.ALL,
